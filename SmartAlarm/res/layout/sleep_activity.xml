@@ -6,6 +6,6 @@
     <fragment android:name="sk.jmmobilesoft.smartalarm.SleepScreenFragment"
         android:id="@+id/sleepfragment"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

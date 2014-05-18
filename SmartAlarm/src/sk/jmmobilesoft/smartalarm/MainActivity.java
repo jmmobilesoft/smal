@@ -35,6 +35,12 @@ public class MainActivity extends TabActivity {
 		sleep.setContent(sleepIntent);
 		host.addTab(sleep);
 		
+		Intent settingsIntent = new Intent(this,SettingsActivity.class);
+		TabSpec settings = host.newTabSpec("settings");
+		settings.setIndicator("settings");
+		settings.setContent(settingsIntent);
+		host.addTab(settings);
+		
 //		FragmentManager fm = getFragmentManager();
 //		Fragment clockFragment = new ClockAlarmFragment();
 //		FragmentTransaction transaction = fm.beginTransaction();
