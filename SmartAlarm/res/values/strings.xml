@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="app_name">Smart Alarm</string>
+    <string name="clock_text">Alarm mode</string>
+    <string name="timer_text">Timer mode</string>
+
+</resources>
