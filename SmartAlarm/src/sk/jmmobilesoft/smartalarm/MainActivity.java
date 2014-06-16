@@ -69,24 +69,24 @@ public class MainActivity extends FragmentActivity implements
 		TabInfo tabInfo = null;
 		MainActivity
 				.addTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab1")
-						.setIndicator("Tab 1"), (tabInfo = new TabInfo("Tab1",
+						.setIndicator("Alarm"), (tabInfo = new TabInfo("Tab1",
 						ClockAlarmFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		MainActivity
 				.addTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab2")
-						.setIndicator("Tab 2"), (tabInfo = new TabInfo("Tab2",
+						.setIndicator("Timer"), (tabInfo = new TabInfo("Tab2",
 						TimerAlarmFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		MainActivity
 				.addTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab3")
-						.setIndicator("Tab 3"), (tabInfo = new TabInfo("Tab3",
+						.setIndicator("Sleep"), (tabInfo = new TabInfo("Tab3",
 						SleepScreenFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		MainActivity
 				.addTab(this,
 						this.mTabHost,
-						this.mTabHost.newTabSpec("Settings").setIndicator(
-								"Settings"), (tabInfo = new TabInfo("Settings",
+						this.mTabHost.newTabSpec("Tab4").setIndicator(
+								"Settings"), (tabInfo = new TabInfo("Tab4",
 								SettingsFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		this.onTabChanged("Tab1");
