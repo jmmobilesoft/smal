@@ -3,23 +3,16 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_gravity="center_horizontal" >
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <Button android:id="@+id/add"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal" 
-        android:layout_marginTop="20dp">
-
-        <NumberPicker
-            android:id="@+id/hours_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <NumberPicker
-            android:id="@+id/minutes_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+        android:layout_width="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:text="Add" />"
 
 </RelativeLayout>
