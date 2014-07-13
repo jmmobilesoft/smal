@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="5dp" >
+
+    <!-- android:background="@layout/customborder" -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name:"
+            android:textSize="30dp" />
+
+        <EditText
+            android:id="@+id/clock_view_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal" >
+
+            <NumberPicker
+                android:id="@+id/clock_view_hours_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <NumberPicker
+                android:id="@+id/clock_view_minutes_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        
+        <ToggleButton
+            android:id="@+id/clock_button_MO"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textOn="MO"
+            android:textOff="MO"
+            android:background="@android:drawable/btn_default"
+            android:textColor="@color/toogle_color"/>
+        <ToggleButton
+            android:id="@+id/clock_button_TU"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textOn="TU"
+            android:textOff="TU"
+            android:background="@android:drawable/btn_default"
+            android:textColor="@color/toogle_color"/>
+        <ToggleButton
+            android:id="@+id/clock_button_WE"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textOn="WE"
+            android:textOff="WE"
+            android:background="@android:drawable/btn_default"
+            android:textColor="@color/toogle_color"/>
+        <ToggleButton
+            android:id="@+id/clock_button_TH"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textOn="TH"
+            android:textOff="TH"
+            android:background="@android:drawable/btn_default"
+            android:textColor="@color/toogle_color"/>
+        <ToggleButton
+            android:id="@+id/clock_button_FR"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textOn="FR"
+            android:textOff="FR"
+            android:background="@android:drawable/btn_default"
+            android:textColor="@color/toogle_color"/>
+        <ToggleButton
+            android:id="@+id/clock_button_SA"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textOn="SA"
+            android:textOff="SA"
+            android:background="@android:drawable/btn_default"
+            android:textColor="@color/toogle_color"/>
+        <ToggleButton
+            android:id="@+id/clock_button_SU"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textOn="SU"
+            android:textOff="SU"
+            android:background="@android:drawable/btn_default"
+            android:textColor="@color/toogle_color"/>
+    </LinearLayout>
+    
+    <LinearLayout android:id="@+id/clock_view_ringtone_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        
+        <TextView android:id="@+id/clock_view_sound_pick"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Select alarm tone"/>
+        
+    </LinearLayout>    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/clock_view_ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="0dp"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/clock_view_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="0dp"
+            android:text="Delete" />
+    </LinearLayout>
+
+</LinearLayout>

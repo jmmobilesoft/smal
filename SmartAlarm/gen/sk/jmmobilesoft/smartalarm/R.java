@@ -10,32 +10,53 @@ package sk.jmmobilesoft.smartalarm;
 public final class R {
     public static final class attr {
     }
+    public static final class color {
+        public static final int toogle_color=0x7f060000;
+    }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_add_clock=0x7f07000f;
-        public static final int add=0x7f070001;
-        public static final int clock=0x7f070003;
-        public static final int clock_hours_picker=0x7f070007;
-        public static final int clock_minutes_picker=0x7f070008;
-        public static final int clock_popup_cancel=0x7f07000a;
-        public static final int clock_popup_ok=0x7f070009;
-        public static final int clockbutton=0x7f070005;
-        public static final int clockitem=0x7f070002;
-        public static final int hours_picker=0x7f07000d;
-        public static final int imageView1=0x7f07000c;
-        public static final int listview=0x7f070000;
-        public static final int minutes_picker=0x7f07000e;
-        public static final int popup=0x7f070006;
+        public static final int action_add_clock=0x7f080021;
+        public static final int add=0x7f080001;
+        public static final int clock_button_FR=0x7f080016;
+        public static final int clock_button_MO=0x7f080012;
+        public static final int clock_button_SA=0x7f080017;
+        public static final int clock_button_SU=0x7f080018;
+        public static final int clock_button_TH=0x7f080015;
+        public static final int clock_button_TU=0x7f080013;
+        public static final int clock_button_WE=0x7f080014;
+        public static final int clock_item_FR=0x7f080009;
+        public static final int clock_item_MO=0x7f080005;
+        public static final int clock_item_SA=0x7f08000a;
+        public static final int clock_item_SU=0x7f08000b;
+        public static final int clock_item_TH=0x7f080008;
+        public static final int clock_item_TU=0x7f080006;
+        public static final int clock_item_WE=0x7f080007;
+        public static final int clock_item_active=0x7f08000d;
+        public static final int clock_item_name=0x7f08000c;
+        public static final int clock_item_repeat=0x7f080004;
+        public static final int clock_item_time=0x7f080003;
+        public static final int clock_view_cancel=0x7f08001c;
+        public static final int clock_view_hours_picker=0x7f080010;
+        public static final int clock_view_minutes_picker=0x7f080011;
+        public static final int clock_view_name=0x7f08000f;
+        public static final int clock_view_ok=0x7f08001b;
+        public static final int clock_view_ringtone_container=0x7f080019;
+        public static final int clock_view_sound_pick=0x7f08001a;
+        public static final int clockitem=0x7f080002;
+        public static final int hours_picker=0x7f08001f;
+        public static final int imageView1=0x7f08001e;
+        public static final int listview=0x7f080000;
+        public static final int minutes_picker=0x7f080020;
+        public static final int popup=0x7f08000e;
         public static final int realtabcontent=0x01010000;
-        public static final int repeat=0x7f070004;
-        public static final int text=0x7f07000b;
+        public static final int text=0x7f08001d;
     }
     public static final class layout {
         public static final int clock_alarm_fragment=0x7f030000;
         public static final int clock_item_fragment=0x7f030001;
-        public static final int clock_popup_window=0x7f030002;
+        public static final int clock_view_activity=0x7f030002;
         public static final int customborder=0x7f030003;
         public static final int fragment_layout=0x7f030004;
         public static final int settings_fragment=0x7f030005;
@@ -44,7 +65,7 @@ public final class R {
         public static final int timer_alarm_fragment=0x7f030008;
     }
     public static final class menu {
-        public static final int menu=0x7f060000;
+        public static final int menu=0x7f070000;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
