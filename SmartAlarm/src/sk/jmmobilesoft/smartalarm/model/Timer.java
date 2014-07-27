@@ -1,17 +1,19 @@
 package sk.jmmobilesoft.smartalarm.model;
 
-import java.util.Date;
-
 public class Timer {
 
 	private Long id;
 	
-	private Date timer;
+	private int hours;
+	
+	private int minutes;
 
-	public Timer(Long id, Date timer) {
+	public Timer(Long id, int hours, int minutes) {
 		super();
 		this.id = id;
-		this.timer = timer;
+		this.hours = hours;
+		this.minutes = minutes;
+		
 	}
 
 	public Long getId() {
@@ -22,24 +24,25 @@ public class Timer {
 		this.id = id;
 	}
 
-	public Date getTimer() {
-		return timer;
-	}
-	
-	public String getStringTimer(){
-		String result = timer.getHours() + ":" + timer.getMinutes();
-		return result;
+	public int getHours() {
+		return hours;
 	}
 
-	public void setTimer(Date timer) {
-		this.timer = timer;
+	public void setHours(int hours) {
+		this.hours = hours;
+	}
+
+	public int getMinutes() {
+		return minutes;
+	}
+
+	public void setMinutes(int minutes) {
+		this.minutes = minutes;
 	}
 
 	@Override
 	public String toString() {
-		return "Timer [id=" + id + ", timer=" + timer + "]";
+		return "Timer [id=" + id + ", hours=" + hours + ", minutes=" + minutes
+				+ "]";
 	}
-	
-	
-	
 }

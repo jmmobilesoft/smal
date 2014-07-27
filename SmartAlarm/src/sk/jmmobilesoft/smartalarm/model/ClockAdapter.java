@@ -6,6 +6,7 @@ import java.util.List;
 import sk.jmmobilesoft.smartalarm.ClockViewActivity;
 import sk.jmmobilesoft.smartalarm.R;
 import sk.jmmobilesoft.smartalarm.database.ClockDBHelper;
+import sk.jmmobilesoft.smartalarm.service.ClockService;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,8 +17,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 
@@ -54,7 +53,7 @@ public class ClockAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = context.getLayoutInflater(savedInstanceState);
+		final LayoutInflater inflater = context.getLayoutInflater(savedInstanceState);
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.clock_item_fragment, null);
 		}
@@ -63,7 +62,7 @@ public class ClockAdapter extends BaseAdapter {
 			
 		TextView clockText = (TextView) convertView.findViewById(R.id.clock_item_time);
 		clockText.setText(format(clock.getHour()) + ":" + format(clock.getMinutes()));
-		CheckBox active = (CheckBox) convertView.findViewById(R.id.clock_item_active);
+		final CheckBox active = (CheckBox) convertView.findViewById(R.id.clock_item_active);
 		TextView name = (TextView) convertView.findViewById(R.id.clock_item_name);
 		List<TextView> daysList = new ArrayList<>();
 		TextView MO = (TextView) convertView.findViewById(R.id.clock_item_MO);
@@ -83,15 +82,17 @@ public class ClockAdapter extends BaseAdapter {
 		setMyColor(daysList, clock);
  		name.setText(clock.getName());
 		active.setChecked(clock.isActive());
-		active.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		active.setOnClickListener(new OnClickListener() {
 			
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onClick(View v) {
 				Clock clock = (Clock) getItem(position);
-				clock.setActive(isChecked);
+				clock.setActive(active.isChecked());
 				db.updateClock(clock);
+				ClockService.updateClock(context.getActivity() ,clock.getId());
 			}
 		});
+		
 		convertView.setOnClickListener(new OnClickListener() {
 			
 			@Override

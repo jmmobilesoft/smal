@@ -17,7 +17,7 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_add_clock=0x7f080021;
+        public static final int action_add_clock=0x7f080022;
         public static final int add=0x7f080001;
         public static final int clock_button_FR=0x7f080016;
         public static final int clock_button_MO=0x7f080012;
@@ -45,13 +45,14 @@ public final class R {
         public static final int clock_view_ringtone_container=0x7f080019;
         public static final int clock_view_sound_pick=0x7f08001a;
         public static final int clockitem=0x7f080002;
-        public static final int hours_picker=0x7f08001f;
-        public static final int imageView1=0x7f08001e;
+        public static final int hours_picker=0x7f080020;
+        public static final int imageView1=0x7f08001f;
         public static final int listview=0x7f080000;
-        public static final int minutes_picker=0x7f080020;
+        public static final int minutes_picker=0x7f080021;
         public static final int popup=0x7f08000e;
         public static final int realtabcontent=0x01010000;
-        public static final int text=0x7f08001d;
+        public static final int ring_dismiss=0x7f08001d;
+        public static final int text=0x7f08001e;
     }
     public static final class layout {
         public static final int clock_alarm_fragment=0x7f030000;
@@ -59,10 +60,11 @@ public final class R {
         public static final int clock_view_activity=0x7f030002;
         public static final int customborder=0x7f030003;
         public static final int fragment_layout=0x7f030004;
-        public static final int settings_fragment=0x7f030005;
-        public static final int sleep_screen_fragment=0x7f030006;
-        public static final int tabs_layout=0x7f030007;
-        public static final int timer_alarm_fragment=0x7f030008;
+        public static final int ring_screen=0x7f030005;
+        public static final int settings_fragment=0x7f030006;
+        public static final int sleep_screen_fragment=0x7f030007;
+        public static final int tabs_layout=0x7f030008;
+        public static final int timer_alarm_fragment=0x7f030009;
     }
     public static final class menu {
         public static final int menu=0x7f070000;

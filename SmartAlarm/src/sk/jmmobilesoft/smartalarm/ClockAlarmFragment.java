@@ -15,15 +15,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 
 public class ClockAlarmFragment extends Fragment {
 
 	private List<Clock> clockList;
 	private ClockAdapter adapter;
-	private LayoutInflater inflater;
-	private ViewGroup container;
-	private PopupWindow pw;
 	private ClockDBHelper db;
 	private Bundle bundle;
 	private ListView list;
@@ -32,8 +28,6 @@ public class ClockAlarmFragment extends Fragment {
 	@Override
 	public View onCreateView(final LayoutInflater inflater,
 			final ViewGroup container, Bundle savedInstanceState) {
-		this.inflater = inflater;
-		this.container = container;
 		bundle = savedInstanceState;
 		final View view = inflater.inflate(R.layout.clock_alarm_fragment,
 				container, false);

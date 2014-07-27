@@ -2,6 +2,7 @@ package sk.jmmobilesoft.smartalarm;
 
 import sk.jmmobilesoft.smartalarm.database.ClockDBHelper;
 import sk.jmmobilesoft.smartalarm.model.Clock;
+import sk.jmmobilesoft.smartalarm.service.ClockService;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.RingtoneManager;
@@ -11,7 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.Formatter;
 import android.widget.TextView;
@@ -99,14 +99,15 @@ public class ClockViewActivity extends Activity {
 				c.setMinutes(minutes.getValue());
 				c.setName(name.getText().toString());
 				c.setActive(true);
-				// c.setSound(); //TODO sound picker view
+				c.setSound(sound); //TODO sound picker view
 				c.setRepeat(getRepeats());
 
 				if (c.getId() == -1) {
-					db.createClock(c);
+					c.setId(db.createClock(c));
 				} else {
 					db.updateClock(c);
 				}
+				ClockService.updateClock(getApplicationContext(), c.getId());
 				setResult(10);
 				finish();
 			}
@@ -145,7 +146,7 @@ public class ClockViewActivity extends Activity {
 		}
 		if (requestCode == 999) {
 			sound = intent
-					.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+					.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI); //TODO default
 		}
 
 		super.onActivityResult(requestCode, resultCode, intent);
