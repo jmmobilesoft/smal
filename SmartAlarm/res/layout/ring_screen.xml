@@ -1,13 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
-    
-    <Button android:id="@+id/ring_dismiss"
+    android:background="@android:color/background_dark"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/ring_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="dismiss"/>
-    
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="WAKE UP!"
+        android:textColor="@android:color/background_light"
+        android:textSize="45sp" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/ring_clock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ring_text"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/background_light"
+        android:textSize="50sp" />
+
+    <TextView
+        android:id="@+id/ring_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ring_clock"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/background_light"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/ring_snooze"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_above="@+id/ring_dismiss"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:background="@color/snooze_style"
+        android:text="SNOOZE" />
+
+    <Button
+        android:id="@+id/ring_dismiss"
+        android:layout_width="fill_parent"
+        android:layout_marginLeft="50sp"
+        android:layout_marginRight="50sp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/dissmiss_style"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:text="DISMISS" />
+
+</RelativeLayout>

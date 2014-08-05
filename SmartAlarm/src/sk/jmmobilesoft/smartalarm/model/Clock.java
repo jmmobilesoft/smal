@@ -13,6 +13,9 @@ public class Clock {
 	private boolean active;
 	private Uri sound;
 	private String name;
+	private int snoozeTime;
+	//private int volume;  //TODO
+	//private boolean niceWakeUp;
 	private int[] repeat = new int[]{0,0,0,0,0,0,0};
 	
 	public Clock(){
@@ -84,6 +87,14 @@ public class Clock {
 		this.repeat = repeat;
 	}
 	
+	public int getSnoozeTime() {
+		return snoozeTime;
+	}
+
+	public void setSnoozeTime(int snoozeTime) {
+		this.snoozeTime = snoozeTime;
+	}
+
 	public String toDBRepeat(int[] repeats){
 		String result = String.valueOf(repeats[0]) + String.valueOf(repeats[1]) + String.valueOf(repeats[2] + String.valueOf(repeats[3]) +
 				String.valueOf(repeats[4]) + String.valueOf(repeats[5]) + String.valueOf(repeats[6]));

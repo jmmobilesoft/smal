@@ -2,11 +2,17 @@ package sk.jmmobilesoft.smartalarm;
 
 import java.util.HashMap;
 
+import sk.jmmobilesoft.smartalarm.service.ClockRepeatService;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabHost.TabContentFactory;
@@ -55,6 +61,11 @@ public class MainActivity extends FragmentActivity implements
 		initialiseTabHost(savedInstanceState);
 		if (savedInstanceState != null) {
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab")); 
+		}
+		if(!isMyServiceRunning(ClockRepeatService.class)){
+			Log.i("INFO", "ClockRepeatService started");
+			Intent startRepeatingService = new Intent(this, ClockRepeatService.class);
+			startService(startRepeatingService);
 		}
 	}
 
@@ -136,5 +147,14 @@ public class MainActivity extends FragmentActivity implements
 			ft.commit();
 			this.getSupportFragmentManager().executePendingTransactions();
 		}
+	}
+	private boolean isMyServiceRunning(Class<?> serviceClass) {
+	    ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+	        if (serviceClass.getName().equals(service.service.getClassName())) {
+	            return true;
+	        }
+	    }
+	    return false;
 	}
 }

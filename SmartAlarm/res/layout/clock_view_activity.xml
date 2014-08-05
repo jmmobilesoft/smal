@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/popup"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
@@ -9,9 +8,11 @@
     <!-- android:background="@layout/customborder" -->
 
     <LinearLayout
+        android:id="@+id/cva_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,9 +28,11 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/cva_num"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" >
+        android:layout_gravity="center_horizontal" 
+        android:layout_below="@+id/cva_name">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -51,9 +54,11 @@
     </RelativeLayout>
 
     <LinearLayout 
+        android:id="@+id/cva_names"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_below="@+id/cva_num">
         
         <ToggleButton
             android:id="@+id/clock_button_MO"
@@ -123,35 +128,40 @@
     <LinearLayout android:id="@+id/clock_view_ringtone_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@+id/cva_names">
         
         <TextView android:id="@+id/clock_view_sound_pick"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Select alarm tone"/>
+            android:text="Select alarm tone"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"/>
         
     </LinearLayout>    
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:orientation="horizontal" >
+       	android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/clock_view_ok"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="0dp"
             android:text="Save" />
 
         <Button
             android:id="@+id/clock_view_cancel"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="0dp"
             android:text="Delete" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

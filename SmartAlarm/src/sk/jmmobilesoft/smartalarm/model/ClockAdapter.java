@@ -6,7 +6,8 @@ import java.util.List;
 import sk.jmmobilesoft.smartalarm.ClockViewActivity;
 import sk.jmmobilesoft.smartalarm.R;
 import sk.jmmobilesoft.smartalarm.database.ClockDBHelper;
-import sk.jmmobilesoft.smartalarm.service.ClockService;
+import sk.jmmobilesoft.smartalarm.service.ClockSetting;
+import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -61,7 +62,7 @@ public class ClockAdapter extends BaseAdapter {
 		Clock clock = clocks.get(position);
 			
 		TextView clockText = (TextView) convertView.findViewById(R.id.clock_item_time);
-		clockText.setText(format(clock.getHour()) + ":" + format(clock.getMinutes()));
+		clockText.setText(Helper.format(clock.getHour()) + ":" + Helper.format(clock.getMinutes()));
 		final CheckBox active = (CheckBox) convertView.findViewById(R.id.clock_item_active);
 		TextView name = (TextView) convertView.findViewById(R.id.clock_item_name);
 		List<TextView> daysList = new ArrayList<>();
@@ -89,7 +90,7 @@ public class ClockAdapter extends BaseAdapter {
 				Clock clock = (Clock) getItem(position);
 				clock.setActive(active.isChecked());
 				db.updateClock(clock);
-				ClockService.updateClock(context.getActivity() ,clock.getId());
+				ClockSetting.setClock(context.getActivity() ,clock.getId());
 			}
 		});
 		
@@ -122,14 +123,5 @@ public class ClockAdapter extends BaseAdapter {
 				text.setTextColor(Color.rgb(34, 139, 34));
 			}
 		}
-	}
-	
-	public String format(int value) {
-		String ret = "";
-		if (value < 10) {
-			ret = "0";
-		}
-		ret += Integer.toString(value);
-		return ret;
 	}
 }

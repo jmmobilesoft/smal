@@ -2,7 +2,7 @@ package sk.jmmobilesoft.smartalarm;
 
 import sk.jmmobilesoft.smartalarm.database.ClockDBHelper;
 import sk.jmmobilesoft.smartalarm.model.Clock;
-import sk.jmmobilesoft.smartalarm.service.ClockService;
+import sk.jmmobilesoft.smartalarm.service.ClockSetting;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.RingtoneManager;
@@ -107,7 +107,7 @@ public class ClockViewActivity extends Activity {
 				} else {
 					db.updateClock(c);
 				}
-				ClockService.updateClock(getApplicationContext(), c.getId());
+				ClockSetting.setClock(getApplicationContext(), c.getId());
 				setResult(10);
 				finish();
 			}
