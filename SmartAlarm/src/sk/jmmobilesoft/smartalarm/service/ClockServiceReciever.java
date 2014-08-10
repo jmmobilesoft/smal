@@ -16,6 +16,7 @@ public class ClockServiceReciever extends BroadcastReceiver{
 		Intent clockIntent = new Intent(context, RingScreen.class);
 		clockIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		clockIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		clockIntent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 		clockIntent.putExtras(intent);	
 		context.startActivity(clockIntent);
 	}

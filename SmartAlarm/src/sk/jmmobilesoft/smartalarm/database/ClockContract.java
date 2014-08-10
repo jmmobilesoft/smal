@@ -13,6 +13,7 @@ public abstract class ClockContract {
 		public static final String COLUMN_NAME_CLOCK_TIME_MINUTE = "minute";
 		public static final String COLUMN_NAME_CLOCK_REPEAT = "days";
 		public static final String COLUMN_NAME_CLOCK_TONE = "tone";
+		public static final String COLUMN_NAME_CLOCK_VOLUME = "volume";
 		public static final String COLUMN_NAME_CLOCK_ENABLED = "enabled";
 	}
 

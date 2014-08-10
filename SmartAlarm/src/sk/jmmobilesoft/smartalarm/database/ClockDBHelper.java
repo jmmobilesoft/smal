@@ -31,6 +31,7 @@ public class ClockDBHelper extends SQLiteOpenHelper{
 			ClockModel.COLUMN_NAME_CLOCK_TIME_MINUTE + " INTEGER," +
 			ClockModel.COLUMN_NAME_CLOCK_REPEAT + " TEXT," +
 			ClockModel.COLUMN_NAME_CLOCK_TONE + " TEXT," +
+			ClockModel.COLUMN_NAME_CLOCK_VOLUME + " TEXT," +
 			ClockModel.COLUMN_NAME_CLOCK_ENABLED + " INTEGER" + " )";
 	
 	@Override
@@ -53,6 +54,7 @@ public class ClockDBHelper extends SQLiteOpenHelper{
 		clock.setMinutes(c.getInt(c.getColumnIndex(ClockModel.COLUMN_NAME_CLOCK_TIME_MINUTE)));
 		clock.setActive(c.getInt(c.getColumnIndex(ClockModel.COLUMN_NAME_CLOCK_ENABLED)) == 1? true : false);
 		clock.setSound(c.getString(c.getColumnIndex(ClockModel.COLUMN_NAME_CLOCK_TONE)) != "" ? Uri.parse(c.getString(c.getColumnIndex(ClockModel.COLUMN_NAME_CLOCK_TONE))) : null);
+		clock.setVolume(c.getFloat(c.getColumnIndex(ClockModel.COLUMN_NAME_CLOCK_VOLUME)));
 		clock.setRepeat(clock.fromDBRepeat(c.getString(c.getColumnIndex(ClockModel.COLUMN_NAME_CLOCK_REPEAT))));
 		return clock;
 	}
@@ -63,6 +65,7 @@ public class ClockDBHelper extends SQLiteOpenHelper{
 		values.put(ClockModel.COLUMN_NAME_CLOCK_TIME_HOUR, clock.getHour());
 		values.put(ClockModel.COLUMN_NAME_CLOCK_TIME_MINUTE, clock.getMinutes());
 		values.put(ClockModel.COLUMN_NAME_CLOCK_TONE, clock.getSound() != null? clock.getSound().toString() : "");
+		values.put(ClockModel.COLUMN_NAME_CLOCK_VOLUME, clock.getVolume());
 		values.put(ClockModel.COLUMN_NAME_CLOCK_ENABLED, clock.isActive()? 1 : 0);
 		values.put(ClockModel.COLUMN_NAME_CLOCK_REPEAT, clock.toDBRepeat(clock.getRepeat()));
 		return values;
@@ -107,7 +110,7 @@ public class ClockDBHelper extends SQLiteOpenHelper{
 		if(!clockList.isEmpty()){
 			return clockList;
 		}
-		return null;
+		return clockList;
 	}
 	
 	public int deleteClock(long id){
