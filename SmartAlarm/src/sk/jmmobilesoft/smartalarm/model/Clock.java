@@ -13,17 +13,17 @@ public class Clock {
 	private boolean active;
 	private Uri sound;
 	private String name;
-	private int snoozeTime;
-	private float volume;  //TODO
-	//private boolean niceWakeUp;
+	private int snoozeTime; //TODO
+	private float volume;  
+	//private boolean niceWakeUp; //TODO
 	private int[] repeat = new int[]{0,0,0,0,0,0,0};
 	
 	public Clock(){
-		id = -1;
+		id = (long) -1;
 	}
 	
 	public Clock(int hour, int minutes, boolean active, String name,int[] repeat){
-		id = -1;
+		id = (long) -1;
 		this.hour = hour;
 		this.minutes = minutes;
 		this.name = name;

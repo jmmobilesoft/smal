@@ -3,12 +3,13 @@ package sk.jmmobilesoft.smartalarm;
 import java.util.ArrayList;
 import java.util.List;
 
-import sk.jmmobilesoft.smartalarm.database.ClockDBHelper;
+import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import sk.jmmobilesoft.smartalarm.model.ClockAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,7 +21,7 @@ public class ClockAlarmFragment extends Fragment {
 
 	private List<Clock> clockList;
 	private ClockAdapter adapter;
-	private ClockDBHelper db;
+	private DBHelper db;
 	private Bundle bundle;
 	private ListView list;
 	
@@ -29,18 +30,22 @@ public class ClockAlarmFragment extends Fragment {
 	public View onCreateView(final LayoutInflater inflater,
 			final ViewGroup container, Bundle savedInstanceState) {
 		bundle = savedInstanceState;
-		final View view = inflater.inflate(R.layout.clock_alarm_fragment,
+		final View view = inflater.inflate(R.layout.clock_fragment,
 				container, false);
-		db = new ClockDBHelper(getActivity());
-		list = (ListView) view.findViewById(R.id.listview);
+		db = new DBHelper(getActivity());
+		list = (ListView) view.findViewById(R.id.clock_listview);
+		try{
 		clockList = db.getClocks();
+		}catch(IllegalStateException e){
+			Log.i("INFO", "clock databse is empty");
+		}
 		if (clockList == null) {
 			clockList = new ArrayList<Clock>();
 		}
 		adapter = new ClockAdapter(this, clockList, savedInstanceState);
 		list.setAdapter(adapter);
 
-		Button add = (Button) view.findViewById(R.id.add);
+		Button add = (Button) view.findViewById(R.id.clock_add);
 		add.setOnClickListener(new OnClickListener() {
 
 			@Override

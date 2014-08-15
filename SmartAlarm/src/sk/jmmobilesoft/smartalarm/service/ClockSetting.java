@@ -3,7 +3,7 @@ package sk.jmmobilesoft.smartalarm.service;
 import java.util.Calendar;
 import java.util.List;
 
-import sk.jmmobilesoft.smartalarm.database.ClockDBHelper;
+import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -15,7 +15,7 @@ public class ClockSetting {
 
 	@SuppressLint("NewApi")
 	public static void setClock(Context context, long id) {
-		ClockDBHelper db = new ClockDBHelper(context);
+		DBHelper db = new DBHelper(context);
 
 		Calendar current = Calendar.getInstance();
 		current.set(Calendar.DAY_OF_WEEK,
@@ -57,7 +57,7 @@ public class ClockSetting {
 	}
 
 	public static void setAllClocks(Context context) {
-		ClockDBHelper db = new ClockDBHelper(context);
+		DBHelper db = new DBHelper(context);
 		List<Clock> clocks = db.getClocks();
 		for (Clock c: clocks) {
 			if (getDayRepeat(c)) {

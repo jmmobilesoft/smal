@@ -1,5 +1,7 @@
 package sk.jmmobilesoft.smartalarm.model;
 
+import android.net.Uri;
+
 public class Timer {
 
 	private Long id;
@@ -8,12 +10,23 @@ public class Timer {
 	
 	private int minutes;
 	
+	private String name;
+	
 	private boolean active;
+	
+	private Uri sound;
+	
+	private float volume;
 
-	public Timer(Long id, int hours, int minutes) {
-		this.id = id;
+	public Timer() {
+		id = (long) -1;
+	}
+	
+	public Timer(int hours, int minutes, String name) {
+		this.id = (long) -1;
 		this.hours = hours;
 		this.minutes = minutes;
+		this.name = name;
 	}
 
 	public Long getId() {
@@ -40,6 +53,14 @@ public class Timer {
 		this.minutes = minutes;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public boolean isActive() {
 		return active;
 	}
@@ -48,10 +69,26 @@ public class Timer {
 		this.active = active;
 	}
 
+	public Uri getSound() {
+		return sound;
+	}
+
+	public void setSound(Uri sound) {
+		this.sound = sound;
+	}
+
+	public float getVolume() {
+		return volume;
+	}
+
+	public void setVolume(float volume) {
+		this.volume = volume;
+	}
+
 	@Override
 	public String toString() {
 		return "Timer [id=" + id + ", hours=" + hours + ", minutes=" + minutes
-				+ "]";
+				+ ", name=" + name + ", active=" + active + "]";
 	}
 
 	@Override

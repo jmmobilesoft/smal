@@ -1,8 +1,9 @@
 package sk.jmmobilesoft.smartalarm;
 
-import sk.jmmobilesoft.smartalarm.database.ClockDBHelper;
+import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import sk.jmmobilesoft.smartalarm.service.ClockSetting;
+import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,27 +13,21 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.style.LineHeightSpan.WithDensity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
-import android.widget.NumberPicker.Formatter;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class ClockViewActivity extends Activity {
 
-	ClockDBHelper db = new ClockDBHelper(this);
+	DBHelper db = new DBHelper(this);
 
 	private MediaPlayer mp;
 
@@ -59,40 +54,30 @@ public class ClockViewActivity extends Activity {
 	private float volume = 0.3f;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) { // TODO required C
+	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.clock_view_activity);
 		id = getIntent().getExtras().getLong("id");
-		System.out.println(id);
+		System.out.println("clock id:" + id);
 		initComponents();
-		Formatter form;
-		minutes.setFormatter(form = new Formatter() {
-
-			@Override
-			public String format(int value) {
-				if (value < 10) {
-					return "0" + value;
-				}
-				return String.valueOf(value);
-			}
-		});
-		hours.setFormatter(form);
+		minutes.setFormatter(Helper.getNumberPickFormater());
+		hours.setFormatter(Helper.getNumberPickFormater());
 		super.onCreate(savedInstanceState);
 	}
 
 	private void initComponents() {
-		RelativeLayout screen = (RelativeLayout) findViewById(R.id.clock_view_screen);
-		name = (EditText) findViewById(R.id.clock_view_name);
-		hours = (NumberPicker) findViewById(R.id.clock_view_hours_picker);
-		minutes = (NumberPicker) findViewById(R.id.clock_view_minutes_picker);
-		MO = (ToggleButton) findViewById(R.id.clock_button_MO);
-		TU = (ToggleButton) findViewById(R.id.clock_button_TU);
-		WE = (ToggleButton) findViewById(R.id.clock_button_WE);
-		TH = (ToggleButton) findViewById(R.id.clock_button_TH);
-		FR = (ToggleButton) findViewById(R.id.clock_button_FR);
-		SA = (ToggleButton) findViewById(R.id.clock_button_SA);
-		SU = (ToggleButton) findViewById(R.id.clock_button_SU);
-		soundName = (TextView) findViewById(R.id.clock_view_sound_name);
-		volumeBar = (SeekBar) findViewById(R.id.clock_view_volume_picker);
+		RelativeLayout screen = (RelativeLayout) findViewById(R.id.clock_view_activity_screen);
+		name = (EditText) findViewById(R.id.clock_view_activity_name);
+		hours = (NumberPicker) findViewById(R.id.clock_view_activity_hours_picker);
+		minutes = (NumberPicker) findViewById(R.id.clock_view_activity_minutes_picker);
+		MO = (ToggleButton) findViewById(R.id.clock_view_activity_button_MO);
+		TU = (ToggleButton) findViewById(R.id.clock_view_activity_button_TU);
+		WE = (ToggleButton) findViewById(R.id.clock_view_activity_button_WE);
+		TH = (ToggleButton) findViewById(R.id.clock_view_activity_button_TH);
+		FR = (ToggleButton) findViewById(R.id.clock_view_activity_button_FR);
+		SA = (ToggleButton) findViewById(R.id.clock_view_activity_button_SA);
+		SU = (ToggleButton) findViewById(R.id.clock_view_activity_button_SU);
+		soundName = (TextView) findViewById(R.id.clock_view_activity_sound_name);
+		volumeBar = (SeekBar) findViewById(R.id.clock_view_activity_volume_picker);
 		minutes.setMaxValue(59);
 		minutes.setMinValue(0);
 		hours.setMaxValue(23);
@@ -118,7 +103,7 @@ public class ClockViewActivity extends Activity {
 		if (volumeBar.getProgress() == 0) {
 			volumeBar.setProgress((int) (volume * 100));
 		}
-		save = (Button) findViewById(R.id.clock_view_ok);
+		save = (Button) findViewById(R.id.clock_view_activity_save);
 		save.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -155,7 +140,7 @@ public class ClockViewActivity extends Activity {
 				finish();
 			}
 		});
-		delete = (Button) findViewById(R.id.clock_view_cancel);
+		delete = (Button) findViewById(R.id.clock_view_activity_cancel);
 		delete.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -176,7 +161,7 @@ public class ClockViewActivity extends Activity {
 				finish();
 			}
 		});
-		soundPick = (TextView) findViewById(R.id.clock_view_sound_pick);
+		soundPick = (TextView) findViewById(R.id.clock_view_activity_sound_pick);
 		soundPick.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -215,15 +200,10 @@ public class ClockViewActivity extends Activity {
 		volumeBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
 			public void onProgressChanged(SeekBar seekBar, int progress,
-					boolean fromUser) {
-
-			}
+					boolean fromUser) {}
 
 			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-
-			}
+			public void onStartTrackingTouch(SeekBar seekBar) {}
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
@@ -302,13 +282,12 @@ public class ClockViewActivity extends Activity {
 
 	private float determineVolume(int seekbarStatus) {
 		final float MIN = 0.2f;
-		final float MAX = 1.0f;
 		float volume = (float) (seekbarStatus * 0.01);
 		System.out.println(volume);
 		if (volume < MIN) {
 			return 0.1f;
 		}
-		return volume; // TODO
+		return volume;
 	}
 
 	private int[] getRepeats() {

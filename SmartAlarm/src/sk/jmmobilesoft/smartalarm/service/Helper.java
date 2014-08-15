@@ -2,6 +2,7 @@ package sk.jmmobilesoft.smartalarm.service;
 
 import android.content.Context;
 import android.os.PowerManager;
+import android.widget.NumberPicker.Formatter;
 
 public abstract class Helper {
 
@@ -30,6 +31,19 @@ public abstract class Helper {
 		} catch (Exception e) {
 			//e.printStackTrace();
 		}
+	}
+	
+	public static Formatter getNumberPickFormater(){
+		return new Formatter() {
+
+			@Override
+			public String format(int value) {
+				if (value < 10) {
+					return "0" + value;
+				}
+				return String.valueOf(value);
+			}
+		};
 	}
 	
 }

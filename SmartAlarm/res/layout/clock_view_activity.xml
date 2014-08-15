@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/clock_view_screen"
+    android:id="@+id/clock_view_activity_screen"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
@@ -9,7 +9,7 @@
     <!-- android:background="@layout/customborder" -->
 
     <LinearLayout
-        android:id="@+id/cva_name"
+        android:id="@+id/clock_view_activity_name_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -22,18 +22,18 @@
             android:textSize="30dp" />
 
         <EditText
-            android:id="@+id/clock_view_name"
+            android:id="@+id/clock_view_activity_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/cva_num"
+        android:id="@+id/clock_view_activity_pickers_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" 
-        android:layout_below="@+id/cva_name">
+        android:layout_below="@+id/clock_view_activity_name_container">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -43,26 +43,26 @@
             android:orientation="horizontal" >
 
             <NumberPicker
-                android:id="@+id/clock_view_hours_picker"
+                android:id="@+id/clock_view_activity_hours_picker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <NumberPicker
-                android:id="@+id/clock_view_minutes_picker"
+                android:id="@+id/clock_view_activity_minutes_picker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout 
-        android:id="@+id/cva_names"
+        android:id="@+id/clock_view_activity_days_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@+id/cva_num">
+        android:layout_below="@+id/clock_view_activity_pickers_container">
         
         <ToggleButton
-            android:id="@+id/clock_button_MO"
+            android:id="@+id/clock_view_activity_button_MO"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -71,7 +71,7 @@
             android:background="@android:drawable/btn_default"
             android:textColor="@color/toogle_color"/>
         <ToggleButton
-            android:id="@+id/clock_button_TU"
+            android:id="@+id/clock_view_activity_button_TU"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -80,7 +80,7 @@
             android:background="@android:drawable/btn_default"
             android:textColor="@color/toogle_color"/>
         <ToggleButton
-            android:id="@+id/clock_button_WE"
+            android:id="@+id/clock_view_activity_button_WE"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -89,7 +89,7 @@
             android:background="@android:drawable/btn_default"
             android:textColor="@color/toogle_color"/>
         <ToggleButton
-            android:id="@+id/clock_button_TH"
+            android:id="@+id/clock_view_activity_button_TH"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -98,7 +98,7 @@
             android:background="@android:drawable/btn_default"
             android:textColor="@color/toogle_color"/>
         <ToggleButton
-            android:id="@+id/clock_button_FR"
+            android:id="@+id/clock_view_activity_button_FR"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -107,7 +107,7 @@
             android:background="@android:drawable/btn_default"
             android:textColor="@color/toogle_color"/>
         <ToggleButton
-            android:id="@+id/clock_button_SA"
+            android:id="@+id/clock_view_activity_button_SA"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -116,7 +116,7 @@
             android:background="@android:drawable/btn_default"
             android:textColor="@color/toogle_color"/>
         <ToggleButton
-            android:id="@+id/clock_button_SU"
+            android:id="@+id/clock_view_activity_button_SU"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -126,38 +126,38 @@
             android:textColor="@color/toogle_color"/>
     </LinearLayout>
     
-    <LinearLayout android:id="@+id/clock_view_ringtone_container"
+    <LinearLayout android:id="@+id/clock_view_activity_ringtone_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@+id/cva_names">
+        android:layout_below="@+id/clock_view_activity_days_container">
         
-        <TextView android:id="@+id/clock_view_sound_pick"
+        <TextView android:id="@+id/clock_view_activity_sound_pick"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Select alarm tone"
             android:layout_marginTop="10dp"
             android:textSize="20sp"/>
         
-        <TextView android:id="@+id/clock_view_sound_name"
+        <TextView android:id="@+id/clock_view_activity_sound_name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textSize="13sp"/>
         
     </LinearLayout>  
-    <LinearLayout android:id="@+id/clock_view_volume_containter"
+    <LinearLayout android:id="@+id/clock_view_activity_volume_containter"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:orientation="vertical"
-        android:layout_below="@+id/clock_view_ringtone_container">
+        android:layout_below="@+id/clock_view_activity_ringtone_container">
         <TextView 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Set volume"
             android:textSize="13sp"/>
      	<SeekBar
-     	    android:id="@+id/clock_view_volume_picker"
+     	    android:id="@+id/clock_view_activity_volume_picker"
      	    android:layout_width="fill_parent"
      	    android:layout_height="wrap_content" />
     </LinearLayout>  
@@ -168,7 +168,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/clock_view_ok"
+            android:id="@+id/clock_view_activity_save"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -177,7 +177,7 @@
             android:text="Save" />
 
         <Button
-            android:id="@+id/clock_view_cancel"
+            android:id="@+id/clock_view_activity_cancel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

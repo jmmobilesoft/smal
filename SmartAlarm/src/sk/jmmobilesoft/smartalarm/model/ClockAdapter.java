@@ -5,7 +5,7 @@ import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.ClockViewActivity;
 import sk.jmmobilesoft.smartalarm.R;
-import sk.jmmobilesoft.smartalarm.database.ClockDBHelper;
+import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.service.ClockSetting;
 import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.content.Intent;
@@ -24,17 +24,17 @@ import android.widget.TextView;
 public class ClockAdapter extends BaseAdapter {
 
 	
-	List<Clock> clocks;
-	Fragment context;
-	Bundle savedInstanceState;
-	private ClockDBHelper db;
+	private List<Clock> clocks;
+	private Fragment context;
+	private Bundle savedInstanceState;
+	private DBHelper db;
 
 	public ClockAdapter(Fragment context, List<Clock> clocks, Bundle state) {
 		super();
 		this.context = context;
 		this.clocks = clocks;
 		this.savedInstanceState = state;
-		db = new ClockDBHelper(context.getActivity());
+		db = new DBHelper(context.getActivity());
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class ClockAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		final LayoutInflater inflater = context.getLayoutInflater(savedInstanceState);
+		final LayoutInflater inflater =  context.getLayoutInflater(savedInstanceState);
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.clock_item_fragment, null);
 		}
@@ -105,11 +105,6 @@ public class ClockAdapter extends BaseAdapter {
 				
 			}
 		});		
-		return convertView;
-	}
-	
-	public View addItem(View convertView, Clock newClock) {
-		clocks.add(newClock);
 		return convertView;
 	}
 	

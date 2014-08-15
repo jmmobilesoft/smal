@@ -2,7 +2,7 @@ package sk.jmmobilesoft.smartalarm;
 
 import java.util.Arrays;
 
-import sk.jmmobilesoft.smartalarm.database.ClockDBHelper;
+import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.app.Activity;
@@ -21,7 +21,7 @@ public class RingScreen extends Activity {
 
 	private long id;
 
-	private ClockDBHelper db;
+	private DBHelper db;
 
 	private MediaPlayer mp;
 	
@@ -40,8 +40,8 @@ public class RingScreen extends Activity {
 		window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
 				| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
-		db = new ClockDBHelper(this);
-		setContentView(R.layout.ring_screen);
+		db = new DBHelper(this);
+		setContentView(R.layout.clock_ring_activity);
 		id = getIntent().getLongExtra("ID", -1);
 		final Clock c = db.getClock(id);
 		mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
