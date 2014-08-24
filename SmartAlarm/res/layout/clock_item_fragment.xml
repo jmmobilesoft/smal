@@ -12,6 +12,7 @@
         android:layout_alignParentTop="true"
         android:textSize="30sp"
         android:text="TIME"
+        android:textColor="#F7F5F5"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"/>
    
@@ -22,6 +23,7 @@
         android:layout_below="@+id/clock_item_time"
         android:layout_marginLeft="10dp"
         android:textSize="10sp"
+        android:textColor="#F7F5F5"
         android:text="REPEAT:"/>
     
     <TextView android:id="@+id/clock_item_MO"
@@ -94,6 +96,7 @@
         android:layout_toEndOf="@+id/clock_item_time"
         android:layout_marginLeft="20dp"
         android:layout_centerVertical="true"
+        android:textColor="#F7F5F5"
         android:textSize="15sp"/>
     
     <CheckBox android:id="@+id/clock_item_active"
@@ -102,5 +105,12 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"/>
     
-
+	<TextView android:id="@+id/clock_item_spacer"
+	    android:layout_alignParentBottom="true"
+	    android:layout_height="1dp"
+	    android:layout_width="fill_parent"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp"
+	    android:background="#0099cc"  />
+	    
 </RelativeLayout>

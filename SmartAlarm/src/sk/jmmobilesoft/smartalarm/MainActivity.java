@@ -3,11 +3,14 @@ package sk.jmmobilesoft.smartalarm;
 import java.util.HashMap;
 
 import sk.jmmobilesoft.smartalarm.service.ClockRepeatService;
+import android.R.color;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -16,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabHost.TabContentFactory;
+import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity implements
 		TabHost.OnTabChangeListener {
@@ -101,7 +105,11 @@ public class MainActivity extends FragmentActivity implements
 								SettingsFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		this.onTabChanged("Tab1");
-		//
+		for(int i=0;i< mTabHost.getTabWidget().getChildCount();i++) 
+	    {
+	        TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+	        tv.setTextColor(Color.parseColor("#F7F5F5"));
+	    } 
 		mTabHost.setOnTabChangedListener(this);
 	}
 

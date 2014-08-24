@@ -4,24 +4,26 @@ import android.net.Uri;
 
 public class Timer {
 
-	private Long id;
-	
+	private long id;
+
 	private int hours;
-	
+
 	private int minutes;
-	
+
+	private int seconds;
+
 	private String name;
-	
+
 	private boolean active;
-	
+
 	private Uri sound;
-	
+
 	private float volume;
 
 	public Timer() {
 		id = (long) -1;
 	}
-	
+
 	public Timer(int hours, int minutes, String name) {
 		this.id = (long) -1;
 		this.hours = hours;
@@ -29,11 +31,11 @@ public class Timer {
 		this.name = name;
 	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -51,6 +53,14 @@ public class Timer {
 
 	public void setMinutes(int minutes) {
 		this.minutes = minutes;
+	}
+
+	public int getSeconds() {
+		return seconds;
+	}
+
+	public void setSeconds(int seconds) {
+		this.seconds = seconds;
 	}
 
 	public String getName() {
@@ -88,16 +98,22 @@ public class Timer {
 	@Override
 	public String toString() {
 		return "Timer [id=" + id + ", hours=" + hours + ", minutes=" + minutes
-				+ ", name=" + name + ", active=" + active + "]";
+				+ ", seconds=" + seconds + ", name=" + name + ", active="
+				+ active + ", sound=" + sound + ", volume=" + volume + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + (active ? 1231 : 1237);
 		result = prime * result + hours;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + minutes;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + seconds;
+		result = prime * result + ((sound == null) ? 0 : sound.hashCode());
+		result = prime * result + Float.floatToIntBits(volume);
 		return result;
 	}
 
@@ -110,15 +126,29 @@ public class Timer {
 		if (getClass() != obj.getClass())
 			return false;
 		Timer other = (Timer) obj;
+		if (active != other.active)
+			return false;
 		if (hours != other.hours)
 			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
+		if (id != other.id)
 			return false;
 		if (minutes != other.minutes)
 			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (seconds != other.seconds)
+			return false;
+		if (sound == null) {
+			if (other.sound != null)
+				return false;
+		} else if (!sound.equals(other.sound))
+			return false;
+		if (Float.floatToIntBits(volume) != Float.floatToIntBits(other.volume))
+			return false;
 		return true;
 	}
+
 }

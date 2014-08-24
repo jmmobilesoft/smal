@@ -17,7 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class RingScreen extends Activity {
+public class ClockRingScreen extends Activity {
 
 	private long id;
 
@@ -31,7 +31,7 @@ public class RingScreen extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.i("INFO", "RingScreen activity started");
+		Log.i("INFO", "ClockRingScreen activity started");
 		final Window window = getWindow();
 		window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED // START
 																			// DISPLAY

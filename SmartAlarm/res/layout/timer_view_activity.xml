@@ -3,34 +3,15 @@
     android:id="@+id/timer_view_activity_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/background_dark"
     android:orientation="vertical" >
-
-    <LinearLayout
-        android:id="@+id/timer_view_activity_name_container"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentTop="true" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Name:"
-            android:textSize="30dp" />
-
-        <EditText
-            android:id="@+id/timer_view_activity_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/timer_view_activity_pickers_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" 
-        android:layout_below="@+id/timer_view_activity_name_container">
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_horizontal" >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -42,38 +23,169 @@
             <NumberPicker
                 android:id="@+id/timer_view_activity_hours_picker"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textColor="#F7F5F5" />
 
             <NumberPicker
                 android:id="@+id/timer_view_activity_minutes_picker"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textColor="#F7F5F5" />
+
+            <NumberPicker
+                android:id="@+id/timer_view_activity_seconds_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#F7F5F5" />
         </LinearLayout>
     </RelativeLayout>
-    
-   <LinearLayout
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/timer_view_activity_name_container"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#0099cc" />
+
+    <LinearLayout
+        android:id="@+id/timer_view_activity_name_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-       	android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:layout_below="@+id/timer_view_activity_pickers_container"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:text="Name"
+            android:textColor="#F7F5F5"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/timer_view_activity_name"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="#2F2F2F"
+            android:textColor="#F7F5F5" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/timer_view_activity_ringtone_container"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#0099cc" />
+
+    <LinearLayout
+        android:id="@+id/timer_view_activity_ringtone_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timer_view_activity_name_container"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/timer_view_activity_sound_pick"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:text="Select alarm tone"
+            android:textColor="#F7F5F5"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/timer_view_activity_sound_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="7dp"
+            android:textColor="#F7F5F5"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/timer_view_activity_volume_containter"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#0099cc" />
+
+    <LinearLayout
+        android:id="@+id/timer_view_activity_volume_containter"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timer_view_activity_ringtone_container"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set volume"
+            android:textColor="#F7F5F5"
+            android:layout_marginTop="7dp"
+            android:textSize="13sp" />
+
+        <SeekBar
+            android:id="@+id/timer_view_activity_volume_picker"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/timer_view_activity_buttons_container"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#0099cc" />
+
+    <LinearLayout
+        android:id="@+id/timer_view_activity_buttons_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
 
         <Button
             android:id="@+id/timer_view_activity_save"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginBottom="5dp"
             android:layout_marginLeft="0dp"
-            android:text="Save" />
+            android:layout_weight="1"
+            android:background="#000000"
+            android:text="Save"
+            android:textColor="#33b5e5" />
+
+        <TextView
+            android:id="@+id/clock_item_spacer"
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentBottom="true"
+            android:background="#0099cc" />
 
         <Button
             android:id="@+id/timer_view_activity_cancel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginBottom="5dp"
             android:layout_marginLeft="0dp"
-            android:text="Delete" />
+            android:layout_weight="1"
+            android:background="#000000"
+            android:text="Delete"
+            android:textColor="#33b5e5" />
     </LinearLayout>
 
 </RelativeLayout>

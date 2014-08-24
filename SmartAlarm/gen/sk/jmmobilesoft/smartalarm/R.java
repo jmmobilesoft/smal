@@ -11,16 +11,17 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
-        public static final int customborder=0x7f060000;
-        public static final int dissmiss_style=0x7f060001;
-        public static final int snooze_style=0x7f060002;
-        public static final int toogle_color=0x7f060003;
+        public static final int background=0x7f060000;
+        public static final int customborder=0x7f060001;
+        public static final int dissmiss_style=0x7f060002;
+        public static final int snooze_style=0x7f060003;
+        public static final int toogle_color=0x7f060004;
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_add_clock=0x7f080037;
+        public static final int action_add_clock=0x7f080044;
         public static final int clock_add=0x7f080001;
         public static final int clock_item_FR=0x7f080009;
         public static final int clock_item_MO=0x7f080005;
@@ -32,51 +33,64 @@ public final class R {
         public static final int clock_item_active=0x7f08000d;
         public static final int clock_item_name=0x7f08000c;
         public static final int clock_item_repeat=0x7f080004;
+        public static final int clock_item_spacer=0x7f08000e;
         public static final int clock_item_time=0x7f080003;
         public static final int clock_listview=0x7f080000;
-        public static final int clock_view_activity_button_FR=0x7f08001e;
-        public static final int clock_view_activity_button_MO=0x7f08001a;
-        public static final int clock_view_activity_button_SA=0x7f08001f;
-        public static final int clock_view_activity_button_SU=0x7f080020;
-        public static final int clock_view_activity_button_TH=0x7f08001d;
-        public static final int clock_view_activity_button_TU=0x7f08001b;
-        public static final int clock_view_activity_button_WE=0x7f08001c;
-        public static final int clock_view_activity_cancel=0x7f080027;
-        public static final int clock_view_activity_days_container=0x7f080019;
-        public static final int clock_view_activity_hours_picker=0x7f080017;
-        public static final int clock_view_activity_minutes_picker=0x7f080018;
-        public static final int clock_view_activity_name=0x7f080015;
-        public static final int clock_view_activity_name_container=0x7f080014;
-        public static final int clock_view_activity_pickers_container=0x7f080016;
-        public static final int clock_view_activity_ringtone_container=0x7f080021;
-        public static final int clock_view_activity_save=0x7f080026;
-        public static final int clock_view_activity_screen=0x7f080013;
-        public static final int clock_view_activity_sound_name=0x7f080023;
-        public static final int clock_view_activity_sound_pick=0x7f080022;
-        public static final int clock_view_activity_volume_containter=0x7f080024;
-        public static final int clock_view_activity_volume_picker=0x7f080025;
+        public static final int clock_view_activity_button_FR=0x7f08001d;
+        public static final int clock_view_activity_button_MO=0x7f080019;
+        public static final int clock_view_activity_button_SA=0x7f08001e;
+        public static final int clock_view_activity_button_SU=0x7f08001f;
+        public static final int clock_view_activity_button_TH=0x7f08001c;
+        public static final int clock_view_activity_button_TU=0x7f08001a;
+        public static final int clock_view_activity_button_WE=0x7f08001b;
+        public static final int clock_view_activity_buttons_container=0x7f080027;
+        public static final int clock_view_activity_cancel=0x7f080029;
+        public static final int clock_view_activity_days_container=0x7f080018;
+        public static final int clock_view_activity_hours_picker=0x7f080016;
+        public static final int clock_view_activity_minutes_picker=0x7f080017;
+        public static final int clock_view_activity_name=0x7f080021;
+        public static final int clock_view_activity_name_container=0x7f080020;
+        public static final int clock_view_activity_pickers_container=0x7f080015;
+        public static final int clock_view_activity_ringtone_container=0x7f080022;
+        public static final int clock_view_activity_save=0x7f080028;
+        public static final int clock_view_activity_screen=0x7f080014;
+        public static final int clock_view_activity_sound_name=0x7f080024;
+        public static final int clock_view_activity_sound_pick=0x7f080023;
+        public static final int clock_view_activity_volume_container=0x7f080025;
+        public static final int clock_view_activity_volume_picker=0x7f080026;
         public static final int clockitem=0x7f080002;
-        public static final int imageView1=0x7f080029;
+        public static final int imageView1=0x7f08002b;
         public static final int realtabcontent=0x01010000;
-        public static final int ring_clock=0x7f08000f;
-        public static final int ring_dismiss=0x7f080012;
-        public static final int ring_name=0x7f080010;
-        public static final int ring_snooze=0x7f080011;
-        public static final int ring_text=0x7f08000e;
-        public static final int text=0x7f080028;
-        public static final int timer_add=0x7f08002b;
-        public static final int timer_item_active=0x7f08002e;
-        public static final int timer_item_name=0x7f08002d;
-        public static final int timer_item_time=0x7f08002c;
-        public static final int timer_listview=0x7f08002a;
-        public static final int timer_view_activity_cancel=0x7f080036;
-        public static final int timer_view_activity_hours_picker=0x7f080033;
-        public static final int timer_view_activity_minutes_picker=0x7f080034;
-        public static final int timer_view_activity_name=0x7f080031;
-        public static final int timer_view_activity_name_container=0x7f080030;
-        public static final int timer_view_activity_pickers_container=0x7f080032;
-        public static final int timer_view_activity_save=0x7f080035;
-        public static final int timer_view_activity_screen=0x7f08002f;
+        public static final int ring_clock=0x7f080010;
+        public static final int ring_dismiss=0x7f080013;
+        public static final int ring_name=0x7f080011;
+        public static final int ring_snooze=0x7f080012;
+        public static final int ring_text=0x7f08000f;
+        public static final int text=0x7f08002a;
+        public static final int timer_add=0x7f08002d;
+        public static final int timer_item_active=0x7f080030;
+        public static final int timer_item_name=0x7f08002f;
+        public static final int timer_item_spacer=0x7f080031;
+        public static final int timer_item_time=0x7f08002e;
+        public static final int timer_listview=0x7f08002c;
+        public static final int timer_ring_activity_Name=0x7f080033;
+        public static final int timer_ring_activity_OK=0x7f080034;
+        public static final int timer_ring_activity_Title=0x7f080032;
+        public static final int timer_view_activity_buttons_container=0x7f080041;
+        public static final int timer_view_activity_cancel=0x7f080043;
+        public static final int timer_view_activity_hours_picker=0x7f080037;
+        public static final int timer_view_activity_minutes_picker=0x7f080038;
+        public static final int timer_view_activity_name=0x7f08003b;
+        public static final int timer_view_activity_name_container=0x7f08003a;
+        public static final int timer_view_activity_pickers_container=0x7f080036;
+        public static final int timer_view_activity_ringtone_container=0x7f08003c;
+        public static final int timer_view_activity_save=0x7f080042;
+        public static final int timer_view_activity_screen=0x7f080035;
+        public static final int timer_view_activity_seconds_picker=0x7f080039;
+        public static final int timer_view_activity_sound_name=0x7f08003e;
+        public static final int timer_view_activity_sound_pick=0x7f08003d;
+        public static final int timer_view_activity_volume_containter=0x7f08003f;
+        public static final int timer_view_activity_volume_picker=0x7f080040;
     }
     public static final class layout {
         public static final int clock_fragment=0x7f030000;
@@ -89,7 +103,8 @@ public final class R {
         public static final int tabs_layout=0x7f030007;
         public static final int timer_fragment=0x7f030008;
         public static final int timer_item_fragment=0x7f030009;
-        public static final int timer_view_activity=0x7f03000a;
+        public static final int timer_ring_activity=0x7f03000a;
+        public static final int timer_view_activity=0x7f03000b;
     }
     public static final class menu {
         public static final int menu=0x7f070000;

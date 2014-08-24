@@ -37,7 +37,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ ClockModel.COLUMN_NAME_CLOCK_VOLUME + " TEXT,"
 			+ ClockModel.COLUMN_NAME_CLOCK_ENABLED + " INTEGER" + " )";
 
-	private static final String SQL_DROP_TIMER = "DROP TABLE IF EXIST "   //TODO merge clock and timer database or diff them
+	private static final String SQL_DROP_TIMER = "DROP TABLE IF EXIST "
 			+ TimerModel.TABLE_NAME;
 
 	private static final String SQL_CREATE_TIMER = "CREATE TABLE "
@@ -46,8 +46,11 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ TimerModel.COLUMN_NAME_TIMER_NAME + " TEXT,"
 			+ TimerModel.COLUMN_NAME_TIMER_TIME_HOUR + " INTEGER,"
 			+ TimerModel.COLUMN_NAME_TIMER_TIME_MINUTE + " INTEGER,"
-			+ TimerModel.COLUMN_NAME_TIMER_ENABLED + " INTEGER" + ")";
-	
+			+ TimerModel.COLUMN_NAME_TIMER_TIME_SECOND + " INTEGER,"
+			+ TimerModel.COLUMN_NAME_TIMER_ENABLED + " INTEGER,"
+			+ TimerModel.COLUMN_NAME_TIMER_TONE + " TEXT,"
+			+ TimerModel.COLUMN_NAME_TIMER_VOLUME + " TEXT" + ")";
+
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(SQL_CREATE_CLOCK);
@@ -110,12 +113,12 @@ public class DBHelper extends SQLiteOpenHelper {
 	}
 
 	public int deleteClock(long id) {
-		int rows =  getWritableDatabase().delete(ClockModel.TABLE_NAME,
+		int rows = getWritableDatabase().delete(ClockModel.TABLE_NAME,
 				ClockModel._ID + " =?", new String[] { String.valueOf(id) });
 		close();
 		return rows;
 	}
-	
+
 	private Clock populateClockModel(Cursor c) {
 		Clock clock = new Clock();
 		clock.setId(c.getLong(c.getColumnIndex(ClockModel._ID)));
@@ -154,7 +157,7 @@ public class DBHelper extends SQLiteOpenHelper {
 				clock.toDBRepeat(clock.getRepeat()));
 		return values;
 	}
-	
+
 	public long createTimer(Timer timer) {
 		ContentValues values = populateTimerContent(timer);
 		long id = getWritableDatabase().insert(TimerModel.TABLE_NAME, null,
@@ -203,11 +206,11 @@ public class DBHelper extends SQLiteOpenHelper {
 	}
 
 	public int deleteTimer(long id) {
-		int rows =  getWritableDatabase().delete(TimerModel.TABLE_NAME,
+		int rows = getWritableDatabase().delete(TimerModel.TABLE_NAME,
 				TimerModel._ID + " =?", new String[] { String.valueOf(id) });
 		return rows;
 	}
-	
+
 	private Timer populateTimerModel(Cursor c) {
 		Timer timer = new Timer();
 		timer.setId(c.getLong(c.getColumnIndex(TimerModel._ID)));
@@ -217,12 +220,18 @@ public class DBHelper extends SQLiteOpenHelper {
 				.getColumnIndex(TimerModel.COLUMN_NAME_TIMER_TIME_HOUR)));
 		timer.setMinutes(c.getInt(c
 				.getColumnIndex(TimerModel.COLUMN_NAME_TIMER_TIME_MINUTE)));
+		timer.setSeconds(c.getInt(c
+				.getColumnIndex(TimerModel.COLUMN_NAME_TIMER_TIME_SECOND)));
 		timer.setActive(c.getInt(c
 				.getColumnIndex(TimerModel.COLUMN_NAME_TIMER_ENABLED)) == 1 ? true
 				: false);
-		timer.setSound(c.getString(c.getColumnIndex(TimerModel.COLUMN_NAME_TIMER_TONE)) != "" ? Uri
-				.parse(c.getString(c.getColumnIndex(TimerModel.COLUMN_NAME_TIMER_TONE))) : null);
-		timer.setVolume(c.getFloat(c.getColumnIndex(TimerModel.COLUMN_NAME_TIMER_VOLUME)));
+		timer.setSound(c.getString(c
+				.getColumnIndex(TimerModel.COLUMN_NAME_TIMER_TONE)) != "" ? Uri
+				.parse(c.getString(c
+						.getColumnIndex(TimerModel.COLUMN_NAME_TIMER_TONE)))
+				: null);
+		timer.setVolume(c.getFloat(c
+				.getColumnIndex(TimerModel.COLUMN_NAME_TIMER_VOLUME)));
 		return timer;
 	}
 
@@ -231,9 +240,11 @@ public class DBHelper extends SQLiteOpenHelper {
 		values.put(TimerModel.COLUMN_NAME_TIMER_NAME, timer.getName());
 		values.put(TimerModel.COLUMN_NAME_TIMER_TIME_HOUR, timer.getHours());
 		values.put(TimerModel.COLUMN_NAME_TIMER_TIME_MINUTE, timer.getMinutes());
+		values.put(TimerModel.COLUMN_NAME_TIMER_TIME_SECOND, timer.getSeconds());
 		values.put(TimerModel.COLUMN_NAME_TIMER_ENABLED, timer.isActive() ? 1
 				: 0);
-		values.put(TimerModel.COLUMN_NAME_TIMER_TONE, timer.getSound().toString());
+		values.put(TimerModel.COLUMN_NAME_TIMER_TONE,
+				timer.getSound() != null ? timer.getSound().toString() : "");
 		values.put(TimerModel.COLUMN_NAME_TIMER_VOLUME, timer.getVolume());
 		return values;
 	}

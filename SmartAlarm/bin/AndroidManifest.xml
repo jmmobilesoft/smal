@@ -29,20 +29,24 @@
         </activity>
         <activity
             android:name=".ClockViewActivity"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity 
-            android:name=".TimerViewActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".RingScreen"
+            android:name=".TimerViewActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ClockRingScreen"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
         </activity>
+        <activity
+            android:name=".TimerRingScreen"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.NoActionBar" >
+        </activity>
 
-        <service
-            android:name="sk.jmmobilesoft.smartalarm.service.ClockService" />
+        <service android:name="sk.jmmobilesoft.smartalarm.service.ClockService" />
         <service
             android:name="sk.jmmobilesoft.smartalarm.service.ClockRepeatService"
             android:enabled="true" >
@@ -53,6 +57,7 @@
         </service>
 
         <receiver android:name="sk.jmmobilesoft.smartalarm.service.ClockServiceReciever" />
+        <receiver android:name="sk.jmmobilesoft.smartalarm.service.TimerServiceReciever" />
     </application>
 
 </manifest>

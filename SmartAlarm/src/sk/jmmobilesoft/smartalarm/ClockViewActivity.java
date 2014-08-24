@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
@@ -82,6 +83,9 @@ public class ClockViewActivity extends Activity {
 		minutes.setMinValue(0);
 		hours.setMaxValue(23);
 		hours.setMinValue(0);
+		new Color();
+		Helper.setNumberPickerTextColor(hours, Color.rgb(247, 245, 245));
+		Helper.setNumberPickerTextColor(minutes, Color.rgb(247, 245, 245));
 		volumeBar.setProgress(0);
 		if (id != 0) {
 			c = db.getClock((long) id);
@@ -140,7 +144,7 @@ public class ClockViewActivity extends Activity {
 				finish();
 			}
 		});
-		delete = (Button) findViewById(R.id.clock_view_activity_cancel);
+		delete = (Button) findViewById(R.id.clock_view_activity_cancel);   //TODO deleting active alarm?
 		delete.setOnClickListener(new OnClickListener() {
 
 			@Override

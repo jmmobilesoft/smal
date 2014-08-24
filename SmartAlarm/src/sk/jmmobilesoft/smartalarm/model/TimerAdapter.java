@@ -6,6 +6,7 @@ import sk.jmmobilesoft.smartalarm.R;
 import sk.jmmobilesoft.smartalarm.TimerViewActivity;
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.service.Helper;
+import sk.jmmobilesoft.smartalarm.service.TimerSetting;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -60,7 +61,8 @@ public class TimerAdapter extends BaseAdapter {
 			TextView time = (TextView) convertView
 					.findViewById(R.id.timer_item_time);
 			time.setText(Helper.format(timer.getHours()) + ":"
-					+ Helper.format(timer.getMinutes()));
+					+ Helper.format(timer.getMinutes()) + ":"
+					+ Helper.format(timer.getSeconds()));
 			TextView name = (TextView) convertView
 					.findViewById(R.id.timer_item_name);
 			name.setText(timer.getName());
@@ -74,7 +76,7 @@ public class TimerAdapter extends BaseAdapter {
 					Timer timer = (Timer) getItem(position);
 					timer.setActive(active.isChecked());
 					db.updateTimer(timer);
-					// TODO set timer
+					TimerSetting.setTimer(context.getActivity(), timer.getId());
 				}
 			});
 		}
