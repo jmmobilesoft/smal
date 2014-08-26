@@ -83,8 +83,14 @@ public class TimerViewActivity extends Activity {
 			hours.setValue(t.getHours());
 			minutes.setValue(t.getMinutes());
 			seconds.setValue(t.getSeconds());
-			soundName.setText(t.getSound().getLastPathSegment());
+			sound = t.getSound();
 			volumeBar.setProgress((int) t.getVolume() * 100);
+		}
+		if (sound == null) {
+			soundName.setText("default");
+			sound = Uri.parse("android.resource://sk.jmmobilesoft.smartalarm/"+R.raw.timer);
+		} else {
+			soundName.setText(sound.getLastPathSegment());
 		}
 		Button save = (Button) findViewById(R.id.timer_view_activity_save);
 		save.setOnClickListener(new OnClickListener() {
@@ -98,6 +104,9 @@ public class TimerViewActivity extends Activity {
 				t.setHours(hours.getValue());
 				t.setMinutes(minutes.getValue());
 				t.setSeconds(seconds.getValue());
+				if(sound != null){
+					t.setSound(sound);
+				}
 				t.setActive(true);
 				if (t.getId() == -1) {
 					t.setId(db.createTimer(t));
@@ -216,7 +225,7 @@ public class TimerViewActivity extends Activity {
 					}
 				} else {
 					mp = MediaPlayer.create(getApplicationContext(),
-							t.getSound());
+							sound);
 				}
 				mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
 				volume = determineVolume(seekBar.getProgress());

@@ -3,14 +3,11 @@ package sk.jmmobilesoft.smartalarm;
 import java.util.HashMap;
 
 import sk.jmmobilesoft.smartalarm.service.ClockRepeatService;
-import android.R.color;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;

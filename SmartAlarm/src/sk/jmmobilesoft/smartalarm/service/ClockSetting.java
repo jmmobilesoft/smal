@@ -81,8 +81,9 @@ public class ClockSetting {
 
 	public static boolean getDayRepeat(Clock c) {
 		int[] repeats = c.getRepeat();
+		int[] converted = new int[]{repeats[6],repeats[0],repeats[1],repeats[2],repeats[3],repeats[4],repeats[5]};
 		int currentDay = getCurrentDay();
-		if (repeats[currentDay - 1] == 1 || repeats.equals(new int[]{0,0,0,0,0,0,0})) {
+		if (converted[currentDay - 1] == 1 || converted.equals(new int[]{0,0,0,0,0,0,0})) {
 			return true;
 		}
 		return false;
@@ -90,7 +91,7 @@ public class ClockSetting {
 
 	/**
 	 * 
-	 * @return days 1-7 int value
+	 * @return days 1-7 int value SU -> SA 1 -> 7 !!!
 	 */
 	public static int getCurrentDay() {
 		int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);

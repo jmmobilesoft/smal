@@ -99,11 +99,18 @@ public class ClockViewActivity extends Activity {
 			FR.setChecked(c.getRepeat()[4] == 1 ? true : false);
 			SA.setChecked(c.getRepeat()[5] == 1 ? true : false);
 			SU.setChecked(c.getRepeat()[6] == 1 ? true : false);
-			soundName.setText(c.getSound().getLastPathSegment());
+			sound = c.getSound();
 			if (c.getVolume() != 0) {
 				volumeBar.setProgress((int) (c.getVolume() * 100));
 			}
 		}
+		if (sound == null) {
+			soundName.setText("default");
+			sound = Uri.parse("android.resource://sk.jmmobilesoft.smartalarm/"+R.raw.alarm);
+		} else {
+			soundName.setText(sound.getLastPathSegment());
+		}
+		
 		if (volumeBar.getProgress() == 0) {
 			volumeBar.setProgress((int) (volume * 100));
 		}
@@ -144,7 +151,10 @@ public class ClockViewActivity extends Activity {
 				finish();
 			}
 		});
-		delete = (Button) findViewById(R.id.clock_view_activity_cancel);   //TODO deleting active alarm?
+		delete = (Button) findViewById(R.id.clock_view_activity_cancel); // TODO
+																			// deleting
+																			// active
+																			// alarm?
 		delete.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -204,10 +214,12 @@ public class ClockViewActivity extends Activity {
 		volumeBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
 			public void onProgressChanged(SeekBar seekBar, int progress,
-					boolean fromUser) {}
+					boolean fromUser) {
+			}
 
 			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {}
+			public void onStartTrackingTouch(SeekBar seekBar) {
+			}
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
@@ -227,7 +239,7 @@ public class ClockViewActivity extends Activity {
 						mAudioManager
 								.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
 						0);
-				if (sound != null) { //TODO check ifs
+				if (sound != null) { // TODO check ifs
 					if (c == null) {
 						mp = MediaPlayer.create(getApplicationContext(), sound);
 					} else {
@@ -237,8 +249,7 @@ public class ClockViewActivity extends Activity {
 						}
 					}
 				} else {
-					mp = MediaPlayer.create(getApplicationContext(),
-							c.getSound());
+					mp = MediaPlayer.create(getApplicationContext(),sound);
 				}
 				mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
 				volume = determineVolume(seekBar.getProgress());
