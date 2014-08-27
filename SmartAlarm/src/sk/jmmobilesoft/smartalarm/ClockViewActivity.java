@@ -104,13 +104,15 @@ public class ClockViewActivity extends Activity {
 				volumeBar.setProgress((int) (c.getVolume() * 100));
 			}
 		}
-		if (sound == null) {
+		if (sound == null || sound.compareTo(Uri
+				.parse("android.resource://sk.jmmobilesoft.smartalarm/"
+						+ R.raw.alarm)) == 0) {
 			soundName.setText("default");
-			sound = Uri.parse("android.resource://sk.jmmobilesoft.smartalarm/"+R.raw.alarm);
+			sound = Uri.parse("android.resource://sk.jmmobilesoft.smartalarm/"
+					+ R.raw.alarm);
 		} else {
 			soundName.setText(sound.getLastPathSegment());
 		}
-		
 		if (volumeBar.getProgress() == 0) {
 			volumeBar.setProgress((int) (volume * 100));
 		}
@@ -239,18 +241,7 @@ public class ClockViewActivity extends Activity {
 						mAudioManager
 								.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
 						0);
-				if (sound != null) { // TODO check ifs
-					if (c == null) {
-						mp = MediaPlayer.create(getApplicationContext(), sound);
-					} else {
-						if (c.getSound() != sound) {
-							mp = MediaPlayer.create(getApplicationContext(),
-									sound);
-						}
-					}
-				} else {
-					mp = MediaPlayer.create(getApplicationContext(),sound);
-				}
+				mp = MediaPlayer.create(getApplicationContext(), sound);
 				mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
 				volume = determineVolume(seekBar.getProgress());
 				mp.setVolume(volume, volume);
