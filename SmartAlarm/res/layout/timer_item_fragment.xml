@@ -10,6 +10,7 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
         android:textColor="#F7F5F5"
         android:textSize="30sp" />
 
@@ -17,12 +18,22 @@
         android:id="@+id/timer_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/timer_item_time"
         android:textColor="#F7F5F5"
         android:textSize="15sp" />
 
+    <TextView 
+        android:id="@+id/timer_item_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/timer_item_time"
+        android:layout_below="@+id/timer_item_name"
+        android:textColor="#F7F5F5"
+        android:textSize="15sp"
+        android:text="End"/>
+    
     <CheckBox
         android:id="@+id/timer_item_active"
         android:layout_width="wrap_content"

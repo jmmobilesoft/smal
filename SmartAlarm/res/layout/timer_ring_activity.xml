@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@android:color/background_dark"
+    android:background="@android:color/transparent"
+    android:layout_gravity="center"
     android:orientation="vertical" >
 
     <TextView
         android:id="@+id/timer_ring_activity_Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="7dp"
         android:layout_marginTop="7dp"
@@ -18,18 +18,17 @@
         android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/timer_ring_activity_Spacer"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:layout_above="@+id/timer_ring_activity_Name"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_below="@+id/timer_ring_activity_Title"
         android:background="#0099cc" />
 
     <TextView
         android:id="@+id/timer_ring_activity_Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/timer_ring_activity_Title"
+        android:layout_below="@+id/timer_ring_activity_Spacer"
         android:layout_marginBottom="7dp"
         android:layout_marginTop="7dp"
         android:text="Name"
@@ -37,16 +36,17 @@
         android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/timer_ring_activity_Spacer2"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:layout_above="@+id/timer_ring_activity_OK"
+        android:layout_below="@+id/timer_ring_activity_Name"
         android:background="#0099cc" />
 
     <Button
         android:id="@+id/timer_ring_activity_OK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/timer_ring_activity_Spacer2"
         android:layout_centerHorizontal="true"
         android:background="#000000"
         android:text="OK"

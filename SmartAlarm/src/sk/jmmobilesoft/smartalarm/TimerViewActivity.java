@@ -8,12 +8,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -91,7 +93,7 @@ public class TimerViewActivity extends Activity {
 			sound = Uri.parse("android.resource://sk.jmmobilesoft.smartalarm/"
 					+ R.raw.timer);
 		} else {
-			soundName.setText(sound.getLastPathSegment());
+			soundName.setText(getSongName(sound));
 		}
 		if (volumeBar.getProgress() == 0) {
 			volumeBar.setProgress((int) (volume * 100));
@@ -255,14 +257,12 @@ public class TimerViewActivity extends Activity {
 		}
 		if (requestCode == 999) {
 			sound = intent
-					.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI); // TODO
-																					// default
+					.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
 		}
 		if (requestCode == 998) {
 			sound = intent.getData();
 		}
-		System.out.println(sound);
-		soundName.setText(sound.getLastPathSegment());
+		soundName.setText(getSongName(sound));
 		super.onActivityResult(requestCode, resultCode, intent);
 	}
 
@@ -275,4 +275,20 @@ public class TimerViewActivity extends Activity {
 		}
 		return volume;
 	}
+	
+	private String getSongName(Uri uri) {
+		String[] projection = { MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.TITLE };
+
+		Cursor cursor = this.managedQuery(uri, projection, null, null, null);
+
+		cursor.moveToNext();
+		String artist = cursor.getString(0);
+		String title = cursor.getString(1);
+
+		if(!artist.equals("<unknown>")){
+			title = artist + " - " + title;
+		}
+		
+		return title;
+	}	
 }

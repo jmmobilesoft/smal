@@ -2,9 +2,13 @@ package sk.jmmobilesoft.smartalarm.service;
 
 import java.lang.reflect.Field;
 
+import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.PowerManager;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -81,5 +85,4 @@ public abstract class Helper {
 	    }
 	    return false;
 	}
-	
 }

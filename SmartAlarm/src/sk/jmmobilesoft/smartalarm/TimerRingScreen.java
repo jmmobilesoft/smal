@@ -66,6 +66,8 @@ public class TimerRingScreen extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				t.setActive(false);
+				db.updateTimer(t);
 				finish();
 			}
 		});

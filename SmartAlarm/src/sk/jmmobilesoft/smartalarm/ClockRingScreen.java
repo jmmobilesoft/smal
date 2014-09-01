@@ -66,9 +66,6 @@ public class ClockRingScreen extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO snooze time
-//				mp.stop();
-//				mp.reset();
-//				mp.release();
 				finish();
 			}
 		});
@@ -83,9 +80,6 @@ public class ClockRingScreen extends Activity {
 					c.setActive(false);
 					db.updateClock(c);
 				}
-				// mp.stop();
-				// mp.reset();
-				// mp.release();
 				finish();
 			}
 		});
