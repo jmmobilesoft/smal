@@ -142,7 +142,9 @@ public class ClockViewActivity extends Activity {
 				} else {
 					db.updateClock(c);
 				}
+				System.out.println(c);
 				if (ClockSetting.getDayRepeat(c)) {
+					System.out.println("setting clock");
 					ClockSetting.setClock(getApplicationContext(), c.getId());
 				}
 				try {

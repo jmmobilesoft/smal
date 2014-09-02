@@ -59,7 +59,7 @@ public class ClockSetting {
 	public static void setAllClocks(Context context) {
 		DBHelper db = new DBHelper(context);
 		List<Clock> clocks = db.getClocks();
-		for (Clock c: clocks) {
+		for (Clock c : clocks) {
 			if (getDayRepeat(c)) {
 				setClock(context, c.getId());
 			}
@@ -81,9 +81,10 @@ public class ClockSetting {
 
 	public static boolean getDayRepeat(Clock c) {
 		int[] repeats = c.getRepeat();
-		int[] converted = new int[]{repeats[6],repeats[0],repeats[1],repeats[2],repeats[3],repeats[4],repeats[5]};
+		int[] converted = new int[] { repeats[6], repeats[0], repeats[1],
+				repeats[2], repeats[3], repeats[4], repeats[5] };
 		int currentDay = getCurrentDay();
-		if (converted[currentDay - 1] == 1 || converted.equals(new int[]{0,0,0,0,0,0,0})) {
+		if (converted[currentDay - 1] == 1	|| noRepeats(converted)) {
 			return true;
 		}
 		return false;
@@ -96,6 +97,15 @@ public class ClockSetting {
 	public static int getCurrentDay() {
 		int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 		return day;
+	}
+
+	private static boolean noRepeats(int[] repeats) {
+		for (int i = 0; i <= 6; i++) {
+			if (repeats[i] == 1) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }
