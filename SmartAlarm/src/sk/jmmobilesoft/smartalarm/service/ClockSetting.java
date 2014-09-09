@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -16,16 +17,9 @@ public class ClockSetting {
 	@SuppressLint("NewApi")
 	public static void setClock(Context context, long id) {
 		DBHelper db = new DBHelper(context);
-
-		Calendar current = Calendar.getInstance();
-		current.set(Calendar.DAY_OF_WEEK,
-				Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
-		current.set(Calendar.HOUR_OF_DAY,
-				Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
-		current.set(Calendar.MINUTE, Calendar.getInstance()
-				.get(Calendar.MINUTE));
-		current.set(Calendar.SECOND, Calendar.getInstance()
-				.get(Calendar.SECOND));
+		boolean nextday = false;
+		
+		Calendar current = Helper.getCurrentTime();
 
 		Clock c = db.getClock(id);
 		Calendar calendar = Calendar.getInstance();
@@ -36,6 +30,7 @@ public class ClockSetting {
 		if (calendar.before(current)) {
 			calendar.set(Calendar.DATE,
 					Calendar.getInstance().get(Calendar.DATE) + 1);
+			nextday = true;
 		} else {
 			calendar.set(Calendar.DATE,
 					Calendar.getInstance().get(Calendar.DATE));
@@ -43,7 +38,7 @@ public class ClockSetting {
 		PendingIntent pIntent = createPendingIntent(context, c);
 		AlarmManager aManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
-		if (c.isActive()) {
+		if (c.isActive() && getDayRepeat(c, nextday)) {
 			if (android.os.Build.VERSION.SDK_INT < 19) {
 				aManager.set(AlarmManager.RTC_WAKEUP,
 						calendar.getTimeInMillis(), pIntent);
@@ -51,18 +46,19 @@ public class ClockSetting {
 				aManager.setExact(AlarmManager.RTC_WAKEUP,
 						calendar.getTimeInMillis(), pIntent);
 			}
+			Logger.setInfo("Setting clock: " + c + " - ACTIVE");
 		} else {
 			aManager.cancel(pIntent);
+			Logger.setInfo("Setting clock: " + c + " - DEACTIVE");
 		}
 	}
 
 	public static void setAllClocks(Context context) {
+		Logger.appInfo("Setting all clock");
 		DBHelper db = new DBHelper(context);
 		List<Clock> clocks = db.getClocks();
 		for (Clock c : clocks) {
-			if (getDayRepeat(c)) {
-				setClock(context, c.getId());
-			}
+			setClock(context, c.getId());
 		}
 	}
 
@@ -79,24 +75,35 @@ public class ClockSetting {
 
 	}
 
-	public static boolean getDayRepeat(Clock c) {
+	public static boolean getDayRepeat(Clock c, boolean nextday) {
 		int[] repeats = c.getRepeat();
 		int[] converted = new int[] { repeats[6], repeats[0], repeats[1],
 				repeats[2], repeats[3], repeats[4], repeats[5] };
 		int currentDay = getCurrentDay();
-		if (converted[currentDay - 1] == 1	|| noRepeats(converted)) {
-			return true;
+		int nextdayInt = getCurrentDay() + 1;
+		if (nextdayInt == 7) {
+			nextdayInt = nextdayInt - 7;
+		}
+		if (nextday) {
+			if (converted[nextdayInt] == 1 || noRepeats(converted)) {
+				nextday = false;
+				return true;
+			}
+		} else {
+			if (converted[currentDay] == 1 || noRepeats(converted)) {
+				return true;
+			}
 		}
 		return false;
 	}
 
 	/**
 	 * 
-	 * @return days 1-7 int value SU -> SA 1 -> 7 !!!
+	 * @return days 0-6 int value SU -> SA 1 -> 7 !!!
 	 */
 	public static int getCurrentDay() {
 		int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-		return day;
+		return day - 1;
 	}
 
 	private static boolean noRepeats(int[] repeats) {

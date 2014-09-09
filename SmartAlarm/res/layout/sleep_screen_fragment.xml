@@ -9,5 +9,26 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_launcher" />
+    
+    <Button 
+        android:id="@+id/image_button_wifi_on"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="wifi ON"/>
+    <Button 
+        android:id="@+id/image_button_wifi_off"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="wifi OFF"/>
+    <Button 
+        android:id="@+id/image_button_mobile_on"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="mobile ON"/>
+    <Button 
+        android:id="@+id/image_button_mobile_off"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="mobileOFF"/>
 
 </LinearLayout>

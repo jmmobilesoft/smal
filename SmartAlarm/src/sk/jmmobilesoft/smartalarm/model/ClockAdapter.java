@@ -93,9 +93,7 @@ public class ClockAdapter extends BaseAdapter {
 				Clock clock = (Clock) getItem(position);
 				clock.setActive(active.isChecked());
 				db.updateClock(clock);
-				if (ClockSetting.getDayRepeat(clock)) {
-					ClockSetting.setClock(context.getActivity(), clock.getId());
-				}
+				ClockSetting.setClock(context.getActivity(), clock.getId());
 			}
 		});
 

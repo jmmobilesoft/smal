@@ -143,10 +143,8 @@ public class ClockViewActivity extends Activity {
 					db.updateClock(c);
 				}
 				System.out.println(c);
-				if (ClockSetting.getDayRepeat(c)) {
-					System.out.println("setting clock");
-					ClockSetting.setClock(getApplicationContext(), c.getId());
-				}
+				System.out.println("setting clock");
+				ClockSetting.setClock(getApplicationContext(), c.getId());
 				try {
 					mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
 							originalVolume, 0);
@@ -282,7 +280,7 @@ public class ClockViewActivity extends Activity {
 		}
 		if (requestCode == 999) {
 			sound = intent
-					.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI); 
+					.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
 		}
 		if (requestCode == 998) {
 			sound = intent.getData();
@@ -326,9 +324,10 @@ public class ClockViewActivity extends Activity {
 		}
 		return repeats;
 	}
-	
+
 	private String getSongName(Uri uri) {
-		String[] projection = { MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.TITLE };
+		String[] projection = { MediaStore.Audio.Media.ARTIST,
+				MediaStore.Audio.Media.TITLE };
 
 		Cursor cursor = this.managedQuery(uri, projection, null, null, null);
 
@@ -336,10 +335,10 @@ public class ClockViewActivity extends Activity {
 		String artist = cursor.getString(0);
 		String title = cursor.getString(1);
 
-		if(!artist.equals("<unknown>")){
+		if (!artist.equals("<unknown>")) {
 			title = artist + " - " + title;
 		}
-		
+
 		return title;
-	}	
+	}
 }

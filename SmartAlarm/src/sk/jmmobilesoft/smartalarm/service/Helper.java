@@ -1,6 +1,7 @@
 package sk.jmmobilesoft.smartalarm.service;
 
 import java.lang.reflect.Field;
+import java.util.Calendar;
 
 import android.app.Activity;
 import android.content.Context;
@@ -84,5 +85,22 @@ public abstract class Helper {
 	        }
 	    }
 	    return false;
+	}
+	
+	public static Calendar getCurrentTime(){
+		Calendar current = Calendar.getInstance();
+		current.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
+		current.set(Calendar.MONTH, Calendar.getInstance().get(Calendar.MONTH));
+		current.set(Calendar.DAY_OF_MONTH,
+				Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+		current.set(Calendar.DAY_OF_WEEK,
+				Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
+		current.set(Calendar.HOUR_OF_DAY,
+				Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+		current.set(Calendar.MINUTE, Calendar.getInstance()
+				.get(Calendar.MINUTE));
+		current.set(Calendar.SECOND, Calendar.getInstance()
+				.get(Calendar.SECOND));
+		return current;
 	}
 }
