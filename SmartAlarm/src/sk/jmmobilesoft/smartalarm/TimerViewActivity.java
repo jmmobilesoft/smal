@@ -88,8 +88,10 @@ public class TimerViewActivity extends Activity {
 			sound = t.getSound();
 			volumeBar.setProgress((int) t.getVolume() * 100);
 		}
-		if (sound == null) {
-			soundName.setText("default");
+		if (sound == null || sound.compareTo(Uri
+				.parse("android.resource://sk.jmmobilesoft.smartalarm/"
+						+ R.raw.timer)) == 0) {
+			soundName.setText("Default");
 			sound = Uri.parse("android.resource://sk.jmmobilesoft.smartalarm/"
 					+ R.raw.timer);
 		} else {
@@ -130,7 +132,7 @@ public class TimerViewActivity extends Activity {
 				} catch (NullPointerException | IllegalStateException e) {
 					Log.i("INFO", "media player already stopped");
 				}
-				setResult(10);
+				setResult(11);
 				Log.i("INFO", "TimerViewActivity.class: finishing - save");
 				finish();
 			}

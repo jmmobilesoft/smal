@@ -6,15 +6,12 @@ import java.util.List;
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.model.Timer;
 import sk.jmmobilesoft.smartalarm.model.TimerAdapter;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 
 public class TimerAlarmFragment extends Fragment {
@@ -43,18 +40,6 @@ public class TimerAlarmFragment extends Fragment {
 		}
 		adapter = new TimerAdapter(this, timerList, savedInstanceState);
 		list.setAdapter(adapter);
-		
-		Button add = (Button) view.findViewById(R.id.timer_add);
-		add.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(getActivity(),
-						TimerViewActivity.class);
-				intent.putExtra("id", 0);
-				startActivityForResult(intent, 10);
-			}
-		});
 		return view;
 	}
 	
@@ -67,18 +52,5 @@ public class TimerAlarmFragment extends Fragment {
 		adapter = new TimerAdapter(this, timerList, bundle);
 		list.setAdapter(adapter);
 		super.onResume();
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == 10) {
-			timerList = db.getTimers();
-			if (timerList == null) {
-				timerList = new ArrayList<Timer>();
-			}
-			adapter = new TimerAdapter(this, timerList, bundle);
-			list.setAdapter(adapter);
-		}
 	}
 }

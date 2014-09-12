@@ -2,6 +2,7 @@ package sk.jmmobilesoft.smartalarm;
 
 import java.util.HashMap;
 
+import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.service.ClockRepeatService;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
@@ -13,6 +14,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabHost.TabContentFactory;
@@ -24,6 +28,7 @@ public class MainActivity extends FragmentActivity implements
 	private TabHost mTabHost;
 	private HashMap<String, TabInfo> mapTabInfo = new HashMap<String, TabInfo>();
 	private TabInfo mLastTab = null;
+	private String activeTab;
 
 	private class TabInfo {
 		private String tag;
@@ -61,11 +66,12 @@ public class MainActivity extends FragmentActivity implements
 		setContentView(R.layout.tabs_layout);
 		initialiseTabHost(savedInstanceState);
 		if (savedInstanceState != null) {
-			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab")); 
+			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
 		}
-		if(!isMyServiceRunning(ClockRepeatService.class)){
+		if (!isMyServiceRunning(ClockRepeatService.class)) {
 			Log.i("INFO", "ClockRepeatService started");
-			Intent startRepeatingService = new Intent(this, ClockRepeatService.class);
+			Intent startRepeatingService = new Intent(this,
+					ClockRepeatService.class);
 			startService(startRepeatingService);
 		}
 	}
@@ -94,19 +100,16 @@ public class MainActivity extends FragmentActivity implements
 						.setIndicator("Sleep"), (tabInfo = new TabInfo("Tab3",
 						SleepScreenFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		MainActivity
-				.addTab(this,
-						this.mTabHost,
-						this.mTabHost.newTabSpec("Tab4").setIndicator(
-								"Settings"), (tabInfo = new TabInfo("Tab4",
-								SettingsFragment.class, args)));
+		MainActivity.addTab(this, this.mTabHost,
+				this.mTabHost.newTabSpec("Tab4").setIndicator("Settings"),
+				(tabInfo = new TabInfo("Tab4", SettingsFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		this.onTabChanged("Tab1");
-		for(int i=0;i< mTabHost.getTabWidget().getChildCount();i++) 
-	    {
-	        TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
-	        tv.setTextColor(Color.parseColor("#F7F5F5"));
-	    } 
+		for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
+			TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i)
+					.findViewById(android.R.id.title);
+			tv.setTextColor(Color.parseColor("#F7F5F5"));
+		}
 		mTabHost.setOnTabChangedListener(this);
 	}
 
@@ -152,14 +155,67 @@ public class MainActivity extends FragmentActivity implements
 			ft.commit();
 			this.getSupportFragmentManager().executePendingTransactions();
 		}
+		activeTab = newTab.fragment.getClass().getSimpleName();
 	}
+
 	private boolean isMyServiceRunning(Class<?> serviceClass) {
-	    ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-	        if (serviceClass.getName().equals(service.service.getClassName())) {
-	            return true;
-	        }
-	    }
-	    return false;
+		ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+		for (RunningServiceInfo service : manager
+				.getRunningServices(Integer.MAX_VALUE)) {
+			if (serviceClass.getName().equals(service.service.getClassName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_add_action: {
+			switch (activeTab) {
+			case "ClockAlarmFragment": {
+				Intent intentA = new Intent(this, ClockViewActivity.class);
+				intentA.putExtra("id", 0);
+				startActivityForResult(intentA, 10);
+				break;
+			}
+			case "TimerAlarmFragment": {
+				Intent intent = new Intent(this, TimerViewActivity.class);
+				intent.putExtra("id", 0);
+				startActivityForResult(intent, 11);
+				break;
+			}
+			case "SleepScreenFragment": {
+				break;
+			}
+			case "SettingsFragment": {
+				break;
+			}
+			}
+		}
+		case R.id.menu_remove_action: {
+			switch (activeTab) {
+			case "ClockAlarmFragment": {
+				// TODO remove activity
+				break;
+			}
+			case "TimerAlarmFragment": {
+				// TODO remove activity
+				break;
+			}
+			}
+		}
+		default:
+			Logger.appInfo("Add tab item with value:" + item);
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

@@ -55,7 +55,7 @@ public class ClockAdapter extends BaseAdapter {
 		final LayoutInflater inflater = context
 				.getLayoutInflater(savedInstanceState);
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.clock_item_fragment, null);
+			convertView = inflater.inflate(R.layout.clock_adapter_item, null);
 		}
 
 		Clock clock = clocks.get(position);

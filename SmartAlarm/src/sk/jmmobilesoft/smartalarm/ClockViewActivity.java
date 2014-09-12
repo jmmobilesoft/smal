@@ -110,7 +110,7 @@ public class ClockViewActivity extends Activity {
 				|| sound.compareTo(Uri
 						.parse("android.resource://sk.jmmobilesoft.smartalarm/"
 								+ R.raw.alarm)) == 0) {
-			soundName.setText("default");
+			soundName.setText("Default");
 			sound = Uri.parse("android.resource://sk.jmmobilesoft.smartalarm/"
 					+ R.raw.alarm);
 		} else {

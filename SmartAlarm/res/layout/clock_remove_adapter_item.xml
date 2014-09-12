@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/clock_remove_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    
+    <CheckBox android:id="@+id/clock_remove_item_active"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"/>
+    
+    <TextView android:id="@+id/clock_remove_item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/clock_remove_item_active"
+        android:layout_alignParentTop="true"
+        android:textSize="30sp"
+        android:text="TIME"
+        android:textColor="#F7F5F5"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"/>
+   
+    <TextView android:id="@+id/clock_remove_item_repeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/clock_item_time"
+        android:layout_marginLeft="10dp"
+        android:textSize="10sp"
+        android:textColor="#F7F5F5"
+        android:text="REPEAT:"/>
+    
+    <TextView android:id="@+id/clock_remove_item_MO"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/clock_item_time"
+        android:layout_toEndOf="@+id/clock_item_repeat"
+        android:layout_marginLeft="10dp"
+        android:textSize="10sp"
+        android:text="MO"/>
+    
+    <TextView android:id="@+id/clock_remove_item_TU"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/clock_item_time"
+        android:layout_toEndOf="@+id/clock_item_MO"
+        android:layout_marginLeft="5dp"
+        android:textSize="10sp"
+        android:text="TU"/>
+    
+    <TextView android:id="@+id/clock_remove_item_WE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/clock_item_time"
+        android:layout_toEndOf="@+id/clock_item_TU"
+        android:layout_marginLeft="5dp"
+        android:textSize="10sp"
+        android:text="WE"/>
+    
+    <TextView android:id="@+id/clock_remove_item_TH"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/clock_item_time"
+        android:layout_toEndOf="@+id/clock_item_WE"
+        android:layout_marginLeft="5dp"
+        android:textSize="10sp"
+        android:text="TH"/>
+    
+    <TextView android:id="@+id/clock_remove_item_FR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/clock_item_time"
+        android:layout_toEndOf="@+id/clock_item_TH"
+        android:layout_marginLeft="5dp"
+        android:textSize="10sp"
+        android:text="FR"/>
+    
+    <TextView android:id="@+id/clock_remove_item_SA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/clock_item_time"
+        android:layout_toEndOf="@+id/clock_item_FR"
+        android:layout_marginLeft="5dp"
+        android:textSize="10sp"
+        android:text="SA"/>
+    
+    <TextView android:id="@+id/clock_remove_item_SU"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/clock_item_time"
+        android:layout_toEndOf="@+id/clock_item_SA"
+        android:layout_marginLeft="5dp"
+        android:textSize="10sp"
+        android:text="SU"/>
+    
+    
+    <TextView android:id="@+id/clock_remove_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/clock_item_time"
+        android:layout_marginLeft="20dp"
+        android:layout_centerVertical="true"
+        android:textColor="#F7F5F5"
+        android:textSize="15sp"/>
+    
+	<TextView android:id="@+id/clock_remove_item_spacer"
+	    android:layout_alignParentBottom="true"
+	    android:layout_height="1dp"
+	    android:layout_width="fill_parent"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp"
+	    android:background="#0099cc"  />
+	    
+</RelativeLayout>
