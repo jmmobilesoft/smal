@@ -7,6 +7,5 @@
     <ListView
         android:id="@+id/timer_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/timer_add" />
+        android:layout_height="match_parent"/>
 </RelativeLayout>

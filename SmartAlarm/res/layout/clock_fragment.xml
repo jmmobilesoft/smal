@@ -7,6 +7,5 @@
     <ListView
         android:id="@+id/clock_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/clock_add" />
+        android:layout_height="match_parent"/>
 </RelativeLayout>
