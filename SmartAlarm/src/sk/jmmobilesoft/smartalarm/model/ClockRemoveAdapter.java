@@ -61,7 +61,7 @@ public class ClockRemoveAdapter extends BaseAdapter{
 		clockText.setText(Helper.format(clock.getHour()) + ":"
 				+ Helper.format(clock.getMinutes()));
 		final CheckBox active = (CheckBox) convertView
-				.findViewById(R.id.clock_remove_item_active);
+				.findViewById(R.id.clock_remove_item_check);
 		TextView name = (TextView) convertView
 				.findViewById(R.id.clock_remove_item_name);
 		List<TextView> daysList = new ArrayList<>();

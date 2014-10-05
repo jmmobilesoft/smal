@@ -13,7 +13,7 @@ public class Clock {
 	private boolean active;
 	private Uri sound;
 	private String name;
-	private int snoozeTime; //TODO
+	private int snoozeTime;
 	private float volume;  
 	//private boolean niceWakeUp; //TODO
 	private int[] repeat = new int[]{0,0,0,0,0,0,0};

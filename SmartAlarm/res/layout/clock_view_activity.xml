@@ -3,262 +3,344 @@
     android:id="@+id/clock_view_activity_screen"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
     android:background="@android:color/background_dark"
+    android:orientation="vertical"
     android:padding="5dp" >
 
-
-    <RelativeLayout
-        android:id="@+id/clock_view_activity_pickers_container"
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" 
-        android:layout_alignParentTop="true">
+        android:layout_height="fill_parent"
+        android:isScrollContainer="false">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal" >
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
 
-            <NumberPicker
-                android:id="@+id/clock_view_activity_hours_picker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <RelativeLayout
+                android:id="@+id/clock_view_activity_pickers_container"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center_horizontal" >
 
-            <NumberPicker
-                android:id="@+id/clock_view_activity_minutes_picker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal" >
+
+                    <NumberPicker
+                        android:id="@+id/clock_view_activity_hours_picker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <NumberPicker
+                        android:id="@+id/clock_view_activity_minutes_picker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_above="@+id/clock_view_activity_days_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#0099cc" />
+
+            <LinearLayout
+                android:id="@+id/clock_view_activity_days_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/clock_view_activity_pickers_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal" >
+
+                <ToggleButton
+                    android:id="@+id/clock_view_activity_button_MO"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_weight="1"
+                    android:background="#2F2F2F"
+                    android:textColor="@color/toogle_color"
+                    android:textOff="MO"
+                    android:textOn="MO" />
+
+                <ToggleButton
+                    android:id="@+id/clock_view_activity_button_TU"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_weight="1"
+                    android:background="#2F2F2F"
+                    android:textColor="@color/toogle_color"
+                    android:textOff="TU"
+                    android:textOn="TU" />
+
+                <ToggleButton
+                    android:id="@+id/clock_view_activity_button_WE"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_weight="1"
+                    android:background="#2F2F2F"
+                    android:textColor="@color/toogle_color"
+                    android:textOff="WE"
+                    android:textOn="WE" />
+
+                <ToggleButton
+                    android:id="@+id/clock_view_activity_button_TH"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_weight="1"
+                    android:background="#2F2F2F"
+                    android:textColor="@color/toogle_color"
+                    android:textOff="TH"
+                    android:textOn="TH" />
+
+                <ToggleButton
+                    android:id="@+id/clock_view_activity_button_FR"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_weight="1"
+                    android:background="#2F2F2F"
+                    android:textColor="@color/toogle_color"
+                    android:textOff="FR"
+                    android:textOn="FR" />
+
+                <ToggleButton
+                    android:id="@+id/clock_view_activity_button_SA"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_weight="1"
+                    android:background="#2F2F2F"
+                    android:textColor="@color/toogle_color"
+                    android:textOff="SA"
+                    android:textOn="SA" />
+
+                <ToggleButton
+                    android:id="@+id/clock_view_activity_button_SU"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_weight="1"
+                    android:background="#2F2F2F"
+                    android:textColor="@color/toogle_color"
+                    android:textOff="SU"
+                    android:textOn="SU" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_above="@+id/clock_view_activity_name_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#0099cc" />
+
+            <LinearLayout
+                android:id="@+id/clock_view_activity_name_container"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/clock_view_activity_days_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginTop="7dp"
+                    android:text="Name:"
+                    android:textColor="#F7F5F5"
+                    android:textSize="20dp" />
+
+                <EditText
+                    android:id="@+id/clock_view_activity_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_weight="1"
+                    android:background="#2F2F2F"
+                    android:textColor="#F7F5F5" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_above="@+id/clock_view_activity_ringtone_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#0099cc" />
+
+            <LinearLayout
+                android:id="@+id/clock_view_activity_ringtone_container"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/clock_view_activity_name_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/clock_view_activity_sound_pick"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="Select alarm tone"
+                    android:textColor="#F7F5F5"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/clock_view_activity_sound_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="#F7F5F5"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_above="@+id/clock_view_activity_volume_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#0099cc" />
+
+            <LinearLayout
+                android:id="@+id/clock_view_activity_volume_container"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/clock_view_activity_ringtone_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="Set volume"
+                    android:textColor="#F7F5F5"
+                    android:textSize="13sp" />
+
+                <SeekBar
+                    android:id="@+id/clock_view_activity_volume_picker"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_above="@+id/clock_view_activity_snooze_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#0099cc" />
+
+            <LinearLayout
+                android:id="@+id/clock_view_activity_snooze_container"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/clock_view_activity_volume_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="7dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="Snooze time"
+                    android:textColor="#F7F5F5"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/clock_view_activity_snooze"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:background="#2F2F2F"
+                    android:inputType="number"
+                    android:textColor="#F7F5F5" />
+            </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
-	<TextView
-	    android:layout_height="1dp"
-	    android:layout_width="fill_parent"
-	    android:layout_marginLeft="10dp"
-	    android:layout_marginRight="10dp"
-	    android:background="#0099cc"
-	    android:layout_above="@+id/clock_view_activity_days_container"  /> 
-    <LinearLayout 
-        android:id="@+id/clock_view_activity_days_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_below="@+id/clock_view_activity_pickers_container">
-        
-        <ToggleButton
-            android:id="@+id/clock_view_activity_button_MO"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:layout_weight="1"
-            android:textOn="MO"
-            android:textOff="MO"
-            android:background="#2F2F2F"
-            android:textColor="@color/toogle_color"/>
-        <ToggleButton
-            android:id="@+id/clock_view_activity_button_TU"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:layout_weight="1"
-            android:textOn="TU"
-            android:textOff="TU"
-            android:background="#2F2F2F"
-            android:textColor="@color/toogle_color"/>
-        <ToggleButton
-            android:id="@+id/clock_view_activity_button_WE"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:layout_weight="1"
-            android:textOn="WE"
-            android:textOff="WE"
-            android:background="#2F2F2F"
-            android:textColor="@color/toogle_color"/>
-        <ToggleButton
-            android:id="@+id/clock_view_activity_button_TH"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:layout_weight="1"
-            android:textOn="TH"
-            android:textOff="TH"
-            android:background="#2F2F2F"
-            android:textColor="@color/toogle_color"/>
-        <ToggleButton
-            android:id="@+id/clock_view_activity_button_FR"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:layout_weight="1"
-            android:textOn="FR"
-            android:textOff="FR"
-            android:background="#2F2F2F"
-            android:textColor="@color/toogle_color"/>
-        <ToggleButton
-            android:id="@+id/clock_view_activity_button_SA"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:layout_weight="1"
-            android:textOn="SA"
-            android:textOff="SA"
-            android:background="#2F2F2F"
-            android:textColor="@color/toogle_color"/>
-        <ToggleButton
-            android:id="@+id/clock_view_activity_button_SU"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:layout_weight="1"
-            android:textOn="SU"
-            android:textOff="SU"
-            android:background="#2F2F2F"
-            android:textColor="@color/toogle_color"/>
-    </LinearLayout>
-    <TextView
-	    android:layout_height="1dp"
-	    android:layout_width="fill_parent"
-	    android:layout_marginLeft="10dp"
-	    android:layout_marginRight="10dp"
-	    android:background="#0099cc"
-	    android:layout_above="@+id/clock_view_activity_name_container"  /> 
+    </ScrollView>
+
     <LinearLayout
-        android:id="@+id/clock_view_activity_name_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" 
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_below="@+id/clock_view_activity_days_container">
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Name:"
-            android:textColor="#F7F5F5"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:textSize="20dp" />
-
-        <EditText
-            android:id="@+id/clock_view_activity_name"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
+            android:id="@+id/textView1"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_above="@+id/clock_view_activity_buttons_container"
             android:layout_marginLeft="10dp"
-            android:background="#2F2F2F"
-            android:textColor="#F7F5F5"
-            android:layout_weight="1" />
-    </LinearLayout>
-    <TextView
-	    android:layout_height="1dp"
-	    android:layout_width="fill_parent"
-	    android:layout_marginLeft="10dp"
-	    android:layout_marginRight="10dp"
-	    android:background="#0099cc"
-	    android:layout_above="@+id/clock_view_activity_ringtone_container"  /> 
-    <LinearLayout android:id="@+id/clock_view_activity_ringtone_container"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_below="@+id/clock_view_activity_name_container">
-        
-        <TextView android:id="@+id/clock_view_activity_sound_pick"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Select alarm tone"
-            android:textColor="#F7F5F5"
-            android:layout_marginTop="7dp"
-            android:textSize="20sp"/>
-        
-        <TextView android:id="@+id/clock_view_activity_sound_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#F7F5F5"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="7dp"
-            android:textSize="13sp"/>
-    </LinearLayout>  
-    <TextView
-	    android:layout_height="1dp"
-	    android:layout_width="fill_parent"
-	    android:layout_marginLeft="10dp"
-	    android:layout_marginRight="10dp"
-	    android:background="#0099cc" 
-	    android:layout_above="@+id/clock_view_activity_volume_container"/> 
-    <LinearLayout android:id="@+id/clock_view_activity_volume_container"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:orientation="vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_below="@+id/clock_view_activity_ringtone_container">
-        <TextView 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#F7F5F5"
-            android:text="Set volume"
-            android:layout_marginTop="7dp"
-            android:textSize="13sp"/>
-     	<SeekBar
-     	    android:id="@+id/clock_view_activity_volume_picker"
-     	    android:layout_width="fill_parent"
-     	    android:layout_height="wrap_content" />
-    </LinearLayout>  
-    <TextView
-	    android:layout_height="1dp"
-	    android:layout_width="fill_parent"
-	    android:layout_marginLeft="10dp"
-	    android:layout_marginRight="10dp"
-	    android:background="#0099cc"
-	    android:layout_above="@+id/clock_view_activity_buttons_container"  /> 
-    <LinearLayout
-        android:id="@+id/clock_view_activity_buttons_container"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-       	android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+            android:layout_marginRight="10dp"
+            android:background="#0099cc" />
 
-        <Button
-            android:id="@+id/clock_view_activity_save"
+        <LinearLayout
+            android:id="@+id/clock_view_activity_buttons_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="0dp"
-            android:textColor="#33b5e5"
-            android:background="#000000"
-            android:text="Save" />
-        
-        <TextView android:id="@+id/clock_item_spacer"
-	    android:layout_alignParentBottom="true"
-	    android:layout_height="fill_parent"
-	    android:layout_width="1dp"
-	    android:background="#0099cc"  />
+            android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/clock_view_activity_cancel"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="0dp"
-            android:textColor="#33b5e5"
-            android:background="#000000"
-            android:text="Delete" />
+            <Button
+                android:id="@+id/clock_view_activity_save"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:text="Save"
+                android:textColor="#33b5e5" />
+
+            <TextView
+                android:id="@+id/clock_item_spacer"
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:layout_alignParentBottom="true"
+                android:background="#0099cc" />
+
+            <Button
+                android:id="@+id/clock_view_activity_cancel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:text="Delete"
+                android:textColor="#33b5e5" />
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

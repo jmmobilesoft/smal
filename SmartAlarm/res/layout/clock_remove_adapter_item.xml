@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
     
-    <CheckBox android:id="@+id/clock_remove_item_active"
+    <CheckBox android:id="@+id/clock_remove_item_check"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_alignParentLeft="true"

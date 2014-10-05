@@ -15,13 +15,14 @@ import android.content.Intent;
 public class ClockSetting {
 
 	@SuppressLint("NewApi")
-	public static void setClock(Context context, long id) {
+	public static boolean setClock(Context context, long id) {
 		DBHelper db = new DBHelper(context);
 		boolean nextday = false;
-		
+
 		Calendar current = Helper.getCurrentTime();
 
 		Clock c = db.getClock(id);
+		System.out.println("budik na nastavenie:" + c);
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, c.getHour());
 		calendar.set(Calendar.MINUTE, c.getMinutes());
@@ -42,14 +43,39 @@ public class ClockSetting {
 			if (android.os.Build.VERSION.SDK_INT < 19) {
 				aManager.set(AlarmManager.RTC_WAKEUP,
 						calendar.getTimeInMillis(), pIntent);
+				Logger.setInfo("Setting clock: " + c + " - ACTIVE");
+				return true;
 			} else {
 				aManager.setExact(AlarmManager.RTC_WAKEUP,
 						calendar.getTimeInMillis(), pIntent);
+				Logger.setInfo("Setting clock: " + c + " - ACTIVE");
+				return true;
 			}
-			Logger.setInfo("Setting clock: " + c + " - ACTIVE");
 		} else {
 			aManager.cancel(pIntent);
 			Logger.setInfo("Setting clock: " + c + " - DEACTIVE");
+			return false;
+		}
+	}
+
+	@SuppressLint("NewApi")
+	public static void setSnoozeClock(Context context, long id) {   //TODO Clock Snooze screen  / edit original screen
+		DBHelper db = new DBHelper(context);
+		Clock c = db.getClock(id);
+
+		Calendar current = Helper.getCurrentTime();
+
+		long time = current.getTimeInMillis() + (1000 * 60 * c.getSnoozeTime());
+
+		PendingIntent pIntent = createPendingIntent(context, c);
+		AlarmManager aManager = (AlarmManager) context
+				.getSystemService(Context.ALARM_SERVICE);
+		if (android.os.Build.VERSION.SDK_INT < 19) {
+			aManager.set(AlarmManager.RTC_WAKEUP, time, pIntent);
+		} else {
+			aManager.setExact(AlarmManager.RTC_WAKEUP, time, pIntent);
+
+			Logger.setInfo("Setting clock: " + c + " - ACTIVE");
 		}
 	}
 

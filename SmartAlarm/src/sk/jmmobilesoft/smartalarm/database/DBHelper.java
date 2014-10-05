@@ -32,6 +32,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ ClockModel.COLUMN_NAME_CLOCK_NAME + " TEXT,"
 			+ ClockModel.COLUMN_NAME_CLOCK_TIME_HOUR + " INTEGER,"
 			+ ClockModel.COLUMN_NAME_CLOCK_TIME_MINUTE + " INTEGER,"
+			+ ClockModel.COLUMN_NAME_CLOCK_SNOOZE + " INTEGER,"
 			+ ClockModel.COLUMN_NAME_CLOCK_REPEAT + " TEXT,"
 			+ ClockModel.COLUMN_NAME_CLOCK_TONE + " TEXT,"
 			+ ClockModel.COLUMN_NAME_CLOCK_VOLUME + " TEXT,"
@@ -128,6 +129,8 @@ public class DBHelper extends SQLiteOpenHelper {
 				.getColumnIndex(ClockModel.COLUMN_NAME_CLOCK_TIME_HOUR)));
 		clock.setMinutes(c.getInt(c
 				.getColumnIndex(ClockModel.COLUMN_NAME_CLOCK_TIME_MINUTE)));
+		clock.setSnoozeTime(c.getInt(c
+				.getColumnIndex(ClockModel.COLUMN_NAME_CLOCK_SNOOZE)));
 		clock.setActive(c.getInt(c
 				.getColumnIndex(ClockModel.COLUMN_NAME_CLOCK_ENABLED)) == 1 ? true
 				: false);
@@ -148,6 +151,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		values.put(ClockModel.COLUMN_NAME_CLOCK_NAME, clock.getName());
 		values.put(ClockModel.COLUMN_NAME_CLOCK_TIME_HOUR, clock.getHour());
 		values.put(ClockModel.COLUMN_NAME_CLOCK_TIME_MINUTE, clock.getMinutes());
+		values.put(ClockModel.COLUMN_NAME_CLOCK_SNOOZE, clock.getSnoozeTime());
 		values.put(ClockModel.COLUMN_NAME_CLOCK_TONE,
 				clock.getSound() != null ? clock.getSound().toString() : "");
 		values.put(ClockModel.COLUMN_NAME_CLOCK_VOLUME, clock.getVolume());

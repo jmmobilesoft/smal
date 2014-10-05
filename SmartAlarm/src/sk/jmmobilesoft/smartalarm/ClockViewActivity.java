@@ -33,8 +33,8 @@ public class ClockViewActivity extends Activity {
 	DBHelper db = new DBHelper(this);
 
 	private MediaPlayer mp;
-
 	private EditText name;
+	private EditText snooze;
 	private NumberPicker hours;
 	private NumberPicker minutes;
 	private ToggleButton MO;
@@ -70,6 +70,7 @@ public class ClockViewActivity extends Activity {
 	private void initComponents() {
 		RelativeLayout screen = (RelativeLayout) findViewById(R.id.clock_view_activity_screen);
 		name = (EditText) findViewById(R.id.clock_view_activity_name);
+		snooze = (EditText) findViewById(R.id.clock_view_activity_snooze);
 		hours = (NumberPicker) findViewById(R.id.clock_view_activity_hours_picker);
 		minutes = (NumberPicker) findViewById(R.id.clock_view_activity_minutes_picker);
 		MO = (ToggleButton) findViewById(R.id.clock_view_activity_button_MO);
@@ -85,7 +86,7 @@ public class ClockViewActivity extends Activity {
 		minutes.setMinValue(0);
 		hours.setMaxValue(23);
 		hours.setMinValue(0);
-		new Color();
+		snooze.setText(String.valueOf(5));
 		Helper.setNumberPickerTextColor(hours, Color.rgb(247, 245, 245));
 		Helper.setNumberPickerTextColor(minutes, Color.rgb(247, 245, 245));
 		volumeBar.setProgress(0);
@@ -101,6 +102,8 @@ public class ClockViewActivity extends Activity {
 			FR.setChecked(c.getRepeat()[4] == 1 ? true : false);
 			SA.setChecked(c.getRepeat()[5] == 1 ? true : false);
 			SU.setChecked(c.getRepeat()[6] == 1 ? true : false);
+			System.out.println(c.getSnoozeTime());
+			snooze.setText(String.valueOf(c.getSnoozeTime()));
 			sound = c.getSound();
 			if (c.getVolume() != 0) {
 				volumeBar.setProgress((int) (c.getVolume() * 100));
@@ -136,6 +139,12 @@ public class ClockViewActivity extends Activity {
 				}
 				c.setVolume(volume);
 				c.setRepeat(getRepeats());
+				if(!snooze.getText().toString().isEmpty()){
+					c.setSnoozeTime(Integer.valueOf(snooze.getText().toString()));
+				} else {
+					c.setSnoozeTime(5);
+				}
+				
 
 				if (c.getId() == -1) {
 					c.setId(db.createClock(c));
@@ -144,7 +153,10 @@ public class ClockViewActivity extends Activity {
 				}
 				System.out.println(c);
 				System.out.println("setting clock");
-				ClockSetting.setClock(getApplicationContext(), c.getId());
+				boolean t = ClockSetting.setClock(getApplicationContext(), c.getId());
+				if(t){
+					Helper.showToast(c, getApplicationContext());
+				}
 				try {
 					mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
 							originalVolume, 0);

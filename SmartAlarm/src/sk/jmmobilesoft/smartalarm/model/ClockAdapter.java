@@ -93,7 +93,10 @@ public class ClockAdapter extends BaseAdapter {
 				Clock clock = (Clock) getItem(position);
 				clock.setActive(active.isChecked());
 				db.updateClock(clock);
-				ClockSetting.setClock(context.getActivity(), clock.getId());
+				boolean t = ClockSetting.setClock(context.getActivity(), clock.getId());
+				if(t){
+					Helper.showToast(clock, context.getActivity());
+				}
 			}
 		});
 

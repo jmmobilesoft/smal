@@ -3,6 +3,8 @@ package sk.jmmobilesoft.smartalarm.service;
 import java.lang.reflect.Field;
 import java.util.Calendar;
 
+import sk.jmmobilesoft.smartalarm.log.Logger;
+import sk.jmmobilesoft.smartalarm.model.Clock;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.Formatter;
+import android.widget.Toast;
 
 public abstract class Helper {
 
@@ -102,5 +105,24 @@ public abstract class Helper {
 		current.set(Calendar.SECOND, Calendar.getInstance()
 				.get(Calendar.SECOND));
 		return current;
+	}
+	public static void showToast(Clock c, Context context){
+		Calendar clock = Calendar.getInstance();
+		clock.set(Calendar.HOUR_OF_DAY, c.getHour());
+		clock.set(Calendar.MINUTE, c.getMinutes());
+		clock.set(Calendar.SECOND, 0);
+		Calendar current = getCurrentTime();
+		if (clock.before(current)) {
+			clock.set(Calendar.DATE,
+					Calendar.getInstance().get(Calendar.DATE) + 1);
+		}
+		
+		long timeToParse = clock.getTimeInMillis() - current.getTimeInMillis();
+		timeToParse = timeToParse / 1000 / 60;
+		int mins = (int) (timeToParse % 60);
+		int hours = (int) (timeToParse / 60);
+		String text = "Alarm will fire in " + hours + "h " + mins + "m.";
+		Toast t = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+		t.show();
 	}
 }

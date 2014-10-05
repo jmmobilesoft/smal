@@ -4,8 +4,10 @@ import java.util.Arrays;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.model.Clock;
+import sk.jmmobilesoft.smartalarm.service.ClockSetting;
 import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.app.Activity;
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -24,15 +26,18 @@ public class ClockRingScreen extends Activity {
 	private DBHelper db;
 
 	private MediaPlayer mp;
-	
+
 	private AudioManager mAudioManager;
-	
+
 	private int originalVolume;
+	
+	private Context context;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.i("INFO", "ClockRingScreen activity started");
 		final Window window = getWindow();
+		Helper.wakeLockOn(context);
 		window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED // START
 																			// DISPLAY
 																			// etc
@@ -45,8 +50,10 @@ public class ClockRingScreen extends Activity {
 		id = getIntent().getLongExtra("ID", -1);
 		final Clock c = db.getClock(id);
 		mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-		originalVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-		mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
+		originalVolume = mAudioManager
+				.getStreamVolume(AudioManager.STREAM_MUSIC);
+		mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+				mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
 		mp = MediaPlayer.create(this, c.getSound());
 		mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
 		mp.setLooping(true);
@@ -59,13 +66,18 @@ public class ClockRingScreen extends Activity {
 
 		TextView name = (TextView) findViewById(R.id.ring_name);
 		name.setText(c.getName());
-
+		context = this;
 		Button snooze = (Button) findViewById(R.id.ring_snooze);
 		snooze.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				// TODO snooze time
+				ClockSetting.setSnoozeClock(context, c.getId());
+				if (Arrays.equals(c.getRepeat(), new int[] { 0, 0, 0, 0, 0, 0,
+						0 })) {
+					c.setActive(false);
+					db.updateClock(c);
+				}
 				finish();
 			}
 		});
@@ -94,7 +106,8 @@ public class ClockRingScreen extends Activity {
 
 	@Override
 	public void onDetachedFromWindow() {
-		mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, originalVolume, 0);
+		mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+				originalVolume, 0);
 		mp.stop();
 		mp.reset();
 		mp.release();
