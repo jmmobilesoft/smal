@@ -37,7 +37,6 @@ public class ClockRingScreen extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.i("INFO", "ClockRingScreen activity started");
 		final Window window = getWindow();
-		Helper.wakeLockOn(context);
 		window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED // START
 																			// DISPLAY
 																			// etc
