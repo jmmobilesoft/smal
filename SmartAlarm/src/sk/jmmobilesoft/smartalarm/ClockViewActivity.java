@@ -1,9 +1,12 @@
 package sk.jmmobilesoft.smartalarm;
 
+import java.util.Calendar;
+
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import sk.jmmobilesoft.smartalarm.service.ClockSetting;
 import sk.jmmobilesoft.smartalarm.service.Helper;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -34,7 +37,7 @@ public class ClockViewActivity extends Activity {
 
 	private MediaPlayer mp;
 	private EditText name;
-	private EditText snooze;
+	private TextView snooze;
 	private NumberPicker hours;
 	private NumberPicker minutes;
 	private ToggleButton MO;
@@ -47,6 +50,8 @@ public class ClockViewActivity extends Activity {
 	private Uri sound = null;
 	private Button save;
 	private Button delete;
+	private Button plus;
+	private Button minus;
 	private Clock c;
 	private TextView soundPick;
 	private TextView soundName;
@@ -54,10 +59,13 @@ public class ClockViewActivity extends Activity {
 	private SeekBar volumeBar;
 	private AudioManager mAudioManager;
 	private int originalVolume;
+	private int snoozeTime;
 	private float volume = 0.3f;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		ActionBar actionBar = getActionBar();
+		actionBar.hide();
 		setContentView(R.layout.clock_view_activity);
 		id = getIntent().getExtras().getLong("id");
 		System.out.println("clock id:" + id);
@@ -70,7 +78,7 @@ public class ClockViewActivity extends Activity {
 	private void initComponents() {
 		RelativeLayout screen = (RelativeLayout) findViewById(R.id.clock_view_activity_screen);
 		name = (EditText) findViewById(R.id.clock_view_activity_name);
-		snooze = (EditText) findViewById(R.id.clock_view_activity_snooze);
+		snooze = (TextView) findViewById(R.id.clock_view_activity_snooze_number);
 		hours = (NumberPicker) findViewById(R.id.clock_view_activity_hours_picker);
 		minutes = (NumberPicker) findViewById(R.id.clock_view_activity_minutes_picker);
 		MO = (ToggleButton) findViewById(R.id.clock_view_activity_button_MO);
@@ -86,6 +94,9 @@ public class ClockViewActivity extends Activity {
 		minutes.setMinValue(0);
 		hours.setMaxValue(23);
 		hours.setMinValue(0);
+		hours.setValue(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+		minutes.setValue(Calendar.getInstance().get(Calendar.MINUTE));
+		snoozeTime = 5;
 		snooze.setText(String.valueOf(5));
 		Helper.setNumberPickerTextColor(hours, Color.rgb(247, 245, 245));
 		Helper.setNumberPickerTextColor(minutes, Color.rgb(247, 245, 245));
@@ -104,6 +115,7 @@ public class ClockViewActivity extends Activity {
 			SU.setChecked(c.getRepeat()[6] == 1 ? true : false);
 			System.out.println(c.getSnoozeTime());
 			snooze.setText(String.valueOf(c.getSnoozeTime()));
+			snoozeTime = c.getSnoozeTime();
 			sound = c.getSound();
 			if (c.getVolume() != 0) {
 				volumeBar.setProgress((int) (c.getVolume() * 100));
@@ -122,6 +134,36 @@ public class ClockViewActivity extends Activity {
 		if (volumeBar.getProgress() == 0) {
 			volumeBar.setProgress((int) (volume * 100));
 		}
+		plus = (Button) findViewById(R.id.clock_view_activity_snooze_plus_button);
+		plus.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(snoozeTime == 60){
+					plus.setClickable(false);
+				}
+				if(snoozeTime <= 59){
+					snoozeTime++;
+				}
+				minus.setClickable(true);
+				snooze.setText(String.valueOf(snoozeTime));
+			}
+		});
+		minus = (Button) findViewById(R.id.clock_view_activity_snooze_minus_button);
+		minus.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(snoozeTime == 1){
+					minus.setClickable(false);;
+				}
+				if(snoozeTime >= 2){
+					snoozeTime--;
+				}
+				plus.setClickable(true);
+				snooze.setText(String.valueOf(snoozeTime));
+			}
+		});
 		save = (Button) findViewById(R.id.clock_view_activity_save);
 		save.setOnClickListener(new OnClickListener() {
 

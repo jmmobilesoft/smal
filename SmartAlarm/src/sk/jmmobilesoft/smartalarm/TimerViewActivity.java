@@ -4,6 +4,7 @@ import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.model.Timer;
 import sk.jmmobilesoft.smartalarm.service.Helper;
 import sk.jmmobilesoft.smartalarm.service.TimerSetting;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -51,6 +52,8 @@ public class TimerViewActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.i("INFO", "TimerViewActivity.class: started");
+		ActionBar actionBar = getActionBar();
+		actionBar.hide();
 		setContentView(R.layout.timer_view_activity);
 		id = getIntent().getExtras().getLong("id");
 		Log.i("INFO", "Timer id:" + id);

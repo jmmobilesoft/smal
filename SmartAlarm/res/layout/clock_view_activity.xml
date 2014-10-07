@@ -10,7 +10,7 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:isScrollContainer="false">
+        android:isScrollContainer="false" >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -270,25 +270,53 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginBottom="7dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="Snooze time"
                     android:textColor="#F7F5F5"
                     android:textSize="13sp" />
 
-                <EditText
-                    android:id="@+id/clock_view_activity_snooze"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/clock_view_activity_snooze_layout"
+                    android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_marginBottom="3dp"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:background="#2F2F2F"
-                    android:inputType="number"
-                    android:textColor="#F7F5F5" />
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/clock_view_activity_snooze_minus_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/clock_view_activity_snooze_number"
+                        android:background="#000000"
+                        android:text="-"
+                        android:textSize="20sp"
+                        android:textColor="#0099cc" />
+
+
+
+                    <TextView
+                        android:id="@+id/clock_view_activity_snooze_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#000000"
+                        android:textColor="#0099cc" />
+
+                    <Button
+                        android:id="@+id/clock_view_activity_snooze_plus_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/clock_view_activity_snooze_number"
+                        android:background="#000000"
+                        android:text="+"
+                        android:textSize="20sp"
+                        android:textColor="#0099cc" />
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
