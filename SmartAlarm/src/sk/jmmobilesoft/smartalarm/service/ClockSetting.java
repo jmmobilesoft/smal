@@ -65,18 +65,19 @@ public class ClockSetting {
 
 		Calendar current = Helper.getCurrentTime();
 
-		long time = current.getTimeInMillis() + (1000 * 60 * c.getSnoozeTime());
-
+		//long time = current.getTimeInMillis() + (1000 * 60 * c.getSnoozeTime());
+		current.add(Calendar.MINUTE, c.getSnoozeTime());
 		PendingIntent pIntent = createPendingIntent(context, c);
 		AlarmManager aManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
 		if (android.os.Build.VERSION.SDK_INT < 19) {
-			aManager.set(AlarmManager.RTC_WAKEUP, time, pIntent);
+			aManager.set(AlarmManager.RTC_WAKEUP, current.getTimeInMillis(), pIntent);
 		} else {
-			aManager.setExact(AlarmManager.RTC_WAKEUP, time, pIntent);
+			aManager.setExact(AlarmManager.RTC_WAKEUP, current.getTimeInMillis(), pIntent);
 
 			Logger.setInfo("Setting clock: " + c + " - ACTIVE");
 		}
+		System.out.println("setting snooze for:" + current);
 	}
 
 	public static void setAllClocks(Context context) {

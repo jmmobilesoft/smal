@@ -17,45 +17,42 @@ public class TimerSetting {
 		DBHelper db = new DBHelper(context);
 		Timer t = db.getTimer(id);
 		
-		Calendar current = Calendar.getInstance();
-		current.set(Calendar.DAY_OF_WEEK,
-				Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
-		current.set(Calendar.HOUR_OF_DAY,
-				Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
-		current.set(Calendar.MINUTE, Calendar.getInstance()
-				.get(Calendar.MINUTE));
-		current.set(Calendar.SECOND, Calendar.getInstance()
-				.get(Calendar.SECOND));
+		Calendar current = Helper.getCurrentTime();
 		
 		int hours = t.getHours();
 		int minutes = t.getMinutes();
 		
 		int seconds = t.getSeconds();
 		
-		Calendar cal = Calendar.getInstance();
+		current.add(Calendar.SECOND, t.getSeconds());
+		current.add(Calendar.MINUTE, t.getMinutes());
+		current.add(Calendar.HOUR_OF_DAY, t.getHours());
 		
-		//TODO check setting
-		if(current.get(Calendar.SECOND) +  seconds > 59){
-			cal.set(Calendar.SECOND, current.get(Calendar.SECOND) +  seconds - 60);
-			minutes += 1;
-		} else {
-			cal.set(Calendar.SECOND, current.get(Calendar.SECOND) + seconds);
-		}
-		if(current.get(Calendar.MINUTE) +  minutes > 59){
-			cal.set(Calendar.MINUTE, current.get(Calendar.MINUTE) +  minutes - 60);
-			hours += 1;
-		} else {
-			cal.set(Calendar.MINUTE, current.get(Calendar.MINUTE) + minutes);
-		}
-		if(current.get(Calendar.HOUR_OF_DAY) +  hours > 23){ //TODO more days
-			int days = hours / 24;
-			hours = hours % 24;
-			System.out.println("days:" + days + "   ,hours:" + hours);
-			cal.set(Calendar.HOUR_OF_DAY, current.get(Calendar.HOUR_OF_DAY) +  hours);
-			cal.set(Calendar.DAY_OF_WEEK, current.get(Calendar.DAY_OF_WEEK) + days); //TODO check
-		} else {
-			cal.set(Calendar.HOUR_OF_DAY, current.get(Calendar.HOUR_OF_DAY) + hours);
-		}
+//		Calendar cal = Calendar.getInstance();
+//		
+//		
+//		//TODO check setting
+//		if(current.get(Calendar.SECOND) +  seconds > 59){
+//			cal.set(Calendar.SECOND, current.get(Calendar.SECOND) +  seconds - 60);
+//			minutes += 1;
+//		} else {
+//			cal.set(Calendar.SECOND, current.get(Calendar.SECOND) + seconds);
+//		}
+//		if(current.get(Calendar.MINUTE) +  minutes > 59){
+//			cal.set(Calendar.MINUTE, current.get(Calendar.MINUTE) +  minutes - 60);
+//			hours += 1;
+//		} else {
+//			cal.set(Calendar.MINUTE, current.get(Calendar.MINUTE) + minutes);
+//		}
+//		if(current.get(Calendar.HOUR_OF_DAY) +  hours > 23){ //TODO more days
+//			int days = hours / 24;
+//			hours = hours % 24;
+//			System.out.println("days:" + days + "   ,hours:" + hours);
+//			cal.set(Calendar.HOUR_OF_DAY, current.get(Calendar.HOUR_OF_DAY) +  hours);
+//			cal.set(Calendar.DAY_OF_WEEK, current.get(Calendar.DAY_OF_WEEK) + days); //TODO check
+//		} else {
+//			cal.set(Calendar.HOUR_OF_DAY, current.get(Calendar.HOUR_OF_DAY) + hours);
+//		}
 		
 		
 		PendingIntent pIntent = createPendingIntent(context, t);
@@ -64,10 +61,10 @@ public class TimerSetting {
 		if (t.isActive()) {
 			if (android.os.Build.VERSION.SDK_INT < 19) {
 				aManager.set(AlarmManager.RTC_WAKEUP,
-						cal.getTimeInMillis(), pIntent);
+						current.getTimeInMillis(), pIntent);
 			} else {
 				aManager.setExact(AlarmManager.RTC_WAKEUP,
-						cal.getTimeInMillis(), pIntent);
+						current.getTimeInMillis(), pIntent);
 			}
 		} else {
 			aManager.cancel(pIntent);
