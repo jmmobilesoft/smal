@@ -1,6 +1,7 @@
 package sk.jmmobilesoft.smartalarm.service;
 
 import java.lang.reflect.Field;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 import sk.jmmobilesoft.smartalarm.log.Logger;
@@ -124,5 +125,9 @@ public abstract class Helper {
 		String text = "Alarm will fire in " + hours + "h " + mins + "m.";
 		Toast t = Toast.makeText(context, text, Toast.LENGTH_SHORT);
 		t.show();
+	}
+	
+	public static float kelvinToCelsius(float temperature){
+		 return Float.parseFloat(new DecimalFormat("###.#").format((float) (temperature - 273.15)));
 	}
 }
