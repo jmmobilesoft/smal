@@ -6,29 +6,31 @@ import java.util.List;
 import sk.jmmobilesoft.smartalarm.R;
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.service.Helper;
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 public class ClockRemoveAdapter extends BaseAdapter{
 
 	private List<Clock> clocks;
-	private Fragment context;
-	private Bundle savedInstanceState;
+	private Activity context;
 	private DBHelper db;
+	public static boolean[] checkboxes;
 
-	public ClockRemoveAdapter(Fragment context, List<Clock> clocks, Bundle state) {
+	public ClockRemoveAdapter(Activity context, List<Clock> clocks, Bundle state) {
 		super();
 		this.context = context;
 		this.clocks = clocks;
-		this.savedInstanceState = state;
-		db = new DBHelper(context.getActivity());
+		checkboxes = new boolean[getCount()];
+		db = new DBHelper(context);
 	}
 
 	@Override
@@ -49,7 +51,7 @@ public class ClockRemoveAdapter extends BaseAdapter{
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		final LayoutInflater inflater = context
-				.getLayoutInflater(savedInstanceState);
+				.getLayoutInflater();
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.clock_remove_adapter_item, null);
 		}
@@ -60,7 +62,7 @@ public class ClockRemoveAdapter extends BaseAdapter{
 				.findViewById(R.id.clock_remove_item_time);
 		clockText.setText(Helper.format(clock.getHour()) + ":"
 				+ Helper.format(clock.getMinutes()));
-		final CheckBox active = (CheckBox) convertView
+		final CheckBox delete = (CheckBox) convertView
 				.findViewById(R.id.clock_remove_item_check);
 		TextView name = (TextView) convertView
 				.findViewById(R.id.clock_remove_item_name);
@@ -81,6 +83,13 @@ public class ClockRemoveAdapter extends BaseAdapter{
 		daysList.add(SU);
 		setMyColor(daysList, clock);
 		name.setText(clock.getName());
+		delete.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checkboxes[position] = isChecked;				
+			}
+		});
 		return convertView;
 	}
 

@@ -3,6 +3,9 @@ package sk.jmmobilesoft.smartalarm;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import sk.jmmobilesoft.smartalarm.weather.WeatherHttpClient;
+import sk.jmmobilesoft.smartalarm.weather.WeatherJsonParser;
+import sk.jmmobilesoft.smartalarm.weather.model.WeatherForecast;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
@@ -13,13 +16,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class SleepScreenFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.sleep_screen_fragment, container,
+		final View view = inflater.inflate(R.layout.sleep_screen_fragment, container,
 				false);
 
 		Button wifion = (Button) view.findViewById(R.id.image_button_wifi_on);
@@ -40,7 +44,8 @@ public class SleepScreenFragment extends Fragment {
 
 			}
 		});
-		Button mobileon = (Button) view.findViewById(R.id.image_button_mobile_on);
+		Button mobileon = (Button) view
+				.findViewById(R.id.image_button_mobile_on);
 		mobileon.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -49,7 +54,8 @@ public class SleepScreenFragment extends Fragment {
 
 			}
 		});
-		Button mobileoff = (Button) view.findViewById(R.id.image_button_mobile_off);
+		Button mobileoff = (Button) view
+				.findViewById(R.id.image_button_mobile_off);
 		mobileoff.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -58,7 +64,35 @@ public class SleepScreenFragment extends Fragment {
 
 			}
 		});
+		Button weatherRefresh = (Button) view.findViewById(R.id.image_button_weather_refresh);
+		weatherRefresh.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				TextView weather = (TextView) view.findViewById(R.id.weather_text);
+				weather.setText(getWeatherString());
+			}
+		});
+
 		return view;
+	}
+
+	private String getWeatherString() {
+		WeatherHttpClient client = new WeatherHttpClient();
+		WeatherJsonParser parser = new WeatherJsonParser();
+		WeatherForecast weather = null;
+		try{
+		weather = parser.parseData(client
+				.getWeatherData("Brno"));
+		}catch(NullPointerException e){
+			System.out.println(e);
+			return "cant download weather";
+		}
+		String fReturn = new String("city:"
+				+ weather.getMainInfo().getCityName() + " \ntemp:"
+				+ weather.getMainInfo().getTemperature() + " \ndescription:"
+				+ weather.getWeather().getDecsription());
+		return fReturn;
 	}
 
 	private void turnWifiOn() {
@@ -75,7 +109,8 @@ public class SleepScreenFragment extends Fragment {
 
 	private void turnMobileOn() {
 		ConnectivityManager dataManager;
-		dataManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+		dataManager = (ConnectivityManager) getActivity().getSystemService(
+				Context.CONNECTIVITY_SERVICE);
 		try {
 			Method dataMtd = ConnectivityManager.class.getDeclaredMethod(
 					"setMobileDataEnabled", boolean.class);
@@ -88,10 +123,11 @@ public class SleepScreenFragment extends Fragment {
 			e.printStackTrace();
 		}
 	}
-	
-	private void turnMobileOff(){
+
+	private void turnMobileOff() {
 		ConnectivityManager dataManager;
-		dataManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+		dataManager = (ConnectivityManager) getActivity().getSystemService(
+				Context.CONNECTIVITY_SERVICE);
 		try {
 			Method dataMtd = ConnectivityManager.class.getDeclaredMethod(
 					"setMobileDataEnabled", boolean.class);

@@ -178,8 +178,7 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menu_add_action: {
+		if (item.getItemId() == R.id.menu_add_action) {
 			switch (activeTab) {
 			case "ClockAlarmFragment": {
 				Intent intentA = new Intent(this, ClockViewActivity.class);
@@ -201,10 +200,12 @@ public class MainActivity extends FragmentActivity implements
 			}
 			}
 		}
-		case R.id.menu_remove_action: {
+		if (item.getItemId() == R.id.menu_remove_action) {
 			switch (activeTab) {
 			case "ClockAlarmFragment": {
-				// TODO remove activity
+				Intent intent = new Intent(this, ClockRemoveActivity.class);
+				intent.putExtra("id", 0);
+				startActivityForResult(intent, 12);
 				break;
 			}
 			case "TimerAlarmFragment": {
@@ -213,9 +214,8 @@ public class MainActivity extends FragmentActivity implements
 			}
 			}
 		}
-		default:
-			Logger.appInfo("Add tab item with value:" + item);
-		}
+		Logger.appInfo("Add tab item with value:" + item);
+
 		return super.onOptionsItemSelected(item);
 	}
 }
