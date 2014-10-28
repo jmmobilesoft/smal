@@ -1,12 +1,10 @@
 package sk.jmmobilesoft.smartalarm.weather;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import sk.jmmobilesoft.smartalarm.weather.model.Coordinates;
-import sk.jmmobilesoft.smartalarm.weather.model.MainInfo;
-import sk.jmmobilesoft.smartalarm.weather.model.SysWeather;
-import sk.jmmobilesoft.smartalarm.weather.model.Weather;
+import sk.jmmobilesoft.smartalarm.service.Helper;
 import sk.jmmobilesoft.smartalarm.weather.model.WeatherForecast;
 
 public class WeatherJsonParser {
@@ -20,59 +18,60 @@ public class WeatherJsonParser {
 			// TODO log cant parse
 		}
 		
-		Coordinates loc = new Coordinates();
+		WeatherForecast weather = new WeatherForecast();
 		
 		try {
 			JSONObject corObject = data.getJSONObject("coord");
-			loc.setLatitude(corObject.getString("lat"));
-			loc.setLongitude(corObject.getString("lon"));
+			weather.setLatitude(corObject.getString("lat"));
+			weather.setLongitude(corObject.getString("lon"));
 		} catch (JSONException e) {
 			//TODO log
 		}
 		
-		SysWeather sys = new SysWeather();
 		
 		try {
 			JSONObject sysObj = data.getJSONObject("sys");
-			sys.setCountry(sysObj.getString("country"));
-			sys.setSunrise(data.getLong("sunrise"));
-			sys.setSunset(data.getLong("sunset"));			
+			weather.setCountry(sysObj.getString("country"));
+			weather.setSunrise(sysObj.getLong("sunrise"));
+			weather.setSunset(sysObj.getLong("sunset"));			
 		} catch (JSONException e) {
 			// TODO log
 		}
 
-		MainInfo info = new MainInfo();
 		
 		try {
 			JSONObject infoObj = data.getJSONObject("main");
-			info.setCityName(data.getString("name"));
-			info.setTemperature((float) infoObj.getDouble("temp"));
-			info.setHumidity(infoObj.getInt("humidity"));
-			info.setPressure(infoObj.getInt("pressure"));
-			info.setTempMin(infoObj.getInt("temp_min"));
-			info.setTempmax(infoObj.getInt("temp_max"));
+			weather.setCityName(data.getString("name"));
+			weather.setTemperature((float) infoObj.getDouble("temp"));
+			weather.setHumidity(infoObj.getInt("humidity"));
+			weather.setPressure(infoObj.getInt("pressure"));
+			weather.setTempMin(infoObj.getInt("temp_min"));
+			weather.setTempMax(infoObj.getInt("temp_max"));
 			
 			JSONObject windObj = data.getJSONObject("wind");
-			info.setWindSpeed((float) windObj.getDouble("speed"));
-			info.setWindDeg((float) windObj.getDouble("deg"));
+			weather.setWindSpeed((float) windObj.getDouble("speed"));
+			weather.setWindDeg((float) windObj.getDouble("deg"));
+			
+			JSONObject cloudsObj = data.getJSONObject("clouds");
+			weather.setCloudsAll(cloudsObj.getInt("all"));
 		} catch (JSONException e) {
 			// TODO log
 		}
 		
-		Weather weather = new Weather();
 		
 		try{
-			JSONObject weatherObj = data.getJSONObject("weather");
-			weather.setMainDesc(weatherObj.getString("main"));
-			weather.setDecsription(weatherObj.getString("description"));
-			weather.setIcon(weatherObj.getString("icon"));
+			JSONArray weatherObj = data.getJSONArray("weather");
+			JSONObject weatherFirst = weatherObj.getJSONObject(0);
+			weather.setMainDesc(weatherFirst.getString("main"));
+			weather.setDecsription(weatherFirst.getString("description"));
+			weather.setIcon(weatherFirst.getString("icon"));
 		}catch(JSONException e){
 			// TODO log
 		}
 		
-		WeatherForecast weatherFor = new WeatherForecast(loc, info, sys, weather);
+		weather.setUpdateTime(Helper.getCurrentTime());
 		
-		return weatherFor;		
+		return weather;		
 	}
 	
 }

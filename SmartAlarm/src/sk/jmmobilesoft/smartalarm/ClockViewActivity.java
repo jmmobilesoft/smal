@@ -20,8 +20,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -76,7 +79,6 @@ public class ClockViewActivity extends Activity {
 	}
 
 	private void initComponents() {
-		RelativeLayout screen = (RelativeLayout) findViewById(R.id.clock_view_activity_screen);
 		name = (EditText) findViewById(R.id.clock_view_activity_name);
 		snooze = (TextView) findViewById(R.id.clock_view_activity_snooze_number);
 		hours = (NumberPicker) findViewById(R.id.clock_view_activity_hours_picker);
@@ -307,22 +309,18 @@ public class ClockViewActivity extends Activity {
 				mp.start();
 			}
 		});
-		screen.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				try {
-					mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-							originalVolume, 0);
-					mp.stop();
-					mp.release();
-					mp.reset();
-				} catch (NullPointerException | IllegalStateException e) {
-					Log.i("INFO", "media player already stopped");
-				}
-			}
-		});
-
+	}
+	
+	@Override
+	public void onUserInteraction() {
+		stopMediaPlayer();
+		super.onUserInteraction();
+	}
+	
+	@Override
+	protected void onPause() {
+		stopMediaPlayer();
+		super.onPause();
 	}
 
 	@Override
@@ -343,6 +341,18 @@ public class ClockViewActivity extends Activity {
 		super.onActivityResult(requestCode, resultCode, intent);
 	}
 
+	private void stopMediaPlayer(){
+		try {
+			mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+					originalVolume, 0);
+			mp.stop();
+			mp.release();
+			mp.reset();
+		} catch (NullPointerException | IllegalStateException e) {
+			Log.i("INFO", "media player already stopped");
+		}
+	}
+	
 	private float determineVolume(int seekbarStatus) {
 		final float MIN = 0.2f;
 		float volume = (float) (seekbarStatus * 0.01);

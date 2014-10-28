@@ -17,6 +17,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 public class ClockRingScreen extends Activity {
@@ -30,7 +32,7 @@ public class ClockRingScreen extends Activity {
 	private AudioManager mAudioManager;
 
 	private int originalVolume;
-	
+
 	private Context context;
 
 	@Override
@@ -66,32 +68,68 @@ public class ClockRingScreen extends Activity {
 		TextView name = (TextView) findViewById(R.id.ring_name);
 		name.setText(c.getName());
 		context = this;
-		Button snooze = (Button) findViewById(R.id.ring_snooze);
-		snooze.setOnClickListener(new OnClickListener() {
+
+		SeekBar dismiss = (SeekBar) findViewById(R.id.ring_seek_dismiss);
+		dismiss.setProgress(0);
+		dismiss.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
 			@Override
-			public void onClick(View v) {
-				ClockSetting.setSnoozeClock(context, c.getId());
-				if (Arrays.equals(c.getRepeat(), new int[] { 0, 0, 0, 0, 0, 0,
-						0 })) {
-					c.setActive(false);
-					db.updateClock(c);
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				if (seekBar.getProgress() > 80) {
+					if (Arrays.equals(c.getRepeat(), new int[] { 0, 0, 0, 0, 0,
+							0, 0 })) {
+						c.setActive(false);
+						db.updateClock(c);
+					}
+					finish();
 				}
-				finish();
+				seekBar.setProgress(0);
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				// TODO Auto-generated method stub
+
 			}
 		});
 
-		Button dismiss = (Button) findViewById(R.id.ring_dismiss);
-		dismiss.setOnClickListener(new OnClickListener() {
+		SeekBar snooze = (SeekBar) findViewById(R.id.ring_seek_snooze);
+		snooze.setRotation(180);
+		snooze.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
 			@Override
-			public void onClick(View v) {
-				if (Arrays.equals(c.getRepeat(), new int[] { 0, 0, 0, 0, 0, 0,
-						0 })) {
-					c.setActive(false);
-					db.updateClock(c);
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				if (seekBar.getProgress() > 80) {
+					ClockSetting.setSnoozeClock(context, c.getId());
+					if (Arrays.equals(c.getRepeat(), new int[] { 0, 0, 0, 0, 0,
+							0, 0 })) {
+						c.setActive(false);
+						db.updateClock(c);
+					}
+					finish();
+				} else {
+					seekBar.setProgress(0);
 				}
-				finish();
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				// TODO Auto-generated method stub
+
 			}
 		});
 		super.onCreate(savedInstanceState);
