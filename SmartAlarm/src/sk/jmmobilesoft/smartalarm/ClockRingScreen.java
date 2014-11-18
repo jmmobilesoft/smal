@@ -87,17 +87,11 @@ public class ClockRingScreen extends Activity {
 			}
 
 			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-
-			}
+			public void onStartTrackingTouch(SeekBar seekBar) {}
 
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
-					boolean fromUser) {
-				// TODO Auto-generated method stub
-
-			}
+					boolean fromUser) {}
 		});
 
 		SeekBar snooze = (SeekBar) findViewById(R.id.ring_seek_snooze);
@@ -120,17 +114,11 @@ public class ClockRingScreen extends Activity {
 			}
 
 			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-
-			}
+			public void onStartTrackingTouch(SeekBar seekBar) {}
 
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
-					boolean fromUser) {
-				// TODO Auto-generated method stub
-
-			}
+					boolean fromUser) {}
 		});
 		super.onCreate(savedInstanceState);
 	}

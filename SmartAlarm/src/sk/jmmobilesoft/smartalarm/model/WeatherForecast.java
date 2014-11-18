@@ -1,11 +1,8 @@
-package sk.jmmobilesoft.smartalarm.weather.model;
-
-import java.util.Calendar;
-import java.util.Date;
+package sk.jmmobilesoft.smartalarm.model;
 
 public class WeatherForecast {
 	
-	private int id;
+	private long id;
 	
 	private String cityName;
 	private int cloudsAll;
@@ -24,17 +21,17 @@ public class WeatherForecast {
 	private int tempMin;
 	private float windDeg;
 	private float windSpeed;
-	private Calendar updateTime;
+	private String updateTime;
 	
 	public WeatherForecast(){
-		
+		id = 0;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -174,11 +171,11 @@ public class WeatherForecast {
 		this.windSpeed = windSpeed;
 	}
 
-	public Calendar getUpdateTime() {
+	public String getUpdateTime() {
 		return updateTime;
 	}
 
-	public void setUpdateTime(Calendar updateTime) {
+	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
 
@@ -192,7 +189,7 @@ public class WeatherForecast {
 				+ pressure + ", sunrise=" + sunrise + ", sunset=" + sunset
 				+ ", tempMax=" + tempMax + ", temperature=" + temperature
 				+ ", tempMin=" + tempMin + ", windDeg=" + windDeg
-				+ ", windSpeed=" + windSpeed + ", updateTime=" + updateTime.getTime()
+				+ ", windSpeed=" + windSpeed + ", updateTime=" + updateTime
 				+ "]";
 	}
 }

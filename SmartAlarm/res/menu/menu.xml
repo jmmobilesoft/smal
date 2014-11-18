@@ -10,5 +10,9 @@
         android:id="@+id/menu_add_action"
         android:title="Add"
         android:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_settings_action"
+        android:title="Settings"
+        android:showAsAction="ifRoom"/>
 
 </menu>

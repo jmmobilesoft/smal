@@ -5,8 +5,10 @@ import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.ClockContract.ClockModel;
 import sk.jmmobilesoft.smartalarm.database.TimerContract.TimerModel;
+import sk.jmmobilesoft.smartalarm.database.WeatherContract.WeatherModel;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import sk.jmmobilesoft.smartalarm.model.Timer;
+import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -51,17 +53,43 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ TimerModel.COLUMN_NAME_TIMER_ENABLED + " INTEGER,"
 			+ TimerModel.COLUMN_NAME_TIMER_TONE + " TEXT,"
 			+ TimerModel.COLUMN_NAME_TIMER_VOLUME + " TEXT" + ")";
-
+	
+	private static final String SQL_DROP_WEATHER = "DROP TABLE IF EXIST "
+			+ WeatherModel.TABLE_NAME;
+	
+	private static final String SQL_CREATE_WEATHER = "CREATE TABLE "
+			+ WeatherModel.TABLE_NAME + " (" + WeatherModel._ID
+			+ " INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ WeatherModel.WEATHER_CITYNAME + " TEXT,"
+			+ WeatherModel.WEATHER_CLOUDSALL + " INTEGER,"
+			+ WeatherModel.WEATHER_COUNTRY + " TEXT,"
+			+ WeatherModel.WEATHER_DESCRIPTION + " TEXT,"
+			+ WeatherModel.WEATHER_HUMIDITY + " INTEGER,"
+			+ WeatherModel.WEATHER_ICON + " TEXT,"
+			+ WeatherModel.WEATHER_LATITUDE + " TEXT,"
+			+ WeatherModel.WEATHER_LONGITUDE + " TEXT,"
+			+ WeatherModel.WEATHER_MAINDESC + " TEXT,"
+			+ WeatherModel.WEATHER_PRESSURE + " INTEGER,"
+			+ WeatherModel.WEATHER_SUNRISE + " TEXT,"
+			+ WeatherModel.WEATHER_SUNSET + " TEXT,"
+			+ WeatherModel.WEATHER_TEMPERATURE + " TEXT,"
+			+ WeatherModel.WEATHER_TEMPMAX + " TEXT,"
+			+ WeatherModel.WEATHER_TEMPMIN + " TEXT,"
+			+ WeatherModel.WEATHER_UPDATETIME + " TEXT,"
+			+ WeatherModel.WEATHER_WINDDEG + " TEXT,"
+			+ WeatherModel.WEATHER_WINDSPEED + " TEXT" + ")";
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(SQL_CREATE_CLOCK);
 		db.execSQL(SQL_CREATE_TIMER);
+		db.execSQL(SQL_CREATE_WEATHER);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		db.execSQL(SQL_DELETE_CLOCK);
 		db.execSQL(SQL_DROP_TIMER);
+		db.execSQL(SQL_DROP_WEATHER);
 		onCreate(db);
 	}
 
@@ -251,5 +279,119 @@ public class DBHelper extends SQLiteOpenHelper {
 				timer.getSound() != null ? timer.getSound().toString() : "");
 		values.put(TimerModel.COLUMN_NAME_TIMER_VOLUME, timer.getVolume());
 		return values;
+	}
+	
+	private WeatherForecast populateWeatherModel(Cursor c){
+		WeatherForecast weather = new WeatherForecast();
+		weather.setId(c.getLong(c.getColumnIndex(WeatherModel._ID)));
+		weather.setCityName(c.getString(c.getColumnIndex(WeatherModel.WEATHER_CITYNAME)));
+		weather.setCloudsAll(c.getInt(c.getColumnIndex(WeatherModel.WEATHER_CLOUDSALL)));
+		weather.setCountry(c.getString(c.getColumnIndex(WeatherModel.WEATHER_COUNTRY)));
+		weather.setDecsription(c.getString(c.getColumnIndex(WeatherModel.WEATHER_DESCRIPTION)));
+		weather.setHumidity(c.getInt(c.getColumnIndex(WeatherModel.WEATHER_HUMIDITY)));
+		weather.setIcon(c.getString(c.getColumnIndex(WeatherModel.WEATHER_ICON)));
+		weather.setLatitude(c.getString(c.getColumnIndex(WeatherModel.WEATHER_LATITUDE)));
+		weather.setLongitude(c.getString(c.getColumnIndex(WeatherModel.WEATHER_LONGITUDE)));
+		weather.setMainDesc(c.getString(c.getColumnIndex(WeatherModel.WEATHER_MAINDESC)));
+		weather.setPressure(c.getInt(c.getColumnIndex(WeatherModel.WEATHER_PRESSURE)));
+		weather.setSunrise(c.getLong(c.getColumnIndex(WeatherModel.WEATHER_SUNRISE)));
+		weather.setSunset(c.getLong(c.getColumnIndex(WeatherModel.WEATHER_SUNSET)));
+		weather.setTemperature(c.getFloat(c.getColumnIndex(WeatherModel.WEATHER_TEMPERATURE)));
+		weather.setTempMax(c.getInt(c.getColumnIndex(WeatherModel.WEATHER_TEMPMAX)));
+		weather.setTempMin(c.getInt(c.getColumnIndex(WeatherModel.WEATHER_TEMPMIN)));
+		weather.setUpdateTime(c.getString(c.getColumnIndex(WeatherModel.WEATHER_UPDATETIME)));
+		weather.setWindDeg(c.getFloat(c.getColumnIndex(WeatherModel.WEATHER_WINDDEG)));
+		weather.setWindSpeed(c.getFloat(c.getColumnIndex(WeatherModel.WEATHER_WINDSPEED)));
+		return weather;
+	}
+	
+	private ContentValues populateWeatherContent(WeatherForecast weather){
+		ContentValues values = new ContentValues();
+		values.put(WeatherModel.WEATHER_CITYNAME, weather.getCityName());
+		values.put(WeatherModel.WEATHER_CLOUDSALL, weather.getCloudsAll());
+		values.put(WeatherModel.WEATHER_COUNTRY, weather.getCountry());
+		values.put(WeatherModel.WEATHER_DESCRIPTION, weather.getDecsription());
+		values.put(WeatherModel.WEATHER_HUMIDITY, weather.getHumidity());
+		values.put(WeatherModel.WEATHER_ICON, weather.getIcon());
+		values.put(WeatherModel.WEATHER_LATITUDE, weather.getLatitude());
+		values.put(WeatherModel.WEATHER_LONGITUDE, weather.getLongitude());
+		values.put(WeatherModel.WEATHER_MAINDESC, weather.getMainDesc());
+		values.put(WeatherModel.WEATHER_PRESSURE, weather.getPressure());
+		values.put(WeatherModel.WEATHER_SUNRISE, weather.getSunrise());
+		values.put(WeatherModel.WEATHER_SUNSET, weather.getSunset());
+		values.put(WeatherModel.WEATHER_TEMPERATURE, weather.getTemperature());
+		values.put(WeatherModel.WEATHER_TEMPMAX, weather.getTempMax());
+		values.put(WeatherModel.WEATHER_TEMPMIN, weather.getTempMin());
+		values.put(WeatherModel.WEATHER_UPDATETIME, weather.getUpdateTime());
+		values.put(WeatherModel.WEATHER_WINDDEG, weather.getWindDeg());
+		values.put(WeatherModel.WEATHER_WINDSPEED, weather.getWindSpeed());
+		return values;
+	}
+	
+	public long createWeather(WeatherForecast weather) {
+		ContentValues values = populateWeatherContent(weather);
+		long id = getWritableDatabase().insert(WeatherModel.TABLE_NAME, null,
+				values);
+		close();
+		return id;
+	}
+
+	public long updateWeather(WeatherForecast weather) {
+		ContentValues values = populateWeatherContent(weather);
+		long id = getWritableDatabase().update(WeatherModel.TABLE_NAME, values,
+				WeatherModel._ID + "=?",
+				new String[] { String.valueOf(weather.getId()) });
+		close();
+		return id;
+	}
+
+	public WeatherForecast getWeather(long id) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		String select = "SELECT * FROM " + WeatherModel.TABLE_NAME + " WHERE "
+				+ WeatherModel._ID + " = " + id;
+
+		Cursor c = db.rawQuery(select, null);
+
+		if (c.moveToNext()) {
+			db.close(); // TODO think about
+			return populateWeatherModel(c);
+		}
+		return null;
+	}
+	
+	public WeatherForecast getWeatherByCity(String city) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		String select = "SELECT * FROM " + WeatherModel.TABLE_NAME + " WHERE "
+				+ WeatherModel.WEATHER_CITYNAME + " = " + "'" + city + "'";
+
+		Cursor c = db.rawQuery(select, null);
+
+		if (c.moveToNext()) {
+			db.close(); // TODO think about
+			return populateWeatherModel(c);
+		}
+		return null;
+	}
+
+	public List<WeatherForecast> getWeather() {
+		SQLiteDatabase db = this.getReadableDatabase();
+
+		String select = "SELECT * FROM " + WeatherModel.TABLE_NAME;
+
+		Cursor c = db.rawQuery(select, null);
+
+		List<WeatherForecast> weatherList = new ArrayList<WeatherForecast>();
+
+		while (c.moveToNext()) {
+			weatherList.add(populateWeatherModel(c));
+		}
+		db.close();
+		return weatherList;
+	}
+
+	public int deleteWeather(long id) {
+		int rows = getWritableDatabase().delete(WeatherModel.TABLE_NAME,
+				WeatherModel._ID + " =?", new String[] { String.valueOf(id) });
+		return rows;
 	}
 }

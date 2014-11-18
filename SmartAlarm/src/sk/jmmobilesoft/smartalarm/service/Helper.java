@@ -3,16 +3,10 @@ package sk.jmmobilesoft.smartalarm.service;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.Calendar;
-
-import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
-import android.app.Activity;
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Paint;
-import android.net.Uri;
 import android.os.PowerManager;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -129,5 +123,11 @@ public abstract class Helper {
 	
 	public static float kelvinToCelsius(float temperature){
 		 return Float.parseFloat(new DecimalFormat("###.#").format((float) (temperature - 273.15)));
+	}
+	
+	public static String milisToTime(long milliseconds){
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(milliseconds * 1000);
+		return c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE);
 	}
 }

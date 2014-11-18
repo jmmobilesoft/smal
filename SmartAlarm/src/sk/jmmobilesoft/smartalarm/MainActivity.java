@@ -97,12 +97,8 @@ public class MainActivity extends FragmentActivity implements
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		MainActivity
 				.addTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab3")
-						.setIndicator("Sleep"), (tabInfo = new TabInfo("Tab3",
+						.setIndicator("Weather"), (tabInfo = new TabInfo("Tab3",
 						SleepScreenFragment.class, args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		MainActivity.addTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Tab4").setIndicator("Settings"),
-				(tabInfo = new TabInfo("Tab4", SettingsFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		this.onTabChanged("Tab1");
 		for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
@@ -213,6 +209,11 @@ public class MainActivity extends FragmentActivity implements
 				break;
 			}
 			}
+		}
+		if(item.getItemId() == R.id.menu_settings_action) {
+			Intent intent = new Intent(this, SettingsActivity.class);
+			intent.putExtra("id", 0);
+			startActivityForResult(intent, 13);
 		}
 		Logger.appInfo("Add tab item with value:" + item);
 

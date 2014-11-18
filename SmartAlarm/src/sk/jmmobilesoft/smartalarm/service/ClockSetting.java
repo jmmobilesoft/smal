@@ -37,43 +37,65 @@ public class ClockSetting {
 					Calendar.getInstance().get(Calendar.DATE));
 		}
 		PendingIntent pIntent = createPendingIntent(context, c);
+		PendingIntent weather = weatherPendingIntent(context, c);
 		AlarmManager aManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
 		if (c.isActive() && getDayRepeat(c, nextday)) {
 			if (android.os.Build.VERSION.SDK_INT < 19) {
 				aManager.set(AlarmManager.RTC_WAKEUP,
 						calendar.getTimeInMillis(), pIntent);
+				aManager.set(AlarmManager.RTC_WAKEUP,
+						calendar.getTimeInMillis() - 300000, weather); // 300000
+																		// -
+																		// fire
+																		// refresh
+																		// weather
+																		// 5
+																		// minutes
+																		// before
+																		// wakeup
 				Logger.setInfo("Setting clock: " + c + " - ACTIVE");
 				return true;
 			} else {
 				aManager.setExact(AlarmManager.RTC_WAKEUP,
 						calendar.getTimeInMillis(), pIntent);
+				aManager.setExact(AlarmManager.RTC_WAKEUP,
+						calendar.getTimeInMillis() - 300000, weather);
 				Logger.setInfo("Setting clock: " + c + " - ACTIVE");
 				return true;
 			}
 		} else {
 			aManager.cancel(pIntent);
+			aManager.cancel(weather);
 			Logger.setInfo("Setting clock: " + c + " - DEACTIVE");
 			return false;
 		}
 	}
 
 	@SuppressLint("NewApi")
-	public static void setSnoozeClock(Context context, long id) {   //TODO Clock Snooze screen  / edit original screen
+	public static void setSnoozeClock(Context context, long id) { // TODO Clock
+																	// Snooze
+																	// screen /
+																	// edit
+																	// original
+																	// screen
 		DBHelper db = new DBHelper(context);
 		Clock c = db.getClock(id);
 
 		Calendar current = Helper.getCurrentTime();
 
-		//long time = current.getTimeInMillis() + (1000 * 60 * c.getSnoozeTime());
+		// long time = current.getTimeInMillis() + (1000 * 60 *
+		// c.getSnoozeTime());
 		current.add(Calendar.MINUTE, c.getSnoozeTime());
 		PendingIntent pIntent = createPendingIntent(context, c);
 		AlarmManager aManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
 		if (android.os.Build.VERSION.SDK_INT < 19) {
-			aManager.set(AlarmManager.RTC_WAKEUP, current.getTimeInMillis(), pIntent);
+			aManager.set(AlarmManager.RTC_WAKEUP, current.getTimeInMillis(),
+					pIntent);
 		} else {
-			aManager.setExact(AlarmManager.RTC_WAKEUP, current.getTimeInMillis(), pIntent);
+			aManager.setExact(AlarmManager.RTC_WAKEUP,
+					current.getTimeInMillis(), pIntent);
 
 			Logger.setInfo("Setting clock: " + c + " - ACTIVE");
 		}
@@ -100,6 +122,15 @@ public class ClockSetting {
 		return PendingIntent.getBroadcast(context, (int) c.getId(), intent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 
+	}
+
+	// TODO EXTRACT away to another class???
+	private static PendingIntent weatherPendingIntent(Context context, Clock c) {
+		Intent intent = new Intent(context, WeatherRefreshReciever.class);
+		intent.putExtra("ID", c.getId());
+
+		return PendingIntent.getBroadcast(context, (int) c.getId(), intent,
+				PendingIntent.FLAG_UPDATE_CURRENT);
 	}
 
 	public static boolean getDayRepeat(Clock c, boolean nextday) {

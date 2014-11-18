@@ -6,9 +6,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import sk.jmmobilesoft.smartalarm.R;
-import android.widget.TextView;
-
 public class WeatherHttpClient {
 
 	private static String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
@@ -21,7 +18,7 @@ public class WeatherHttpClient {
 		return result;
 	}
 
-	public synchronized void getWeatherData(final String location) {
+	public void getWeatherData(final String location) {
 		Thread t = new Thread() {
 			@Override
 			public void run() {

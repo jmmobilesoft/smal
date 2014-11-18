@@ -1,11 +1,13 @@
 package sk.jmmobilesoft.smartalarm.weather;
 
+import java.text.SimpleDateFormat;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.service.Helper;
-import sk.jmmobilesoft.smartalarm.weather.model.WeatherForecast;
 
 public class WeatherJsonParser {
 
@@ -69,7 +71,10 @@ public class WeatherJsonParser {
 			// TODO log
 		}
 		
-		weather.setUpdateTime(Helper.getCurrentTime());
+		SimpleDateFormat f = new SimpleDateFormat("dd.mm.yyyy, HH:mm");
+		String updateTime = f.format(Helper.getCurrentTime().getTime());
+		
+		weather.setUpdateTime(updateTime);
 		
 		return weather;		
 	}

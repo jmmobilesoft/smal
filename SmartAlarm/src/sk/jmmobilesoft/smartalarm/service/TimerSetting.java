@@ -19,11 +19,6 @@ public class TimerSetting {
 		
 		Calendar current = Helper.getCurrentTime();
 		
-		int hours = t.getHours();
-		int minutes = t.getMinutes();
-		
-		int seconds = t.getSeconds();
-		
 		current.add(Calendar.SECOND, t.getSeconds());
 		current.add(Calendar.MINUTE, t.getMinutes());
 		current.add(Calendar.HOUR_OF_DAY, t.getHours());
@@ -31,7 +26,7 @@ public class TimerSetting {
 //		Calendar cal = Calendar.getInstance();
 //		
 //		
-//		//TODO check setting
+//		//check setting
 //		if(current.get(Calendar.SECOND) +  seconds > 59){
 //			cal.set(Calendar.SECOND, current.get(Calendar.SECOND) +  seconds - 60);
 //			minutes += 1;
@@ -44,12 +39,12 @@ public class TimerSetting {
 //		} else {
 //			cal.set(Calendar.MINUTE, current.get(Calendar.MINUTE) + minutes);
 //		}
-//		if(current.get(Calendar.HOUR_OF_DAY) +  hours > 23){ //TODO more days
+//		if(current.get(Calendar.HOUR_OF_DAY) +  hours > 23){ 
 //			int days = hours / 24;
 //			hours = hours % 24;
 //			System.out.println("days:" + days + "   ,hours:" + hours);
 //			cal.set(Calendar.HOUR_OF_DAY, current.get(Calendar.HOUR_OF_DAY) +  hours);
-//			cal.set(Calendar.DAY_OF_WEEK, current.get(Calendar.DAY_OF_WEEK) + days); //TODO check
+//			cal.set(Calendar.DAY_OF_WEEK, current.get(Calendar.DAY_OF_WEEK) + days);
 //		} else {
 //			cal.set(Calendar.HOUR_OF_DAY, current.get(Calendar.HOUR_OF_DAY) + hours);
 //		}

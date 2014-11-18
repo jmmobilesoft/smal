@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/black" >
+   
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher" />
+    
+    <Button 
+        android:id="@+id/image_button_wifi_on"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="wifi ON"/>
+    <Button 
+        android:id="@+id/image_button_wifi_off"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="wifi OFF"/>
+    <Button 
+        android:id="@+id/image_button_mobile_on"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="mobile ON"/>
+    <Button 
+        android:id="@+id/image_button_mobile_off"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="mobileOFF"/>
+     <EditText 
+         android:id="@+id/image_edittext_city"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:textColor="@android:color/white"
+         android:text="Brno"/>
+     <Button 
+        android:id="@+id/image_button_weather_refresh"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="refresh weather"/>
+    <TextView 
+        android:id="@+id/weather_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:text="weather"/>
+    
+
+</LinearLayout>
