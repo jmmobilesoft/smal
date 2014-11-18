@@ -71,7 +71,7 @@
 
         <receiver android:name="sk.jmmobilesoft.smartalarm.service.ClockServiceReciever" />
         <receiver android:name="sk.jmmobilesoft.smartalarm.service.TimerServiceReciever" />
-        <receiver android:name="sk.jmmobilesoft.smartalarm.service.WeatherRefreshReciever" />
+       <!--  <receiver android:name="sk.jmmobilesoft.smartalarm.service.WeatherRefreshReciever" /> --> 
     </application>
 
 </manifest>

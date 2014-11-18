@@ -2,10 +2,13 @@ package sk.jmmobilesoft.smartalarm;
 
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.network.NetworkService;
+import sk.jmmobilesoft.smartalarm.network.WeatherNetworkService;
 import sk.jmmobilesoft.smartalarm.service.Helper;
 import sk.jmmobilesoft.smartalarm.weather.WeatherHttpClient;
 import sk.jmmobilesoft.smartalarm.weather.WeatherJsonParser;
 import android.app.Activity;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -68,42 +71,15 @@ public class SettingsActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				network.turnWifiOn(getApplicationContext());
-				connect();
-				weather.setText(getWeatherString());
-				network.turnWifiOff(getApplicationContext());
+//				network.turnWifiOn(getApplicationContext());
+//				new WeatherNetworkService().connect(getApplicationContext());
+//				weather.setText(getWeatherString());
+//				network.turnWifiOff(getApplicationContext());
+				new Connect(getApplicationContext()).execute();
 			}
 		});
 
 		super.onCreate(savedInstanceState);
-	}
-
-	private void connect() {
-		Thread t = new Thread() {
-			@Override
-			public void run() {
-				try {
-					int counter = 0;
-					while (!network.isConnected(getApplicationContext())
-							&& counter <= 60) {
-						counter++;
-						Thread.sleep(1000);
-						System.out.println("waiting:" + counter);
-					}
-
-				} catch (Exception e) {
-					System.out.println(e);
-					network.turnWifiOff(getApplicationContext());
-				}
-			}
-		};
-		t.start();
-		try {
-			t.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			System.out.println("interupted");
-		}
 	}
 
 	private String getWeatherString() {
@@ -130,6 +106,40 @@ public class SettingsActivity extends Activity {
 				+ " \nsunset:        "
 				+ Helper.milisToTime(weather.getSunset()));
 		return fReturn;
+	}
+	
+	public class Connect extends AsyncTask<Void, Void, Void> {
+
+		private Context mContext;
+		
+		public Connect(Context context){
+			mContext = context;
+		}
+		
+		@Override
+		protected Void doInBackground(Void... params) {
+			try {
+				network.turnWifiOn(getApplicationContext());
+				int counter = 0;
+				while (!network.isConnected(mContext) || counter >= 60) {
+					Thread.sleep(1000);
+					System.out.println("waiting");
+					counter++;
+				}
+
+			} catch (Exception e) {
+				System.out.println(e);
+				//network.turnWifiOff(mContext);
+			}
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			weather.setText(getWeatherString());
+			network.turnWifiOff(getApplicationContext());
+			super.onPostExecute(result);
+		}
 	}
 
 }

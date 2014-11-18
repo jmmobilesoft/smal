@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.weather.WeatherHttpClient;
 import sk.jmmobilesoft.smartalarm.weather.WeatherJsonParser;
@@ -57,29 +58,33 @@ public class WeatherNetworkService {
 		return list;
 	}
 
-	private void connect(final Context context) {
-		Thread t = new Thread() {
-			@Override
-			public void run() {
-				try {
-					int counter = 0;
-					while (!network.isConnected(context) || counter >= 60) {
-						Thread.sleep(1000);
-						System.out.println("waiting");
-						counter++;
-					}
+	public void connect(final Context context) {
+		new Connect(context).execute();
+	}
+	
+	public class Connect extends AsyncTask<Void, Void, Void> {
 
-				} catch (Exception e) {
-					System.out.println(e);
-					network.turnWifiOff(context);
-				}
-			}
-		};
-		t.start();
-		try {
-			t.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		private Context mContext;
+		
+		public Connect(Context context){
+			mContext = context;
 		}
+		
+		@Override
+		protected Void doInBackground(Void... params) {
+			try {
+				int counter = 0;
+				while (!network.isConnected(mContext) || counter >= 60) {
+					Thread.yield();
+					System.out.println("waiting");
+					counter++;
+				}
+
+			} catch (Exception e) {
+				System.out.println(e);
+				//network.turnWifiOff(mContext);
+			}
+			return null;
+		}		
 	}
 }
