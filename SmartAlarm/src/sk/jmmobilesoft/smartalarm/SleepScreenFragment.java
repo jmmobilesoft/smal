@@ -72,6 +72,7 @@ public class SleepScreenFragment extends Fragment {
 						} else {
 							weather.setId(db.getWeatherByCity(
 									weather.getCityName()).getId());
+							db.updateWeather(weather);
 							refreshWeathers();
 							city.setText("");
 						}

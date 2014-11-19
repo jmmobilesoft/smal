@@ -1,9 +1,13 @@
 package sk.jmmobilesoft.smartalarm;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.model.Clock;
+import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
+import sk.jmmobilesoft.smartalarm.network.WeatherNetworkService;
 import sk.jmmobilesoft.smartalarm.service.ClockSetting;
 import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.app.Activity;
@@ -34,6 +38,9 @@ public class ClockRingScreen extends Activity {
 	private int originalVolume;
 
 	private Context context;
+	
+//	private SeekBar dismiss;
+//	private SeekBar snooze;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +75,13 @@ public class ClockRingScreen extends Activity {
 		TextView name = (TextView) findViewById(R.id.ring_name);
 		name.setText(c.getName());
 		context = this;
+		
+		setWeather();
 
-		SeekBar dismiss = (SeekBar) findViewById(R.id.ring_seek_dismiss);
+		final SeekBar dismiss = (SeekBar) findViewById(R.id.ring_seek_dismiss);
+		final SeekBar snooze = (SeekBar) findViewById(R.id.ring_seek_snooze);
+		
+		
 		dismiss.setProgress(0);
 		dismiss.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
@@ -81,7 +93,11 @@ public class ClockRingScreen extends Activity {
 						c.setActive(false);
 						db.updateClock(c);
 					}
-					finish();
+					
+					stopMediaPlayer();
+					dismiss.setVisibility(View.GONE);
+					snooze.setVisibility(View.GONE);
+					//finish();
 				}
 				seekBar.setProgress(0);
 			}
@@ -94,7 +110,7 @@ public class ClockRingScreen extends Activity {
 					boolean fromUser) {}
 		});
 
-		SeekBar snooze = (SeekBar) findViewById(R.id.ring_seek_snooze);
+		
 		snooze.setRotation(180);
 		snooze.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
@@ -123,6 +139,31 @@ public class ClockRingScreen extends Activity {
 		super.onCreate(savedInstanceState);
 	}
 
+	private void setWeather(){
+		TextView temp = (TextView) findViewById(R.id.ring_temperature_text);
+		TextView sunset = (TextView) findViewById(R.id.ring_sunset_text);
+		TextView sunrise = (TextView) findViewById(R.id.ring_sunrise_text);
+		TextView wind = (TextView) findViewById(R.id.ring_wind_text);
+		TextView humidity = (TextView) findViewById(R.id.ring_humidity_text);
+		TextView maxmin = (TextView) findViewById(R.id.ring_maxmintemp_text );
+		TextView description = (TextView) findViewById(R.id.ring_desription_text);
+		TextView city = (TextView) findViewById(R.id.ring_city_name);
+		TextView update = (TextView) findViewById(R.id.ring_update_time);
+		
+		WeatherForecast w = db.getWeatherByCity("Brno");
+		temp.setText(Float.toString(Helper.kelvinToCelsius(w.getTemperature())) + "°C");
+		sunset.setText(Helper.milisToTime(w.getSunset()));
+		sunrise.setText(Helper.milisToTime(w.getSunrise()));
+		wind.setText(w.getWindSpeed() + "m/s");
+		humidity.setText(w.getHumidity() + "%");
+		maxmin.setText(Helper.kelvinToCelsius(w.getTempMin()) + "/"
+				+ Helper.kelvinToCelsius(w.getTempMax()) + "°" + "C");
+		description.setText(w.getDecsription());
+		city.setText(w.getCityName());
+		update.setText(w.getUpdateTime());
+		
+	}
+	
 	@Override
 	protected void onPause() {
 		Helper.wakeLockOff(this);
@@ -131,11 +172,19 @@ public class ClockRingScreen extends Activity {
 
 	@Override
 	public void onDetachedFromWindow() {
+		try{
+			stopMediaPlayer();
+		}catch(NullPointerException | IllegalStateException e){
+			System.out.println("mediaplayer stopped");
+		}
+		super.onDetachedFromWindow();
+	}
+	
+	private void stopMediaPlayer(){
 		mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
 				originalVolume, 0);
 		mp.stop();
 		mp.reset();
 		mp.release();
-		super.onDetachedFromWindow();
 	}
 }

@@ -38,7 +38,8 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ ClockModel.COLUMN_NAME_CLOCK_REPEAT + " TEXT,"
 			+ ClockModel.COLUMN_NAME_CLOCK_TONE + " TEXT,"
 			+ ClockModel.COLUMN_NAME_CLOCK_VOLUME + " TEXT,"
-			+ ClockModel.COLUMN_NAME_CLOCK_ENABLED + " INTEGER" + " )";
+			+ ClockModel.COLUMN_NAME_CLOCK_ENABLED + " INTEGER,"
+			+ ClockModel.COLUMN_NAME_CLOCK_CITIES + " TEXT" + " )";
 
 	private static final String SQL_DROP_TIMER = "DROP TABLE IF EXIST "
 			+ TimerModel.TABLE_NAME;
@@ -53,10 +54,10 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ TimerModel.COLUMN_NAME_TIMER_ENABLED + " INTEGER,"
 			+ TimerModel.COLUMN_NAME_TIMER_TONE + " TEXT,"
 			+ TimerModel.COLUMN_NAME_TIMER_VOLUME + " TEXT" + ")";
-	
+
 	private static final String SQL_DROP_WEATHER = "DROP TABLE IF EXIST "
 			+ WeatherModel.TABLE_NAME;
-	
+
 	private static final String SQL_CREATE_WEATHER = "CREATE TABLE "
 			+ WeatherModel.TABLE_NAME + " (" + WeatherModel._ID
 			+ " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -78,6 +79,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ WeatherModel.WEATHER_UPDATETIME + " TEXT,"
 			+ WeatherModel.WEATHER_WINDDEG + " TEXT,"
 			+ WeatherModel.WEATHER_WINDSPEED + " TEXT" + ")";
+
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(SQL_CREATE_CLOCK);
@@ -171,6 +173,8 @@ public class DBHelper extends SQLiteOpenHelper {
 				.getColumnIndex(ClockModel.COLUMN_NAME_CLOCK_VOLUME)));
 		clock.setRepeat(clock.fromDBRepeat(c.getString(c
 				.getColumnIndex(ClockModel.COLUMN_NAME_CLOCK_REPEAT))));
+		clock.setCities(citiesFromDB(c.getString(c
+				.getColumnIndex(ClockModel.COLUMN_NAME_CLOCK_CITIES))));
 		return clock;
 	}
 
@@ -187,6 +191,8 @@ public class DBHelper extends SQLiteOpenHelper {
 				: 0);
 		values.put(ClockModel.COLUMN_NAME_CLOCK_REPEAT,
 				clock.toDBRepeat(clock.getRepeat()));
+		values.put(ClockModel.COLUMN_NAME_CLOCK_CITIES,
+				citiesToDB(clock.getCities()));
 		return values;
 	}
 
@@ -280,32 +286,49 @@ public class DBHelper extends SQLiteOpenHelper {
 		values.put(TimerModel.COLUMN_NAME_TIMER_VOLUME, timer.getVolume());
 		return values;
 	}
-	
-	private WeatherForecast populateWeatherModel(Cursor c){
+
+	private WeatherForecast populateWeatherModel(Cursor c) {
 		WeatherForecast weather = new WeatherForecast();
 		weather.setId(c.getLong(c.getColumnIndex(WeatherModel._ID)));
-		weather.setCityName(c.getString(c.getColumnIndex(WeatherModel.WEATHER_CITYNAME)));
-		weather.setCloudsAll(c.getInt(c.getColumnIndex(WeatherModel.WEATHER_CLOUDSALL)));
-		weather.setCountry(c.getString(c.getColumnIndex(WeatherModel.WEATHER_COUNTRY)));
-		weather.setDecsription(c.getString(c.getColumnIndex(WeatherModel.WEATHER_DESCRIPTION)));
-		weather.setHumidity(c.getInt(c.getColumnIndex(WeatherModel.WEATHER_HUMIDITY)));
+		weather.setCityName(c.getString(c
+				.getColumnIndex(WeatherModel.WEATHER_CITYNAME)));
+		weather.setCloudsAll(c.getInt(c
+				.getColumnIndex(WeatherModel.WEATHER_CLOUDSALL)));
+		weather.setCountry(c.getString(c
+				.getColumnIndex(WeatherModel.WEATHER_COUNTRY)));
+		weather.setDecsription(c.getString(c
+				.getColumnIndex(WeatherModel.WEATHER_DESCRIPTION)));
+		weather.setHumidity(c.getInt(c
+				.getColumnIndex(WeatherModel.WEATHER_HUMIDITY)));
 		weather.setIcon(c.getString(c.getColumnIndex(WeatherModel.WEATHER_ICON)));
-		weather.setLatitude(c.getString(c.getColumnIndex(WeatherModel.WEATHER_LATITUDE)));
-		weather.setLongitude(c.getString(c.getColumnIndex(WeatherModel.WEATHER_LONGITUDE)));
-		weather.setMainDesc(c.getString(c.getColumnIndex(WeatherModel.WEATHER_MAINDESC)));
-		weather.setPressure(c.getInt(c.getColumnIndex(WeatherModel.WEATHER_PRESSURE)));
-		weather.setSunrise(c.getLong(c.getColumnIndex(WeatherModel.WEATHER_SUNRISE)));
-		weather.setSunset(c.getLong(c.getColumnIndex(WeatherModel.WEATHER_SUNSET)));
-		weather.setTemperature(c.getFloat(c.getColumnIndex(WeatherModel.WEATHER_TEMPERATURE)));
-		weather.setTempMax(c.getInt(c.getColumnIndex(WeatherModel.WEATHER_TEMPMAX)));
-		weather.setTempMin(c.getInt(c.getColumnIndex(WeatherModel.WEATHER_TEMPMIN)));
-		weather.setUpdateTime(c.getString(c.getColumnIndex(WeatherModel.WEATHER_UPDATETIME)));
-		weather.setWindDeg(c.getFloat(c.getColumnIndex(WeatherModel.WEATHER_WINDDEG)));
-		weather.setWindSpeed(c.getFloat(c.getColumnIndex(WeatherModel.WEATHER_WINDSPEED)));
+		weather.setLatitude(c.getString(c
+				.getColumnIndex(WeatherModel.WEATHER_LATITUDE)));
+		weather.setLongitude(c.getString(c
+				.getColumnIndex(WeatherModel.WEATHER_LONGITUDE)));
+		weather.setMainDesc(c.getString(c
+				.getColumnIndex(WeatherModel.WEATHER_MAINDESC)));
+		weather.setPressure(c.getInt(c
+				.getColumnIndex(WeatherModel.WEATHER_PRESSURE)));
+		weather.setSunrise(c.getLong(c
+				.getColumnIndex(WeatherModel.WEATHER_SUNRISE)));
+		weather.setSunset(c.getLong(c
+				.getColumnIndex(WeatherModel.WEATHER_SUNSET)));
+		weather.setTemperature(c.getFloat(c
+				.getColumnIndex(WeatherModel.WEATHER_TEMPERATURE)));
+		weather.setTempMax(c.getInt(c
+				.getColumnIndex(WeatherModel.WEATHER_TEMPMAX)));
+		weather.setTempMin(c.getInt(c
+				.getColumnIndex(WeatherModel.WEATHER_TEMPMIN)));
+		weather.setUpdateTime(c.getString(c
+				.getColumnIndex(WeatherModel.WEATHER_UPDATETIME)));
+		weather.setWindDeg(c.getFloat(c
+				.getColumnIndex(WeatherModel.WEATHER_WINDDEG)));
+		weather.setWindSpeed(c.getFloat(c
+				.getColumnIndex(WeatherModel.WEATHER_WINDSPEED)));
 		return weather;
 	}
-	
-	private ContentValues populateWeatherContent(WeatherForecast weather){
+
+	private ContentValues populateWeatherContent(WeatherForecast weather) {
 		ContentValues values = new ContentValues();
 		values.put(WeatherModel.WEATHER_CITYNAME, weather.getCityName());
 		values.put(WeatherModel.WEATHER_CLOUDSALL, weather.getCloudsAll());
@@ -327,7 +350,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		values.put(WeatherModel.WEATHER_WINDSPEED, weather.getWindSpeed());
 		return values;
 	}
-	
+
 	public long createWeather(WeatherForecast weather) {
 		ContentValues values = populateWeatherContent(weather);
 		long id = getWritableDatabase().insert(WeatherModel.TABLE_NAME, null,
@@ -358,7 +381,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		}
 		return null;
 	}
-	
+
 	public WeatherForecast getWeatherByCity(String city) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		String select = "SELECT * FROM " + WeatherModel.TABLE_NAME + " WHERE "
@@ -393,5 +416,23 @@ public class DBHelper extends SQLiteOpenHelper {
 		int rows = getWritableDatabase().delete(WeatherModel.TABLE_NAME,
 				WeatherModel._ID + " =?", new String[] { String.valueOf(id) });
 		return rows;
+	}
+
+	private String citiesToDB(List<String> s) {
+		if (s.size() == 1) {
+			return s.get(0);
+		}
+		if (s.size() == 2) {
+			return s.get(0) + ", " + s.get(1);
+		}
+		return "";
+	}
+
+	private List<String> citiesFromDB(String s) {
+		List<String> cities = new ArrayList<String>();
+		for (String add : s.split(",")) {
+			cities.add(add.trim());
+		}
+		return cities;
 	}
 }

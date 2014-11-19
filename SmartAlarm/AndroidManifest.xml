@@ -59,6 +59,11 @@
             android:name=".SettingsActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".WeatherSelectActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.NoActionBar" >
+        </activity>
 
         <service
             android:name="sk.jmmobilesoft.smartalarm.service.ClockRepeatService"
@@ -71,7 +76,7 @@
 
         <receiver android:name="sk.jmmobilesoft.smartalarm.service.ClockServiceReciever" />
         <receiver android:name="sk.jmmobilesoft.smartalarm.service.TimerServiceReciever" />
-       <!--  <receiver android:name="sk.jmmobilesoft.smartalarm.service.WeatherRefreshReciever" /> --> 
+        <receiver android:name="sk.jmmobilesoft.smartalarm.service.WeatherRefreshReciever" />
     </application>
 
 </manifest>

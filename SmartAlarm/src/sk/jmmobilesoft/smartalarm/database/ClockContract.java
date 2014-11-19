@@ -16,6 +16,7 @@ public abstract class ClockContract {
 		public static final String COLUMN_NAME_CLOCK_TONE = "tone";
 		public static final String COLUMN_NAME_CLOCK_VOLUME = "volume";
 		public static final String COLUMN_NAME_CLOCK_ENABLED = "enabled";
+		public static final String COLUMN_NAME_CLOCK_CITIES = "cities";
 	}
 
 }

@@ -128,6 +128,6 @@ public abstract class Helper {
 	public static String milisToTime(long milliseconds){
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(milliseconds * 1000);
-		return c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE);
+		return format(c.get(Calendar.HOUR_OF_DAY)) + ":" + format(c.get(Calendar.MINUTE));
 	}
 }

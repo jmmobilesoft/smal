@@ -36,7 +36,7 @@ public class WeatherNetworkService {
 		return true;
 	}
 
-	private List<WeatherForecast> getWeather(List<String> cityList) {
+	public List<WeatherForecast> getWeather(List<String> cityList) {
 		WeatherHttpClient client = new WeatherHttpClient();
 		WeatherJsonParser parser = new WeatherJsonParser();
 		List<WeatherForecast> list = new ArrayList<WeatherForecast>();
@@ -73,11 +73,11 @@ public class WeatherNetworkService {
 		@Override
 		protected Void doInBackground(Void... params) {
 			try {
+				System.out.println("waiting");
 				int counter = 0;
 				while (!network.isConnected(mContext) || counter >= 60) {
 					Thread.yield();
-					System.out.println("waiting");
-					counter++;
+					//counter++;
 				}
 
 			} catch (Exception e) {

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <!--  android:background="@android:color/black" -->
+    
+    <ListView
+        android:id="@+id/weather_select_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/weather_select_activity_buttons_layout"/>
+    
+    <LinearLayout
+        android:id="@+id/weather_select_activity_buttons_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_above="@+id/weather_select_activity_buttons_container"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#0099cc" />
+
+        <LinearLayout
+            android:id="@+id/weather_select_activity_buttons_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/weather_select_activity_save"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:text="Ok"
+                android:textColor="#33b5e5" />
+
+            <TextView
+                android:id="@+id/weather_item_spacer"
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:layout_alignParentBottom="true"
+                android:background="#0099cc" />
+
+            <Button
+                android:id="@+id/weather_select_activity_cancel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:text="Cancel"
+                android:textColor="#33b5e5" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

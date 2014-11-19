@@ -2,7 +2,6 @@ package sk.jmmobilesoft.smartalarm;
 
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.network.NetworkService;
-import sk.jmmobilesoft.smartalarm.network.WeatherNetworkService;
 import sk.jmmobilesoft.smartalarm.service.Helper;
 import sk.jmmobilesoft.smartalarm.weather.WeatherHttpClient;
 import sk.jmmobilesoft.smartalarm.weather.WeatherJsonParser;

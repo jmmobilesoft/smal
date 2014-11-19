@@ -1,6 +1,8 @@
 package sk.jmmobilesoft.smartalarm;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.model.Clock;
@@ -27,6 +29,7 @@ import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -122,6 +125,7 @@ public class ClockViewActivity extends Activity {
 			if (c.getVolume() != 0) {
 				volumeBar.setProgress((int) (c.getVolume() * 100));
 			}
+			setWeatherLayout(c);
 		}
 		if (sound == null
 				|| sound.compareTo(Uri
@@ -138,13 +142,13 @@ public class ClockViewActivity extends Activity {
 		}
 		plus = (Button) findViewById(R.id.clock_view_activity_snooze_plus_button);
 		plus.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				if(snoozeTime == 60){
+				if (snoozeTime == 60) {
 					plus.setClickable(false);
 				}
-				if(snoozeTime <= 59){
+				if (snoozeTime <= 59) {
 					snoozeTime++;
 				}
 				minus.setClickable(true);
@@ -153,13 +157,14 @@ public class ClockViewActivity extends Activity {
 		});
 		minus = (Button) findViewById(R.id.clock_view_activity_snooze_minus_button);
 		minus.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				if(snoozeTime == 1){
-					minus.setClickable(false);;
+				if (snoozeTime == 1) {
+					minus.setClickable(false);
+					;
 				}
-				if(snoozeTime >= 2){
+				if (snoozeTime >= 2) {
 					snoozeTime--;
 				}
 				plus.setClickable(true);
@@ -183,12 +188,12 @@ public class ClockViewActivity extends Activity {
 				}
 				c.setVolume(volume);
 				c.setRepeat(getRepeats());
-				if(!snooze.getText().toString().isEmpty()){
-					c.setSnoozeTime(Integer.valueOf(snooze.getText().toString()));
+				if (!snooze.getText().toString().isEmpty()) {
+					c.setSnoozeTime(Integer
+							.valueOf(snooze.getText().toString()));
 				} else {
 					c.setSnoozeTime(5);
 				}
-				
 
 				if (c.getId() == -1) {
 					c.setId(db.createClock(c));
@@ -197,8 +202,9 @@ public class ClockViewActivity extends Activity {
 				}
 				System.out.println(c);
 				System.out.println("setting clock");
-				boolean t = ClockSetting.setClock(getApplicationContext(), c.getId());
-				if(t){
+				boolean t = ClockSetting.setClock(getApplicationContext(),
+						c.getId());
+				if (t) {
 					Helper.showToast(c, getApplicationContext());
 				}
 				try {
@@ -310,13 +316,13 @@ public class ClockViewActivity extends Activity {
 			}
 		});
 	}
-	
+
 	@Override
 	public void onUserInteraction() {
 		stopMediaPlayer();
 		super.onUserInteraction();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		stopMediaPlayer();
@@ -338,10 +344,32 @@ public class ClockViewActivity extends Activity {
 			sound = intent.getData();
 		}
 		soundName.setText(getSongName(sound));
+		if (requestCode == 111) {
+			int[] result = intent.getIntArrayExtra("result");
+			List<String> cities = new ArrayList<>();
+			for(int i = 0; i < result.length; i++){
+				cities.add(db.getWeather(i).getCityName());
+			}
+		}
 		super.onActivityResult(requestCode, resultCode, intent);
 	}
 
-	private void stopMediaPlayer(){
+	private void setWeatherLayout(Clock c) {
+		LinearLayout layout = (LinearLayout) findViewById(R.id.clock_view_activity_weather_container);
+		TextView text = (TextView) findViewById(R.id.clock_view_activity_weather_name);
+
+		layout.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intentA = new Intent(getApplicationContext(),WeatherSelectActivity.class);
+				startActivityForResult(intentA, 111);
+			}
+		});
+		text.setText(c.getCities().toString());
+	}
+
+	private void stopMediaPlayer() {
 		try {
 			mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
 					originalVolume, 0);
@@ -352,7 +380,7 @@ public class ClockViewActivity extends Activity {
 			Log.i("INFO", "media player already stopped");
 		}
 	}
-	
+
 	private float determineVolume(int seekbarStatus) {
 		final float MIN = 0.2f;
 		float volume = (float) (seekbarStatus * 0.01);

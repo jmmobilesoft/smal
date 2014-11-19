@@ -62,6 +62,14 @@
             android:layout_toRightOf="@+id/ring_image_wiew"
             android:text="15°C"
             android:textSize="50sp" />
+        
+        <TextView
+            android:id="@+id/ring_city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/ring_temperature_text"
+            android:text="Brno"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/ring_desription_text"
@@ -114,6 +122,15 @@
   			android:layout_toRightOf="@+id/ring_humidity_text"
             android:layout_marginLeft="10dp"
             android:text="wind: 1.5 m/s" /> 
+            
+        <TextView
+            android:id="@+id/ring_update_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ring_wind_text"
+  			android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:text="time" /> 
     </RelativeLayout>
 
     <LinearLayout

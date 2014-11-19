@@ -1,6 +1,8 @@
 package sk.jmmobilesoft.smartalarm.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import android.net.Uri;
 
@@ -15,11 +17,13 @@ public class Clock {
 	private String name;
 	private int snoozeTime;
 	private float volume;  
+	private List<String> cities;
 	//private boolean niceWakeUp; //TODO
 	private int[] repeat = new int[]{0,0,0,0,0,0,0};
 	
 	public Clock(){
 		id = (long) -1;
+		cities = new ArrayList<String>();
 	}
 	
 	public Clock(int hour, int minutes, boolean active, String name,int[] repeat){
@@ -29,6 +33,7 @@ public class Clock {
 		this.name = name;
 		this.active = active;
 		this.repeat = repeat;
+		cities = new ArrayList<String>();
 	}
 
 	public long getId() {
@@ -102,6 +107,14 @@ public class Clock {
 	public void setVolume(float volume) {
 		this.volume = volume;
 	}
+	
+	public List<String> getCities() {
+		return cities;
+	}
+
+	public void setCities(List<String> cities) {
+		this.cities = cities;
+	}
 
 	public String toDBRepeat(int[] repeats){
 		String result = String.valueOf(repeats[0]) + String.valueOf(repeats[1]) + String.valueOf(repeats[2] + String.valueOf(repeats[3]) +
@@ -167,8 +180,5 @@ public class Clock {
 		} else if (!sound.equals(other.sound))
 			return false;
 		return true;
-	}
-	
-	
-		
+	}		
 }
