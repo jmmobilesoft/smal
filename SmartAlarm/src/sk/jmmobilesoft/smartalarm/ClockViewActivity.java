@@ -298,7 +298,7 @@ public class ClockViewActivity extends Activity {
 					mp.release();
 					mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
 							originalVolume, 0);
-				} catch (NullPointerException | IllegalStateException e) {
+				} catch (NullPointerException | IllegalStateException  e) {
 					Log.i("INFO", "media player already stopped");
 				}
 				mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
@@ -346,10 +346,15 @@ public class ClockViewActivity extends Activity {
 		soundName.setText(getSongName(sound));
 		if (requestCode == 111) {
 			int[] result = intent.getIntArrayExtra("result");
+			System.out.println(result.length);
 			List<String> cities = new ArrayList<>();
-			for(int i = 0; i < result.length; i++){
-				cities.add(db.getWeather(i).getCityName());
+			for (int i = 0; i < result.length; i++) {
+				if (result[i] != 0) {
+					cities.add(db.getWeather(result[i]).getCityName());
+				}
 			}
+			c.setCities(cities);
+			System.out.println(cities);
 		}
 		super.onActivityResult(requestCode, resultCode, intent);
 	}
@@ -362,7 +367,8 @@ public class ClockViewActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intentA = new Intent(getApplicationContext(),WeatherSelectActivity.class);
+				Intent intentA = new Intent(getApplicationContext(),
+						WeatherSelectActivity.class);
 				startActivityForResult(intentA, 111);
 			}
 		});

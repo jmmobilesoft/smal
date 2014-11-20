@@ -94,9 +94,9 @@ public final class R {
         public static final int image_button_wifi_off=0x7f090055;
         public static final int image_button_wifi_on=0x7f090054;
         public static final int image_edittext_city=0x7f090058;
-        public static final int menu_add_action=0x7f09008b;
-        public static final int menu_remove_action=0x7f09008a;
-        public static final int menu_settings_action=0x7f09008c;
+        public static final int menu_add_action=0x7f09008a;
+        public static final int menu_remove_action=0x7f090089;
+        public static final int menu_settings_action=0x7f09008b;
         public static final int realtabcontent=0x7f09005e;
         public static final int ring_city_name=0x7f090029;
         public static final int ring_clock=0x7f090024;
@@ -146,9 +146,8 @@ public final class R {
         public static final int timer_view_activity_sound_pick=0x7f090072;
         public static final int timer_view_activity_volume_containter=0x7f090074;
         public static final int timer_view_activity_volume_picker=0x7f090075;
-        public static final int weathe_select_item_description=0x7f090085;
-        public static final int weathe_select_item_selector=0x7f090089;
-        public static final int weathe_select_item_spacer=0x7f090088;
+        public static final int weathe_select_item_selector=0x7f090088;
+        public static final int weathe_select_item_spacer=0x7f090087;
         public static final int weather_item_city=0x7f090079;
         public static final int weather_item_description=0x7f09007b;
         public static final int weather_item_maxmintemp=0x7f09007c;
@@ -159,7 +158,7 @@ public final class R {
         public static final int weather_select_activity_cancel=0x7f090082;
         public static final int weather_select_activity_save=0x7f090081;
         public static final int weather_select_item_city=0x7f090083;
-        public static final int weather_select_item_description=0x7f090087;
+        public static final int weather_select_item_description=0x7f090085;
         public static final int weather_select_item_maxmintemp=0x7f090086;
         public static final int weather_select_item_temp=0x7f090084;
         public static final int weather_select_listview=0x7f09007e;

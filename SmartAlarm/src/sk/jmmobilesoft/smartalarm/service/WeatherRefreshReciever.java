@@ -57,7 +57,7 @@ public class WeatherRefreshReciever extends BroadcastReceiver {
 		@Override
 		protected void onPostExecute(Void result) {
 			DBHelper db = new DBHelper(mContext);
-			Clock c = db.getClock(id);
+			//Clock c = db.getClock(id);
 			WeatherNetworkService service = new WeatherNetworkService();
 			List<String> cityList = new ArrayList<>();// c.getCities();
 			for (WeatherForecast w : db.getWeather()) {

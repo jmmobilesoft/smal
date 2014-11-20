@@ -71,9 +71,8 @@ public class WeatherJsonParser {
 			// TODO log
 		}
 		
-		SimpleDateFormat f = new SimpleDateFormat("dd.mm.yyyy, HH:mm");
+		SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
 		String updateTime = f.format(Helper.getCurrentTime().getTime());
-		
 		weather.setUpdateTime(updateTime);
 		
 		return weather;		

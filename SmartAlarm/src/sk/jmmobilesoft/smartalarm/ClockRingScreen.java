@@ -76,7 +76,7 @@ public class ClockRingScreen extends Activity {
 		name.setText(c.getName());
 		context = this;
 		
-		setWeather();
+		setWeather(c);
 
 		final SeekBar dismiss = (SeekBar) findViewById(R.id.ring_seek_dismiss);
 		final SeekBar snooze = (SeekBar) findViewById(R.id.ring_seek_snooze);
@@ -139,7 +139,7 @@ public class ClockRingScreen extends Activity {
 		super.onCreate(savedInstanceState);
 	}
 
-	private void setWeather(){
+	private void setWeather(Clock c){
 		TextView temp = (TextView) findViewById(R.id.ring_temperature_text);
 		TextView sunset = (TextView) findViewById(R.id.ring_sunset_text);
 		TextView sunrise = (TextView) findViewById(R.id.ring_sunrise_text);
@@ -150,7 +150,7 @@ public class ClockRingScreen extends Activity {
 		TextView city = (TextView) findViewById(R.id.ring_city_name);
 		TextView update = (TextView) findViewById(R.id.ring_update_time);
 		
-		WeatherForecast w = db.getWeatherByCity("Brno");
+		WeatherForecast w = db.getWeatherByCity(c.getCities().get(0));
 		temp.setText(Float.toString(Helper.kelvinToCelsius(w.getTemperature())) + "°C");
 		sunset.setText(Helper.milisToTime(w.getSunset()));
 		sunrise.setText(Helper.milisToTime(w.getSunrise()));

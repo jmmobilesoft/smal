@@ -20,6 +20,7 @@ import android.widget.ListView;
 public class WeatherSelectActivity extends Activity {
 
 	private DBHelper db;
+	private WeatherSelectAdapter adapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class WeatherSelectActivity extends Activity {
 		if (weatherList == null) {
 			weatherList = new ArrayList<WeatherForecast>();
 		}
-		WeatherSelectAdapter adapter = new WeatherSelectAdapter(this, weatherList, savedInstanceState);
+		adapter = new WeatherSelectAdapter(this, weatherList, savedInstanceState);
 		list.setAdapter(adapter);
 		initComponents(adapter);
 	}
@@ -56,21 +57,22 @@ public class WeatherSelectActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				int counter = 0;
-				List<Integer> w = new ArrayList<>();
+				List<Long> w = new ArrayList<>();
 				for(int i = 0; i< adapter.getCount(); i++){
 					if(WeatherSelectAdapter.checkboxes[i]){
-						w.add(i);
+						w.add(adapter.getItemId(i));
 						counter++;
 					}
 				}
 				if(counter <= 2 && counter > 0){
 					int[] r = new int[2];
-					for(int i = 0; i < 2; i++){
-						r[i] = w.get(i);
+					for(int i = 0; i < w.size(); i++){
+						r[i] = w.get(i).intValue();
 					}
 					Intent result = new Intent();
 					result.putExtra("result", r);
-					setResult(111, result);
+					setResult(RESULT_OK, result);
+					System.out.println(r.length);
 					finish();
 				}
 			}
