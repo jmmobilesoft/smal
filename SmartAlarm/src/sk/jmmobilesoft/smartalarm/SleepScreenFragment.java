@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.WeatherAdapter;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.network.NetworkService;
@@ -27,72 +28,83 @@ public class SleepScreenFragment extends Fragment {
 	private DBHelper db;
 	private ListView list;
 	private Bundle state;
-	private Fragment context;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		final View view = inflater.inflate(R.layout.sleep_screen_fragment,
-				container, false);
-		state = savedInstanceState;
-		db = new DBHelper(getActivity());
-		list = (ListView) view.findViewById(R.id.sleep_screen_listview);
-
 		try {
-			weathers = db.getWeather();
-		} catch (IllegalStateException e) {
-			Log.i("INFO", "clock databse is empty");
-		}
-		if (weathers == null) {
-			weathers = new ArrayList<WeatherForecast>();
-		}
-		adapter = new WeatherAdapter(this, weathers, savedInstanceState);
-		list.setAdapter(adapter);
-		final EditText city = (EditText) view
-				.findViewById(R.id.sleep_screen_city);
-		Button add = (Button) view.findViewById(R.id.sleep_screen_add);
-		add.setOnClickListener(new OnClickListener() {
+			final View view = inflater.inflate(R.layout.sleep_screen_fragment,
+					container, false);
+			state = savedInstanceState;
+			db = new DBHelper(getActivity());
+			list = (ListView) view.findViewById(R.id.sleep_screen_listview);
 
-			@Override
-			public void onClick(View v) {
-				WeatherNetworkService service = new WeatherNetworkService();
-				if (new NetworkService().isConnected(getActivity())) {
-					String cityS = city.getText().toString();
-					if (service.availableWeather(cityS)) {
-						List<String> cities = new ArrayList<String>();
-						cities.add(cityS);
-						List<WeatherForecast> w = service.downloadWeather(
-								cities, getActivity());
-						WeatherForecast weather = w.get(0);
-						if (db.getWeatherByCity(weather.getCityName()) == null) { // TODO
-																					// CHECK
-							db.createWeather(weather);
-							refreshWeathers();
-							city.setText("");
+			try {
+				weathers = db.getWeather();
+			} catch (IllegalStateException e) {
+				StackTraceElement[] s = e.getStackTrace();
+				for (int i = 0; i < s.length; i++) {
+					Logger.appInfo(s[i].toString());
+				}
+			}
+			if (weathers == null) {
+				weathers = new ArrayList<WeatherForecast>();
+			}
+			adapter = new WeatherAdapter(this, weathers, savedInstanceState);
+			list.setAdapter(adapter);
+			final EditText city = (EditText) view
+					.findViewById(R.id.sleep_screen_city);
+			Button add = (Button) view.findViewById(R.id.sleep_screen_add);
+			add.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					WeatherNetworkService service = new WeatherNetworkService();
+					if (new NetworkService().isConnected(getActivity())) {
+						String cityS = city.getText().toString();
+						if (service.availableWeather(cityS)) {
+							List<String> cities = new ArrayList<String>();
+							cities.add(cityS);
+							List<WeatherForecast> w = service.downloadWeather(
+									cities, getActivity());
+							WeatherForecast weather = w.get(0);
+							if (db.getWeatherByCity(weather.getCityName()) == null) { // TODO
+																						// CHECK
+								db.createWeather(weather);
+								refreshWeathers();
+								city.setText("");
+							} else {
+								weather.setId(db.getWeatherByCity(
+										weather.getCityName()).getId());
+								db.updateWeather(weather);
+								refreshWeathers();
+								city.setText("");
+							}
 						} else {
-							weather.setId(db.getWeatherByCity(
-									weather.getCityName()).getId());
-							db.updateWeather(weather);
-							refreshWeathers();
-							city.setText("");
+							String text = "Weather for city "
+									+ city.getText().toString()
+									+ " was not found.";
+							Toast t = Toast.makeText(getActivity(), text,
+									Toast.LENGTH_SHORT);
+							t.show();
 						}
 					} else {
-						String text = "Weather for city "
-								+ city.getText().toString() + " was not found.";
+						String text = "Network connection unavailable.";
 						Toast t = Toast.makeText(getActivity(), text,
 								Toast.LENGTH_SHORT);
 						t.show();
 					}
-				} else {
-					String text = "Network connection unavailable.";
-					Toast t = Toast.makeText(getActivity(), text,
-							Toast.LENGTH_SHORT);
-					t.show();
-				}
 
+				}
+			});
+			return view;
+		} catch (Exception e) {
+			StackTraceElement[] s = e.getStackTrace();
+			for (int i = 0; i < s.length; i++) {
+				Logger.appInfo(s[i].toString());
 			}
-		});
-		return view;
+			throw e;
+		}
 	}
 
 	private void refreshWeathers() {

@@ -22,12 +22,12 @@ public class Clock {
 	private int[] repeat = new int[]{0,0,0,0,0,0,0};
 	
 	public Clock(){
-		id = (long) -1;
+		id = -1l;
 		cities = new ArrayList<String>();
 	}
 	
 	public Clock(int hour, int minutes, boolean active, String name,int[] repeat){
-		id = (long) -1;
+		id = -1l;
 		this.hour = hour;
 		this.minutes = minutes;
 		this.name = name;

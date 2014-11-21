@@ -320,6 +320,14 @@
                 </RelativeLayout>
             </LinearLayout>
             
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_above="@+id/clock_view_activity_weather_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#0099cc" />
+            
             <LinearLayout
                 android:id="@+id/clock_view_activity_weather_container"
                 android:layout_width="fill_parent"

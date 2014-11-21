@@ -42,7 +42,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ClockRingScreen"
+            android:name=".ClockRingActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
         </activity>

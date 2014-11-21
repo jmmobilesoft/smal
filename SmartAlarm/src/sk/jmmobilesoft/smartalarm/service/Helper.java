@@ -122,7 +122,8 @@ public abstract class Helper {
 	}
 	
 	public static float kelvinToCelsius(float temperature){
-		 return Float.parseFloat(new DecimalFormat("###.#").format((float) (temperature - 273.15)));
+		float cels =  temperature - 273.15f;
+		return Math.round(cels * 10) / 10;
 	}
 	
 	public static String milisToTime(long milliseconds){

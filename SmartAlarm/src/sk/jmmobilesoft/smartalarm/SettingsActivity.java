@@ -70,10 +70,10 @@ public class SettingsActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-//				network.turnWifiOn(getApplicationContext());
-//				new WeatherNetworkService().connect(getApplicationContext());
-//				weather.setText(getWeatherString());
-//				network.turnWifiOff(getApplicationContext());
+				// network.turnWifiOn(getApplicationContext());
+				// new WeatherNetworkService().connect(getApplicationContext());
+				// weather.setText(getWeatherString());
+				// network.turnWifiOff(getApplicationContext());
 				new Connect(getApplicationContext()).execute();
 			}
 		});
@@ -106,36 +106,38 @@ public class SettingsActivity extends Activity {
 				+ Helper.milisToTime(weather.getSunset()));
 		return fReturn;
 	}
-	
+
 	public class Connect extends AsyncTask<Void, Void, Void> {
 
 		private Context mContext;
-		
-		public Connect(Context context){
+
+		public Connect(Context context) {
 			mContext = context;
 		}
-		
+
 		@Override
 		protected Void doInBackground(Void... params) {
 			try {
 				network.turnWifiOn(getApplicationContext());
 				int counter = 0;
-				while (!network.isConnected(mContext) || counter >= 60) {
-					Thread.sleep(1000);
-					System.out.println("waiting");
+				while (!network.isConnected(mContext) && counter <= 60) {
 					counter++;
+					Thread.sleep(1000);
+					System.out.println("waiting:" + counter);
 				}
 
 			} catch (Exception e) {
 				System.out.println(e);
-				//network.turnWifiOff(mContext);
+				// network.turnWifiOff(mContext);
 			}
 			return null;
 		}
-		
+
 		@Override
 		protected void onPostExecute(Void result) {
-			weather.setText(getWeatherString());
+			if (network.isConnected(mContext)) {
+				weather.setText(getWeatherString());
+			}
 			network.turnWifiOff(getApplicationContext());
 			super.onPostExecute(result);
 		}

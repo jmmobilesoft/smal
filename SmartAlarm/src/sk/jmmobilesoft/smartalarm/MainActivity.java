@@ -63,16 +63,24 @@ public class MainActivity extends FragmentActivity implements
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tabs_layout);
-		initialiseTabHost(savedInstanceState);
-		if (savedInstanceState != null) {
-			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
-		}
-		if (!isMyServiceRunning(ClockRepeatService.class)) {
-			Log.i("INFO", "ClockRepeatService started");
-			Intent startRepeatingService = new Intent(this,
-					ClockRepeatService.class);
-			startService(startRepeatingService);
+		try {
+			setContentView(R.layout.tabs_layout);
+			initialiseTabHost(savedInstanceState);
+			if (savedInstanceState != null) {
+				mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
+			}
+			if (!isMyServiceRunning(ClockRepeatService.class)) {
+				Log.i("INFO", "ClockRepeatService started");
+				Intent startRepeatingService = new Intent(this,
+						ClockRepeatService.class);
+				startService(startRepeatingService);
+			}
+		} catch (Exception e) {
+			StackTraceElement[] s = e.getStackTrace();
+			for (int i = 0; i < s.length; i++) {
+				Logger.appInfo(s[i].toString());
+			}
+			throw e;
 		}
 	}
 
@@ -97,8 +105,8 @@ public class MainActivity extends FragmentActivity implements
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		MainActivity
 				.addTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab3")
-						.setIndicator("Weather"), (tabInfo = new TabInfo("Tab3",
-						SleepScreenFragment.class, args)));
+						.setIndicator("Weather"), (tabInfo = new TabInfo(
+						"Tab3", SleepScreenFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		this.onTabChanged("Tab1");
 		for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
@@ -178,13 +186,13 @@ public class MainActivity extends FragmentActivity implements
 			switch (activeTab) {
 			case "ClockAlarmFragment": {
 				Intent intentA = new Intent(this, ClockViewActivity.class);
-				intentA.putExtra("id", 0);
+				intentA.putExtra("id", -1l);
 				startActivityForResult(intentA, 10);
 				break;
 			}
 			case "TimerAlarmFragment": {
 				Intent intent = new Intent(this, TimerViewActivity.class);
-				intent.putExtra("id", 0);
+				intent.putExtra("id", -1l);
 				startActivityForResult(intent, 11);
 				break;
 			}
@@ -210,7 +218,7 @@ public class MainActivity extends FragmentActivity implements
 			}
 			}
 		}
-		if(item.getItemId() == R.id.menu_settings_action) {
+		if (item.getItemId() == R.id.menu_settings_action) {
 			Intent intent = new Intent(this, SettingsActivity.class);
 			intent.putExtra("id", 0);
 			startActivityForResult(intent, 13);

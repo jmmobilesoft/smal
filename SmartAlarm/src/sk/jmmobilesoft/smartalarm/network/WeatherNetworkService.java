@@ -73,11 +73,11 @@ public class WeatherNetworkService {
 		@Override
 		protected Void doInBackground(Void... params) {
 			try {
-				System.out.println("waiting");
 				int counter = 0;
-				while (!network.isConnected(mContext) || counter >= 60) {
+				while (!network.isConnected(mContext) && counter <= 60) {
+					System.out.println("waiting:" + counter);
+					counter++;
 					Thread.yield();
-					//counter++;
 				}
 
 			} catch (Exception e) {

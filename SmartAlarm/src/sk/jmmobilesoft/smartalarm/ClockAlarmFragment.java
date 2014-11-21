@@ -16,20 +16,33 @@ import android.widget.ListView;
 
 public class ClockAlarmFragment extends Fragment {
 
-	private List<Clock> clockList;
-	private ClockAdapter adapter;
-	private DBHelper db;
-	private Bundle bundle;
 	private ListView list;
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater,
 			final ViewGroup container, Bundle savedInstanceState) {
-		bundle = savedInstanceState;
-		final View view = inflater.inflate(R.layout.clock_fragment, container,
-				false);
-		db = new DBHelper(getActivity());
-		list = (ListView) view.findViewById(R.id.clock_listview);
+		View view = initView(container);
+		refreshClocksList();
+		return view;
+	}
+
+	@Override
+	public void onResume() {
+		refreshClocksList();
+		super.onResume();
+	}
+
+	private View initView(ViewGroup container) {
+		View v = getLayoutInflater(getArguments()).inflate(
+				R.layout.clock_fragment, container, false);
+
+		list = (ListView) v.findViewById(R.id.clock_listview);
+		return v;
+	}
+
+	private void refreshClocksList() {
+		DBHelper db = new DBHelper(getActivity());
+		List<Clock> clockList = null;
 		try {
 			clockList = db.getClocks();
 		} catch (IllegalStateException e) {
@@ -38,19 +51,8 @@ public class ClockAlarmFragment extends Fragment {
 		if (clockList == null) {
 			clockList = new ArrayList<Clock>();
 		}
-		adapter = new ClockAdapter(this, clockList, savedInstanceState);
+		ClockAdapter adapter = new ClockAdapter(this, clockList,
+				this.getArguments());
 		list.setAdapter(adapter);
-		return view;
-	}
-
-	@Override
-	public void onResume() {
-		clockList = db.getClocks();
-		if (clockList == null) {
-			clockList = new ArrayList<Clock>();
-		}
-		adapter = new ClockAdapter(this, clockList, bundle);
-		list.setAdapter(adapter);
-		super.onResume();
 	}
 }

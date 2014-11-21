@@ -6,6 +6,7 @@ import java.util.List;
 import sk.jmmobilesoft.smartalarm.database.ClockContract.ClockModel;
 import sk.jmmobilesoft.smartalarm.database.TimerContract.TimerModel;
 import sk.jmmobilesoft.smartalarm.database.WeatherContract.WeatherModel;
+import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import sk.jmmobilesoft.smartalarm.model.Timer;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
@@ -369,17 +370,25 @@ public class DBHelper extends SQLiteOpenHelper {
 	}
 
 	public WeatherForecast getWeather(long id) {
-		SQLiteDatabase db = this.getReadableDatabase();
-		String select = "SELECT * FROM " + WeatherModel.TABLE_NAME + " WHERE "
-				+ WeatherModel._ID + " = " + id;
+		try {
+			SQLiteDatabase db = this.getReadableDatabase();
+			String select = "SELECT * FROM " + WeatherModel.TABLE_NAME
+					+ " WHERE " + WeatherModel._ID + " = " + id;
 
-		Cursor c = db.rawQuery(select, null);
+			Cursor c = db.rawQuery(select, null);
 
-		if (c.moveToNext()) {
-			db.close(); // TODO think about
-			return populateWeatherModel(c);
+			if (c.moveToNext()) {
+				db.close(); // TODO think about
+				return populateWeatherModel(c);
+			}
+			return null;
+		} catch (Exception e) {
+			StackTraceElement[] s = e.getStackTrace();
+			for (int i = 0; i < s.length; i++) {
+				Logger.appInfo(s[i].toString());
+			}
+			throw e;
 		}
-		return null;
 	}
 
 	public WeatherForecast getWeatherByCity(String city) {
@@ -430,8 +439,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	private List<String> citiesFromDB(String s) {
 		List<String> cities = new ArrayList<String>();
-		for (String add : s.split(",")) {
-			cities.add(add.trim());
+		if (!s.isEmpty()) {
+			for (String add : s.split(",")) {
+				cities.add(add.trim());
+			}
 		}
 		return cities;
 	}

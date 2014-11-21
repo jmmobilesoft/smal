@@ -41,13 +41,13 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/ring_weather_container"
+        android:id="@+id/ring_weather_1_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ring_info_container" >
 
         <ImageView
-            android:id="@+id/ring_image_wiew"
+            android:id="@+id/ring_weather_1_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -56,83 +56,186 @@
             android:src="@drawable/ic_launcher" />
  
         <TextView
-            android:id="@+id/ring_temperature_text"
+            android:id="@+id/ring_weather_1_temperature_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/ring_image_wiew"
+            android:layout_toRightOf="@+id/ring_weather_1_image_view"
             android:text="15°C"
             android:textSize="50sp" />
         
         <TextView
-            android:id="@+id/ring_city_name"
+            android:id="@+id/ring_weather_1_city_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/ring_temperature_text"
+            android:layout_below="@+id/ring_weather_1_image_view"
+            android:layout_marginLeft="10dp"
             android:text="Brno"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/ring_desription_text"
+            android:id="@+id/ring_weather_1_desription_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ring_temperature_text"
+            android:layout_below="@+id/ring_weather_1_temperature_text"
             android:layout_marginLeft="10dp"
             android:text="Partly cloudy" />
 
         <TextView
-            android:id="@+id/ring_maxmintemp_text"
+            android:id="@+id/ring_weather_1_maxmintemp_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/ring_desription_text"
-            android:layout_below="@+id/ring_temperature_text"
+            android:layout_toRightOf="@+id/ring_weather_1_desription_text"
+            android:layout_below="@+id/ring_weather_1_temperature_text"
             android:layout_marginLeft="10dp"
             android:text="10°C-15°C" />
 
         <TextView
-            android:id="@+id/ring_sunrise_text"
+            android:id="@+id/ring_weather_1_sunrise_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ring_desription_text"
+            android:layout_below="@+id/ring_weather_1_desription_text"
             android:layout_marginLeft="10dp"
             android:text="sunrise: 5:40" />
         
         <TextView
-            android:id="@+id/ring_sunset_text"
+            android:id="@+id/ring_weather_1_sunset_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ring_desription_text"
-  			android:layout_toRightOf="@+id/ring_sunrise_text"
+            android:layout_below="@+id/ring_weather_1_desription_text"
+  			android:layout_toRightOf="@+id/ring_weather_1_sunrise_text"
             android:layout_marginLeft="10dp"
             android:text="sunset 16:30" /> 
         
         <TextView
-            android:id="@+id/ring_humidity_text"
+            android:id="@+id/ring_weather_1_humidity_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ring_sunrise_text"
+            android:layout_below="@+id/ring_weather_1_sunrise_text"
             android:layout_marginLeft="10dp"
             android:text="Humidity: 80%" />
         
         <TextView
-            android:id="@+id/ring_wind_text"
+            android:id="@+id/ring_weather_1_wind_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ring_sunrise_text"
-  			android:layout_toRightOf="@+id/ring_humidity_text"
+            android:layout_below="@+id/ring_weather_1_sunrise_text"
+  			android:layout_toRightOf="@+id/ring_weather_1_humidity_text"
             android:layout_marginLeft="10dp"
             android:text="wind: 1.5 m/s" /> 
             
         <TextView
-            android:id="@+id/ring_update_time"
+            android:id="@+id/ring_weather_1_update_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ring_wind_text"
+            android:layout_below="@+id/ring_weather_1_wind_text"
   			android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
             android:text="time" /> 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/ring_weather_2_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ring_weather_1_container" >
+        
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_above="@+id/ring_weather_2_image_view"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#0099cc" />
+
+        <ImageView
+            android:id="@+id/ring_weather_2_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_launcher" />
+ 
+        <TextView
+            android:id="@+id/ring_weather_2_temperature_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/ring_weather_2_image_view"
+            android:text="15°C"
+            android:textSize="50sp" />
+        
+        <TextView
+            android:id="@+id/ring_weather_2_city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ring_weather_2_image_view"
+            android:layout_marginLeft="10dp"
+            android:text="Brno"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/ring_weather_2_desription_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ring_weather_2_temperature_text"
+            android:layout_marginLeft="10dp"
+            android:text="Partly cloudy" />
+
+        <TextView
+            android:id="@+id/ring_weather_2_maxmintemp_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/ring_weather_2_desription_text"
+            android:layout_below="@+id/ring_weather_2_temperature_text"
+            android:layout_marginLeft="10dp"
+            android:text="10°C-15°C" />
+
+        <TextView
+            android:id="@+id/ring_weather_2_sunrise_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ring_weather_2_desription_text"
+            android:layout_marginLeft="10dp"
+            android:text="sunrise: 5:40" />
+        
+        <TextView
+            android:id="@+id/ring_weather_2_sunset_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ring_weather_2_desription_text"
+  			android:layout_toRightOf="@+id/ring_weather_2_sunrise_text"
+            android:layout_marginLeft="10dp"
+            android:text="sunset 16:30" /> 
+        
+        <TextView
+            android:id="@+id/ring_weather_2_humidity_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ring_weather_2_sunrise_text"
+            android:layout_marginLeft="10dp"
+            android:text="Humidity: 80%" />
+        
+        <TextView
+            android:id="@+id/ring_weather_2_wind_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ring_weather_2_sunrise_text"
+  			android:layout_toRightOf="@+id/ring_weather_2_humidity_text"
+            android:layout_marginLeft="10dp"
+            android:text="wind: 1.5 m/s" /> 
+            
+        <TextView
+            android:id="@+id/ring_weather_2_update_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ring_weather_2_wind_text"
+  			android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:text="time" /> 
+    </RelativeLayout>
+    
     <LinearLayout
         android:id="@+id/ring_seek_container"
         android:layout_width="fill_parent"

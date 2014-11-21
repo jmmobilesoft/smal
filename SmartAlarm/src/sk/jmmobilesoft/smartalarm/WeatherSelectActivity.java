@@ -16,12 +16,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class WeatherSelectActivity extends Activity {
 
 	private DBHelper db;
 	private WeatherSelectAdapter adapter;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,11 +38,12 @@ public class WeatherSelectActivity extends Activity {
 		if (weatherList == null) {
 			weatherList = new ArrayList<WeatherForecast>();
 		}
-		adapter = new WeatherSelectAdapter(this, weatherList, savedInstanceState);
+		adapter = new WeatherSelectAdapter(this, weatherList,
+				savedInstanceState);
 		list.setAdapter(adapter);
 		initComponents(adapter);
 	}
-	
+
 	private void initComponents(final WeatherSelectAdapter adapter){
 		Button cancel = (Button) findViewById(R.id.weather_select_activity_cancel);
 		cancel.setOnClickListener(new OnClickListener() {
@@ -64,16 +66,20 @@ public class WeatherSelectActivity extends Activity {
 						counter++;
 					}
 				}
-				if(counter <= 2 && counter > 0){
-					int[] r = new int[2];
+				if(counter <= 2){
+					ArrayList<Integer> r = new ArrayList<Integer>();
 					for(int i = 0; i < w.size(); i++){
-						r[i] = w.get(i).intValue();
+						r.add(w.get(i).intValue());
 					}
+					Bundle b = new Bundle();
+					b.putIntegerArrayList("weathers", r);
 					Intent result = new Intent();
-					result.putExtra("result", r);
+					result.putExtra("result", b);
 					setResult(RESULT_OK, result);
-					System.out.println(r.length);
 					finish();
+				}else{
+					Toast t = Toast.makeText(getApplicationContext(), "Maximum cities to display for alarm are 2.", Toast.LENGTH_SHORT);
+					t.show();
 				}
 			}
 		});

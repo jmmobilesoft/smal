@@ -22,16 +22,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
-import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -39,53 +35,79 @@ import android.widget.ToggleButton;
 
 public class ClockViewActivity extends Activity {
 
-	DBHelper db = new DBHelper(this);
-
 	private MediaPlayer mp;
-	private EditText name;
-	private TextView snooze;
-	private NumberPicker hours;
-	private NumberPicker minutes;
-	private ToggleButton MO;
-	private ToggleButton TU;
-	private ToggleButton WE;
-	private ToggleButton TH;
-	private ToggleButton FR;
-	private ToggleButton SA;
-	private ToggleButton SU;
-	private Uri sound = null;
-	private Button save;
-	private Button delete;
-	private Button plus;
-	private Button minus;
-	private Clock c;
-	private TextView soundPick;
 	private TextView soundName;
-	private Long id;
-	private SeekBar volumeBar;
-	private AudioManager mAudioManager;
+	private TextView weatherCities;
+	private Uri sound = null;
+	private List<String> cities;
+	ToggleButton MO;
+	ToggleButton TU;
+	ToggleButton WE;
+	ToggleButton TH;
+	ToggleButton FR;
+	ToggleButton SA;
+	ToggleButton SU;
 	private int originalVolume;
-	private int snoozeTime;
-	private float volume = 0.3f;
+
+	private AudioManager mAudioManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		ActionBar actionBar = getActionBar();
 		actionBar.hide();
-		setContentView(R.layout.clock_view_activity);
-		id = getIntent().getExtras().getLong("id");
-		System.out.println("clock id:" + id);
-		initComponents();
-		minutes.setFormatter(Helper.getNumberPickFormater());
-		hours.setFormatter(Helper.getNumberPickFormater());
+		setView();
 		super.onCreate(savedInstanceState);
 	}
 
-	private void initComponents() {
-		name = (EditText) findViewById(R.id.clock_view_activity_name);
-		snooze = (TextView) findViewById(R.id.clock_view_activity_snooze_number);
-		hours = (NumberPicker) findViewById(R.id.clock_view_activity_hours_picker);
-		minutes = (NumberPicker) findViewById(R.id.clock_view_activity_minutes_picker);
+	@Override
+	public void onUserInteraction() {
+		stopMediaPlayer();
+		super.onUserInteraction();
+	}
+
+	@Override
+	protected void onPause() {
+		stopMediaPlayer();
+		super.onPause();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode,
+			Intent intent) {
+		if (resultCode != RESULT_OK) {
+			return;
+		}
+		if (requestCode == 999) {
+			sound = intent
+					.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+			soundName.setText(getSongName(sound));
+		}
+		if (requestCode == 998) {
+			sound = intent.getData();
+			soundName.setText(getSongName(sound));
+		}
+		if (requestCode == 111) {
+			Bundle b = intent.getBundleExtra("result");
+			List<String> cities = new ArrayList<>();
+			DBHelper db = new DBHelper(getApplicationContext());
+			List<Integer> ids = b.getIntegerArrayList("weathers");			
+			for (int i = 0; i < ids.size(); i++) {
+					cities.add(db.getWeather(ids.get(i)).getCityName());
+			}
+			this.cities = cities;
+			weatherCities.setText(cities.toString().replace("[", "")
+					.replace("]", ""));
+		}
+		super.onActivityResult(requestCode, resultCode, intent);
+	}
+
+	public void setView() {
+		setContentView(R.layout.clock_view_activity);
+		EditText name = (EditText) findViewById(R.id.clock_view_activity_name);
+		TextView snooze = (TextView) findViewById(R.id.clock_view_activity_snooze_number);
+		weatherCities = (TextView) findViewById(R.id.clock_view_activity_weather_name);
+		NumberPicker hours = (NumberPicker) findViewById(R.id.clock_view_activity_hours_picker);
+		NumberPicker minutes = (NumberPicker) findViewById(R.id.clock_view_activity_minutes_picker);
 		MO = (ToggleButton) findViewById(R.id.clock_view_activity_button_MO);
 		TU = (ToggleButton) findViewById(R.id.clock_view_activity_button_TU);
 		WE = (ToggleButton) findViewById(R.id.clock_view_activity_button_WE);
@@ -94,158 +116,167 @@ public class ClockViewActivity extends Activity {
 		SA = (ToggleButton) findViewById(R.id.clock_view_activity_button_SA);
 		SU = (ToggleButton) findViewById(R.id.clock_view_activity_button_SU);
 		soundName = (TextView) findViewById(R.id.clock_view_activity_sound_name);
-		volumeBar = (SeekBar) findViewById(R.id.clock_view_activity_volume_picker);
+		SeekBar volumeBar = (SeekBar) findViewById(R.id.clock_view_activity_volume_picker);
+		setNumberPickers(hours, minutes);
+		cities = new ArrayList<String>();
+		long id = getIntent().getExtras().getLong("id");
+		DBHelper db = new DBHelper(getApplicationContext());
+		Clock c;
+		if (id != -1) {
+			c = db.getClock(id);
+			setComponentsOldClock(c, name, hours, minutes, volumeBar, snooze);
+		} else {
+			c = new Clock();
+			setComponentsNewClock(c, hours, minutes, volumeBar, snooze);
+		}
+		setSnoozeButtons(c, snooze);
+		setSoundPickContainer();
+		setVolumeContainer(volumeBar);
+		setWeatherContainer(c);
+		setControlButtons(c, db, name, hours, minutes, volumeBar, snooze);
+	}
+
+	private void setNumberPickers(NumberPicker hours, NumberPicker minutes) {
 		minutes.setMaxValue(59);
 		minutes.setMinValue(0);
 		hours.setMaxValue(23);
 		hours.setMinValue(0);
-		hours.setValue(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
-		minutes.setValue(Calendar.getInstance().get(Calendar.MINUTE));
-		snoozeTime = 5;
-		snooze.setText(String.valueOf(5));
+		minutes.setFormatter(Helper.getNumberPickFormater());
+		hours.setFormatter(Helper.getNumberPickFormater());
 		Helper.setNumberPickerTextColor(hours, Color.rgb(247, 245, 245));
 		Helper.setNumberPickerTextColor(minutes, Color.rgb(247, 245, 245));
-		volumeBar.setProgress(0);
-		if (id != 0) {
-			c = db.getClock((long) id);
-			name.setText(c.getName());
-			hours.setValue(c.getHour());
-			minutes.setValue(c.getMinutes());
-			MO.setChecked(c.getRepeat()[0] == 1 ? true : false);
-			TU.setChecked(c.getRepeat()[1] == 1 ? true : false);
-			WE.setChecked(c.getRepeat()[2] == 1 ? true : false);
-			TH.setChecked(c.getRepeat()[3] == 1 ? true : false);
-			FR.setChecked(c.getRepeat()[4] == 1 ? true : false);
-			SA.setChecked(c.getRepeat()[5] == 1 ? true : false);
-			SU.setChecked(c.getRepeat()[6] == 1 ? true : false);
-			System.out.println(c.getSnoozeTime());
-			snooze.setText(String.valueOf(c.getSnoozeTime()));
-			snoozeTime = c.getSnoozeTime();
-			sound = c.getSound();
-			if (c.getVolume() != 0) {
-				volumeBar.setProgress((int) (c.getVolume() * 100));
-			}
-			setWeatherLayout(c);
-		}
-		if (sound == null
-				|| sound.compareTo(Uri
-						.parse("android.resource://sk.jmmobilesoft.smartalarm/"
-								+ R.raw.alarm)) == 0) {
-			soundName.setText("Default");
-			sound = Uri.parse("android.resource://sk.jmmobilesoft.smartalarm/"
-					+ R.raw.alarm);
-		} else {
-			soundName.setText(getSongName(sound));
-		}
-		if (volumeBar.getProgress() == 0) {
-			volumeBar.setProgress((int) (volume * 100));
-		}
-		plus = (Button) findViewById(R.id.clock_view_activity_snooze_plus_button);
+	}
+
+	private void setComponentsNewClock(Clock c, NumberPicker hours,
+			NumberPicker minutes, SeekBar volumeBar, TextView snooze) {
+		System.out.println("setnew clock");
+		snooze.setText(String.valueOf(5));
+		c.setSnoozeTime(5);
+		hours.setValue(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+		minutes.setValue(Calendar.getInstance().get(Calendar.MINUTE));
+		volumeBar.setProgress((int) (0.3 * 100));
+		getSoundText(soundName);
+	}
+
+	private void setComponentsOldClock(Clock c, EditText name,
+			NumberPicker hours, NumberPicker minutes, SeekBar volumeBar,
+			TextView snooze) {
+		System.out.println("setold");
+		System.out.println(c);
+		snooze.setText(String.valueOf(c.getSnoozeTime()));
+		name.setText(c.getName());
+		hours.setValue(c.getHour());
+		minutes.setValue(c.getMinutes());
+		MO.setChecked(c.getRepeat()[0] == 1 ? true : false);
+		TU.setChecked(c.getRepeat()[1] == 1 ? true : false);
+		WE.setChecked(c.getRepeat()[2] == 1 ? true : false);
+		TH.setChecked(c.getRepeat()[3] == 1 ? true : false);
+		FR.setChecked(c.getRepeat()[4] == 1 ? true : false);
+		SA.setChecked(c.getRepeat()[5] == 1 ? true : false);
+		SU.setChecked(c.getRepeat()[6] == 1 ? true : false);
+		volumeBar.setProgress((int) (c.getVolume() * 100));
+		sound = c.getSound();
+		getSoundText(soundName);
+		cities = c.getCities();
+	}
+
+	private void setSnoozeButtons(final Clock c, final TextView snooze) {
+		final Button plus = (Button) findViewById(R.id.clock_view_activity_snooze_plus_button);
+		final Button minus = (Button) findViewById(R.id.clock_view_activity_snooze_minus_button);
 		plus.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if (snoozeTime == 60) {
+				if (c.getSnoozeTime() == 60) {
 					plus.setClickable(false);
 				}
-				if (snoozeTime <= 59) {
-					snoozeTime++;
+				if (c.getSnoozeTime() <= 59) {
+					c.setSnoozeTime(c.getSnoozeTime() + 1);
 				}
 				minus.setClickable(true);
-				snooze.setText(String.valueOf(snoozeTime));
+				snooze.setText(String.valueOf(c.getSnoozeTime()));
 			}
 		});
-		minus = (Button) findViewById(R.id.clock_view_activity_snooze_minus_button);
 		minus.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if (snoozeTime == 1) {
+				if (c.getSnoozeTime() == 1) {
 					minus.setClickable(false);
 					;
 				}
-				if (snoozeTime >= 2) {
-					snoozeTime--;
+				if (c.getSnoozeTime() >= 2) {
+					c.setSnoozeTime(c.getSnoozeTime() - 1);
+					;
 				}
 				plus.setClickable(true);
-				snooze.setText(String.valueOf(snoozeTime));
+				snooze.setText(String.valueOf(c.getSnoozeTime()));
 			}
 		});
-		save = (Button) findViewById(R.id.clock_view_activity_save);
+	}
+
+	private void setControlButtons(final Clock c, final DBHelper db,
+			final EditText name, final NumberPicker hours,
+			final NumberPicker minutes, final SeekBar volumeBar,
+			final TextView snooze) {
+		setSaveButton(c, hours, minutes, name, volumeBar, snooze, db);
+		setDeleteButton(c, db);
+	}
+
+	private void setSaveButton(final Clock c, final NumberPicker hours,
+			final NumberPicker minutes, final EditText name,
+			final SeekBar volumeBar, final TextView snooze, final DBHelper db) {
+		Button save = (Button) findViewById(R.id.clock_view_activity_save);
 		save.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if (c == null) {
-					c = new Clock();
-				}
 				c.setHour(hours.getValue());
 				c.setMinutes(minutes.getValue());
 				c.setName(name.getText().toString());
 				c.setActive(true);
-				if (sound != null) {
-					c.setSound(sound);
-				}
-				c.setVolume(volume);
+				c.setSound(sound);
+				c.setVolume(determineVolume(volumeBar.getProgress()));
 				c.setRepeat(getRepeats());
-				if (!snooze.getText().toString().isEmpty()) {
-					c.setSnoozeTime(Integer
-							.valueOf(snooze.getText().toString()));
-				} else {
-					c.setSnoozeTime(5);
-				}
-
+				c.setSnoozeTime(Integer.valueOf(snooze.getText().toString()));
+				c.setCities(cities);
 				if (c.getId() == -1) {
 					c.setId(db.createClock(c));
 				} else {
 					db.updateClock(c);
 				}
-				System.out.println(c);
-				System.out.println("setting clock");
+				Log.i("INFO", "Setting clock:" + c);
 				boolean t = ClockSetting.setClock(getApplicationContext(),
 						c.getId());
 				if (t) {
 					Helper.showToast(c, getApplicationContext());
 				}
-				try {
-					mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-							originalVolume, 0);
-					mp.stop();
-					mp.release();
-					mp.reset();
-				} catch (NullPointerException | IllegalStateException e) {
-					Log.i("INFO", "media player already stopped");
-				}
+				stopMediaPlayer();
 				setResult(10);
 				finish();
 			}
 		});
-		delete = (Button) findViewById(R.id.clock_view_activity_cancel); // TODO
-																			// deleting
-																			// active
-																			// alarm?
+	}
+
+	private void setDeleteButton(final Clock c, final DBHelper db) {
+		Button delete = (Button) findViewById(R.id.clock_view_activity_cancel);
 		delete.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if (c != null) {
+				if (c.getId() != -1) {
 					db.deleteClock(c.getId());
 				}
-				try {
-					mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-							originalVolume, 0);
-					mp.stop();
-					mp.release();
-					mp.reset();
-				} catch (NullPointerException | IllegalStateException e) {
-					Log.i("INFO", "media player already stopped");
-				}
+				stopMediaPlayer();
 				setResult(10);
 				finish();
 			}
 		});
-		soundPick = (TextView) findViewById(R.id.clock_view_activity_sound_pick);
-		soundPick.setOnClickListener(new OnClickListener() {
+	}
+
+	private void setSoundPickContainer() {
+		LinearLayout layout = (LinearLayout) findViewById(R.id.clock_view_activity_ringtone_container);
+		layout.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -277,9 +308,11 @@ public class ClockViewActivity extends Activity {
 						});
 				builder.create();
 				builder.show();
-
 			}
 		});
+	}
+
+	private void setVolumeContainer(SeekBar volumeBar) {
 		volumeBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
 			public void onProgressChanged(SeekBar seekBar, int progress,
@@ -292,13 +325,12 @@ public class ClockViewActivity extends Activity {
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				System.out.println("progress:" + seekBar.getProgress());
 				try {
 					mp.stop();
 					mp.release();
 					mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
 							originalVolume, 0);
-				} catch (NullPointerException | IllegalStateException  e) {
+				} catch (NullPointerException | IllegalStateException e) {
 					Log.i("INFO", "media player already stopped");
 				}
 				mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
@@ -310,58 +342,15 @@ public class ClockViewActivity extends Activity {
 						0);
 				mp = MediaPlayer.create(getApplicationContext(), sound);
 				mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-				volume = determineVolume(seekBar.getProgress());
+				float volume = determineVolume(seekBar.getProgress());
 				mp.setVolume(volume, volume);
 				mp.start();
 			}
 		});
 	}
 
-	@Override
-	public void onUserInteraction() {
-		stopMediaPlayer();
-		super.onUserInteraction();
-	}
-
-	@Override
-	protected void onPause() {
-		stopMediaPlayer();
-		super.onPause();
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode,
-			Intent intent) {
-		if (resultCode != RESULT_OK) {
-
-			return;
-		}
-		if (requestCode == 999) {
-			sound = intent
-					.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-		}
-		if (requestCode == 998) {
-			sound = intent.getData();
-		}
-		soundName.setText(getSongName(sound));
-		if (requestCode == 111) {
-			int[] result = intent.getIntArrayExtra("result");
-			System.out.println(result.length);
-			List<String> cities = new ArrayList<>();
-			for (int i = 0; i < result.length; i++) {
-				if (result[i] != 0) {
-					cities.add(db.getWeather(result[i]).getCityName());
-				}
-			}
-			c.setCities(cities);
-			System.out.println(cities);
-		}
-		super.onActivityResult(requestCode, resultCode, intent);
-	}
-
-	private void setWeatherLayout(Clock c) {
+	private void setWeatherContainer(Clock c) {
 		LinearLayout layout = (LinearLayout) findViewById(R.id.clock_view_activity_weather_container);
-		TextView text = (TextView) findViewById(R.id.clock_view_activity_weather_name);
 
 		layout.setOnClickListener(new OnClickListener() {
 
@@ -372,7 +361,21 @@ public class ClockViewActivity extends Activity {
 				startActivityForResult(intentA, 111);
 			}
 		});
-		text.setText(c.getCities().toString());
+		weatherCities.setText(c.getCities().toString().replace("[", "")
+				.replace("]", ""));
+	}
+
+	private void getSoundText(TextView soundName) {
+		if (sound == null
+				|| sound.compareTo(Uri
+						.parse("android.resource://sk.jmmobilesoft.smartalarm/"
+								+ R.raw.alarm)) == 0) {
+			soundName.setText("Default");
+			sound = Uri.parse("android.resource://sk.jmmobilesoft.smartalarm/"
+					+ R.raw.alarm);
+		} else {
+			soundName.setText(getSongName(sound));
+		}
 	}
 
 	private void stopMediaPlayer() {
@@ -390,7 +393,6 @@ public class ClockViewActivity extends Activity {
 	private float determineVolume(int seekbarStatus) {
 		final float MIN = 0.2f;
 		float volume = (float) (seekbarStatus * 0.01);
-		System.out.println(volume);
 		if (volume < MIN) {
 			return 0.1f;
 		}
