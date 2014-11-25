@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
-import sk.jmmobilesoft.smartalarm.model.Clock;
-import sk.jmmobilesoft.smartalarm.model.ClockRemoveAdapter;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.model.WeatherSelectAdapter;
 import android.app.Activity;
@@ -21,11 +19,11 @@ import android.widget.Toast;
 public class WeatherSelectActivity extends Activity {
 
 	private DBHelper db;
-	private WeatherSelectAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getActionBar().hide();
 		setContentView(R.layout.weather_select_activity);
 		db = new DBHelper(this);
 		ListView list = (ListView) findViewById(R.id.weather_select_listview);
@@ -38,7 +36,7 @@ public class WeatherSelectActivity extends Activity {
 		if (weatherList == null) {
 			weatherList = new ArrayList<WeatherForecast>();
 		}
-		adapter = new WeatherSelectAdapter(this, weatherList,
+		WeatherSelectAdapter adapter = new WeatherSelectAdapter(this, weatherList,
 				savedInstanceState);
 		list.setAdapter(adapter);
 		initComponents(adapter);
@@ -53,15 +51,16 @@ public class WeatherSelectActivity extends Activity {
 				finish();				
 			}
 		});
-		Button delete = (Button) findViewById(R.id.weather_select_activity_save);
-		delete.setOnClickListener(new OnClickListener() {
+		Button select = (Button) findViewById(R.id.weather_select_activity_save);
+		select.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				int counter = 0;
 				List<Long> w = new ArrayList<>();
+				boolean[] checkboxes = adapter.getCheckboxes();
 				for(int i = 0; i< adapter.getCount(); i++){
-					if(WeatherSelectAdapter.checkboxes[i]){
+					if(checkboxes[i]){
 						w.add(adapter.getItemId(i));
 						counter++;
 					}

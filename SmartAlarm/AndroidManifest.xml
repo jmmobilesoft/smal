@@ -61,8 +61,11 @@
         </activity>
         <activity
             android:name=".WeatherSelectActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.NoActionBar" >
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".WeatherRemoveActivity"
+            android:screenOrientation="portrait" >
         </activity>
 
         <service
@@ -73,10 +76,13 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </service>
+        
+        <service
+            android:name="sk.jmmobilesoft.smartalarm.service.WeatherRefreshService"
+            android:enabled="true" >
+        </service>
 
-        <receiver android:name="sk.jmmobilesoft.smartalarm.service.ClockServiceReciever" />
         <receiver android:name="sk.jmmobilesoft.smartalarm.service.TimerServiceReciever" />
-        <receiver android:name="sk.jmmobilesoft.smartalarm.service.WeatherRefreshReciever" />
     </application>
 
 </manifest>

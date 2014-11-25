@@ -11,7 +11,6 @@ import sk.jmmobilesoft.smartalarm.network.NetworkService;
 import sk.jmmobilesoft.smartalarm.network.WeatherNetworkService;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -65,8 +64,7 @@ public class SleepScreenFragment extends Fragment {
 						if (service.availableWeather(cityS)) {
 							List<String> cities = new ArrayList<String>();
 							cities.add(cityS);
-							List<WeatherForecast> w = service.downloadWeather(
-									cities, getActivity());
+							List<WeatherForecast> w = service.getWeather(cities);
 							WeatherForecast weather = w.get(0);
 							if (db.getWeatherByCity(weather.getCityName()) == null) { // TODO
 																						// CHECK
@@ -107,6 +105,12 @@ public class SleepScreenFragment extends Fragment {
 		}
 	}
 
+	@Override
+	public void onResume() {
+		refreshWeathers();
+		super.onPause();
+	}
+	
 	private void refreshWeathers() {
 		weathers = db.getWeather();
 		if (weathers == null) {

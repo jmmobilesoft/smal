@@ -187,19 +187,16 @@ public class MainActivity extends FragmentActivity implements
 			case "ClockAlarmFragment": {
 				Intent intentA = new Intent(this, ClockViewActivity.class);
 				intentA.putExtra("id", -1l);
-				startActivityForResult(intentA, 10);
+				startActivity(intentA);
 				break;
 			}
 			case "TimerAlarmFragment": {
 				Intent intent = new Intent(this, TimerViewActivity.class);
 				intent.putExtra("id", -1l);
-				startActivityForResult(intent, 11);
+				startActivity(intent);
 				break;
 			}
 			case "SleepScreenFragment": {
-				break;
-			}
-			case "SettingsFragment": {
 				break;
 			}
 			}
@@ -209,11 +206,16 @@ public class MainActivity extends FragmentActivity implements
 			case "ClockAlarmFragment": {
 				Intent intent = new Intent(this, ClockRemoveActivity.class);
 				intent.putExtra("id", 0);
-				startActivityForResult(intent, 12);
+				startActivity(intent);
 				break;
 			}
 			case "TimerAlarmFragment": {
 				// TODO remove activity
+				break;
+			}
+			case "SleepScreenFragment": {
+				Intent intent = new Intent(this, WeatherRemoveActivity.class);
+				startActivity(intent);
 				break;
 			}
 			}

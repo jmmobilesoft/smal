@@ -3,6 +3,7 @@ package sk.jmmobilesoft.smartalarm.service;
 import java.util.Calendar;
 import java.util.List;
 
+import sk.jmmobilesoft.smartalarm.ClockRingActivity;
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
@@ -112,24 +113,23 @@ public class ClockSetting {
 	}
 
 	private static PendingIntent createPendingIntent(Context context, Clock c) {
-		Intent intent = new Intent(context, ClockServiceReciever.class);
+		Intent intent = new Intent(context, ClockRingActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 		intent.putExtra("ID", c.getId());
-		intent.putExtra("NAME", c.getName());
-		intent.putExtra("TIME_HOUR", c.getHour());
-		intent.putExtra("TIME_MINUTE", c.getMinutes());
-		intent.putExtra("TONE", c.getSound());
 
-		return PendingIntent.getBroadcast(context, (int) c.getId(), intent,
+		return PendingIntent.getActivity(context, (int) c.getId(), intent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 
 	}
 
 	// TODO EXTRACT away to another class???
 	private static PendingIntent weatherPendingIntent(Context context, Clock c) {
-		Intent intent = new Intent(context, WeatherRefreshReciever.class);
+		Intent intent = new Intent(context, WeatherRefreshService.class);
 		intent.putExtra("ID", c.getId());
 
-		return PendingIntent.getBroadcast(context, (int) c.getId(), intent,
+		return PendingIntent.getService(context, (int) c.getId(), intent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 	}
 

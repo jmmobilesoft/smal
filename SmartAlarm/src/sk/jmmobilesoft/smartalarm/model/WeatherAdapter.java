@@ -79,7 +79,6 @@ public class WeatherAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					db.deleteWeather(getItemId(position));
 					// TODO weather detail activity
 					// Intent intentA = new Intent(context.getActivity(),
 					// ClockViewActivity.class);

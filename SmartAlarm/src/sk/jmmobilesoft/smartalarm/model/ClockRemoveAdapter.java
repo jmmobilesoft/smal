@@ -97,7 +97,7 @@ public class ClockRemoveAdapter extends BaseAdapter{
 		for (int i = 0; i <= 6; i++) {
 			TextView text = list.get(i);
 			if (clock.getRepeat()[i] == 0) {
-				text.setTextColor(Color.rgb(64, 64, 64));
+				text.setTextColor(Color.rgb(112, 112, 112));
 			}
 			if (clock.getRepeat()[i] == 1) {
 				text.setTextColor(Color.rgb(51, 181, 229));

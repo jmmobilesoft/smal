@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -31,7 +32,7 @@ public class ClockRingActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.i("INFO", "ClockRingScreen activity started");
-
+		Helper.wakeLockOn(this);
 		setWindow();
 		setView();
 
@@ -144,6 +145,7 @@ public class ClockRingActivity extends Activity {
 			RelativeLayout weatherLayout) {
 		RelativeLayout weatherLayout2 = (RelativeLayout) findViewById(R.id.ring_weather_2_container);
 		if (!c.getCities().isEmpty()) {
+			ImageView iw = (ImageView) findViewById(R.id.ring_weather_1_image_view);
 			TextView temp1 = (TextView) findViewById(R.id.ring_weather_1_temperature_text);
 			TextView sunset1 = (TextView) findViewById(R.id.ring_weather_1_sunset_text);
 			TextView sunrise1 = (TextView) findViewById(R.id.ring_weather_1_sunrise_text);
@@ -154,6 +156,9 @@ public class ClockRingActivity extends Activity {
 			TextView city1 = (TextView) findViewById(R.id.ring_weather_1_city_name);
 			TextView update1 = (TextView) findViewById(R.id.ring_weather_1_update_time);
 			WeatherForecast w = db.getWeatherByCity(c.getCities().get(0));
+			int resourceId = getResources().getIdentifier(
+					   "w" + w.getIcon(), "drawable", getPackageName() );
+			iw.setImageDrawable(getResources().getDrawable(resourceId));
 			temp1.setText(Float.toString(Helper.kelvinToCelsius(w
 					.getTemperature())) + "°C");
 			sunset1.setText(Helper.milisToTime(w.getSunset()));
@@ -167,6 +172,7 @@ public class ClockRingActivity extends Activity {
 			update1.setText(w.getUpdateTime());
 
 			if (c.getCities().size() == 2) {
+				ImageView iw2 = (ImageView) findViewById(R.id.ring_weather_2_image_view);
 				TextView temp2 = (TextView) findViewById(R.id.ring_weather_2_temperature_text);
 				TextView sunset2 = (TextView) findViewById(R.id.ring_weather_2_sunset_text);
 				TextView sunrise2 = (TextView) findViewById(R.id.ring_weather_2_sunrise_text);
@@ -178,6 +184,9 @@ public class ClockRingActivity extends Activity {
 				TextView update2 = (TextView) findViewById(R.id.ring_weather_2_update_time);
 
 				WeatherForecast w2 = db.getWeatherByCity(c.getCities().get(1));
+				int resourceId2 = getResources().getIdentifier(
+						   "w" + w2.getIcon(), "drawable", getPackageName() );
+				iw2.setImageDrawable(getResources().getDrawable(resourceId2));
 				temp2.setText(Float.toString(Helper.kelvinToCelsius(w2
 						.getTemperature())) + "°C");
 				sunset2.setText(Helper.milisToTime(w2.getSunset()));

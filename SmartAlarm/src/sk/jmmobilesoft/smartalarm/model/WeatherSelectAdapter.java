@@ -3,12 +3,9 @@ package sk.jmmobilesoft.smartalarm.model;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.R;
-import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,22 +15,18 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
-public class WeatherSelectAdapter extends BaseAdapter {
-
+public class WeatherSelectAdapter extends BaseAdapter {	
+	
 	private List<WeatherForecast> weathers;
 	private Activity context;
-	private Bundle savedInstanceState;
-	private DBHelper db;
-	public static boolean[] checkboxes;
+	private boolean[] checkboxes;
 
 	public WeatherSelectAdapter(Activity context,
 			List<WeatherForecast> weathers, Bundle state) {
 		super();
 		this.context = context;
 		this.weathers = weathers;
-		this.savedInstanceState = state;
 		checkboxes = new boolean[getCount()];
-		db = new DBHelper(context);
 	}
 
 	@Override
@@ -53,8 +46,7 @@ public class WeatherSelectAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		final LayoutInflater inflater = context
-				.getLayoutInflater();
+		final LayoutInflater inflater = context.getLayoutInflater();
 		if (convertView == null) {
 			convertView = inflater.inflate(
 					R.layout.weather_select_adapter_item, null);
@@ -81,14 +73,19 @@ public class WeatherSelectAdapter extends BaseAdapter {
 		maxMinTemp.setText(Helper.kelvinToCelsius(weather.getTempMin()) + "/"
 				+ Helper.kelvinToCelsius(weather.getTempMax()) + "°" + "C");
 		selector.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checkboxes[position] = isChecked;				
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				checkboxes[position] = isChecked;
 			}
 		});
 
 		return convertView;
+	}
+	
+	public boolean[] getCheckboxes(){
+		return checkboxes;
 	}
 
 }

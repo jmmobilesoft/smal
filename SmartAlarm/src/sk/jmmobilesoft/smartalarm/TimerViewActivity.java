@@ -82,7 +82,7 @@ public class TimerViewActivity extends Activity {
 		Helper.setNumberPickerTextColor(minutes, Color.rgb(247, 245, 245));
 		Helper.setNumberPickerTextColor(seconds, Color.rgb(247, 245, 245));
 		volumeBar.setProgress(0);
-		if (id != 0) {
+		if (id != -1) {
 			t = db.getTimer(id);
 			name.setText(t.getName());
 			hours.setValue(t.getHours());

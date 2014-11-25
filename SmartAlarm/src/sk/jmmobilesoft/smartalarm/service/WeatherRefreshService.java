@@ -4,28 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
-import sk.jmmobilesoft.smartalarm.model.Clock;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.network.NetworkService;
 import sk.jmmobilesoft.smartalarm.network.WeatherNetworkService;
-import android.content.BroadcastReceiver;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.IBinder;
 import android.util.Log;
 
-public class WeatherRefreshReciever extends BroadcastReceiver {
+public class WeatherRefreshService extends Service {
 
 	private NetworkService network;
-
-	private Long id;
-
+	
 	@Override
-	public void onReceive(Context context, Intent intent) {
-		Log.i("INFO", "WeatherRefreshReciever: onRecieve");
+	public IBinder onBind(Intent intent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		Log.i("INFO", "WeatherRefreshService: onStartCommand");
 		intent.getLongExtra("ID", 0l);
 		network = new NetworkService();
-		new Connect(context).execute();
+		new Connect(getApplicationContext()).execute();
+		stopSelf();
+		return super.onStartCommand(intent, flags, startId);
 	}
 
 	public class Connect extends AsyncTask<Void, Void, Void> {
@@ -81,6 +87,5 @@ public class WeatherRefreshReciever extends BroadcastReceiver {
 			network.turnWifiOff(mContext);
 			super.onPostExecute(result);
 		}
-	}
-
+	}	
 }
