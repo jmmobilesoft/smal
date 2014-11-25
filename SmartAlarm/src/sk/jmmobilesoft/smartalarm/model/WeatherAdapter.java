@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class WeatherAdapter extends BaseAdapter {
@@ -59,6 +60,8 @@ public class WeatherAdapter extends BaseAdapter {
 			System.out.println("position:" + weathers.get(position));
 			WeatherForecast weather = weathers.get(position);
 
+			ImageView icon = (ImageView) convertView
+					.findViewById(R.id.weather_item_image_view);
 			TextView city = (TextView) convertView
 					.findViewById(R.id.weather_item_city);
 			TextView temp = (TextView) convertView
@@ -68,6 +71,10 @@ public class WeatherAdapter extends BaseAdapter {
 			TextView maxMinTemp = (TextView) convertView
 					.findViewById(R.id.weather_item_maxmintemp);
 
+			int resourceId = context.getResources().getIdentifier(
+					"w" + weather.getIcon(), "drawable", context.getActivity().getPackageName());
+			icon.setImageDrawable(context.getResources().getDrawable(resourceId));
+			
 			city.setText(weather.getCityName());
 			temp.setText(Helper.kelvinToCelsius(weather.getTemperature()) + "°"
 					+ "C"); // TODO jednotka teploty z nastaveni

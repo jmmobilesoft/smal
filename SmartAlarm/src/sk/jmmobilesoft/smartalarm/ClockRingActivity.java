@@ -151,22 +151,23 @@ public class ClockRingActivity extends Activity {
 			TextView sunrise1 = (TextView) findViewById(R.id.ring_weather_1_sunrise_text);
 			TextView wind1 = (TextView) findViewById(R.id.ring_weather_1_wind_text);
 			TextView humidity1 = (TextView) findViewById(R.id.ring_weather_1_humidity_text);
-			TextView maxmin1 = (TextView) findViewById(R.id.ring_weather_1_maxmintemp_text);
+			TextView min1 = (TextView) findViewById(R.id.ring_weather_1_mintemp_text);
+			TextView max1 = (TextView) findViewById(R.id.ring_weather_1_maxtemp_text);
 			TextView description1 = (TextView) findViewById(R.id.ring_weather_1_desription_text);
 			TextView city1 = (TextView) findViewById(R.id.ring_weather_1_city_name);
 			TextView update1 = (TextView) findViewById(R.id.ring_weather_1_update_time);
 			WeatherForecast w = db.getWeatherByCity(c.getCities().get(0));
-			int resourceId = getResources().getIdentifier(
-					   "w" + w.getIcon(), "drawable", getPackageName() );
+			int resourceId = getResources().getIdentifier("w" + w.getIcon(),
+					"drawable", getPackageName());
 			iw.setImageDrawable(getResources().getDrawable(resourceId));
 			temp1.setText(Float.toString(Helper.kelvinToCelsius(w
 					.getTemperature())) + "°C");
-			sunset1.setText(Helper.milisToTime(w.getSunset()));
-			sunrise1.setText(Helper.milisToTime(w.getSunrise()));
-			wind1.setText(w.getWindSpeed() + "m/s");
-			humidity1.setText(w.getHumidity() + "%");
-			maxmin1.setText(Helper.kelvinToCelsius(w.getTempMin()) + "/"
-					+ Helper.kelvinToCelsius(w.getTempMax()) + "°" + "C");
+			sunset1.setText("Sunset: " + Helper.milisToTime(w.getSunset()));
+			sunrise1.setText("Sunrise: " + Helper.milisToTime(w.getSunrise()));
+			wind1.setText("Speed: " + w.getWindSpeed() + "m/s");
+			humidity1.setText("Humidity: " + w.getHumidity() + "%");
+			min1.setText("Min: " + Helper.kelvinToCelsius(w.getTempMin()) + "°" + "C");
+			max1.setText("Max: " + Helper.kelvinToCelsius(w.getTempMax()) + "°" + "C");
 			description1.setText(w.getDecsription());
 			city1.setText(w.getCityName());
 			update1.setText(w.getUpdateTime());
@@ -178,23 +179,24 @@ public class ClockRingActivity extends Activity {
 				TextView sunrise2 = (TextView) findViewById(R.id.ring_weather_2_sunrise_text);
 				TextView wind2 = (TextView) findViewById(R.id.ring_weather_2_wind_text);
 				TextView humidity2 = (TextView) findViewById(R.id.ring_weather_2_humidity_text);
-				TextView maxmin2 = (TextView) findViewById(R.id.ring_weather_2_maxmintemp_text);
+				TextView min2 = (TextView) findViewById(R.id.ring_weather_2_mintemp_text);
+				TextView max2 = (TextView) findViewById(R.id.ring_weather_2_maxtemp_text);
 				TextView description2 = (TextView) findViewById(R.id.ring_weather_2_desription_text);
 				TextView city2 = (TextView) findViewById(R.id.ring_weather_2_city_name);
 				TextView update2 = (TextView) findViewById(R.id.ring_weather_2_update_time);
 
 				WeatherForecast w2 = db.getWeatherByCity(c.getCities().get(1));
 				int resourceId2 = getResources().getIdentifier(
-						   "w" + w2.getIcon(), "drawable", getPackageName() );
+						"w" + w2.getIcon(), "drawable", getPackageName());
 				iw2.setImageDrawable(getResources().getDrawable(resourceId2));
 				temp2.setText(Float.toString(Helper.kelvinToCelsius(w2
 						.getTemperature())) + "°C");
-				sunset2.setText(Helper.milisToTime(w2.getSunset()));
-				sunrise2.setText(Helper.milisToTime(w2.getSunrise()));
-				wind2.setText(w2.getWindSpeed() + "m/s");
-				humidity2.setText(w2.getHumidity() + "%");
-				maxmin2.setText(Helper.kelvinToCelsius(w2.getTempMin()) + "/"
-						+ Helper.kelvinToCelsius(w2.getTempMax()) + "°" + "C");
+				sunset2.setText("Sunset: " + Helper.milisToTime(w2.getSunset()));
+				sunrise2.setText("Sunrise: " + Helper.milisToTime(w2.getSunrise()));
+				wind2.setText("Speed: " + w2.getWindSpeed() + "m/s");
+				humidity2.setText("Humidity: " + w2.getHumidity() + "%");
+				min2.setText("Min: " + Helper.kelvinToCelsius(w2.getTempMin()) + "°" + "C");
+				max2.setText("Max: " + Helper.kelvinToCelsius(w2.getTempMax()) + "°" + "C");
 				description2.setText(w2.getDecsription());
 				city2.setText(w2.getCityName());
 				update2.setText(w2.getUpdateTime());
@@ -205,7 +207,6 @@ public class ClockRingActivity extends Activity {
 			weatherLayout.setVisibility(View.GONE);
 			weatherLayout2.setVisibility(View.GONE);
 		}
-
 	}
 
 	private void setWindow() {
