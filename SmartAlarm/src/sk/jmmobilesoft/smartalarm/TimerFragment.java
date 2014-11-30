@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class TimerAlarmFragment extends Fragment {
+public class TimerFragment extends Fragment {
 	
 	private List<Timer> timerList;
 	private TimerAdapter adapter;

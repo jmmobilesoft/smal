@@ -93,20 +93,17 @@ public class MainActivity extends FragmentActivity implements
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();
 		TabInfo tabInfo = null;
-		MainActivity
-				.addTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab1")
-						.setIndicator("Alarm"), (tabInfo = new TabInfo("Tab1",
-						ClockFragment.class, args)));
+		MainActivity.addTab(this, this.mTabHost,
+				this.mTabHost.newTabSpec("Tab1").setIndicator("Alarm"),
+				(tabInfo = new TabInfo("Tab1", ClockFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		MainActivity
-				.addTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab2")
-						.setIndicator("Timer"), (tabInfo = new TabInfo("Tab2",
-						TimerAlarmFragment.class, args)));
+		MainActivity.addTab(this, this.mTabHost,
+				this.mTabHost.newTabSpec("Tab2").setIndicator("Timer"),
+				(tabInfo = new TabInfo("Tab2", TimerFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		MainActivity
-				.addTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab3")
-						.setIndicator("Weather"), (tabInfo = new TabInfo(
-						"Tab3", WeatherFragment.class, args)));
+		MainActivity.addTab(this, this.mTabHost,
+				this.mTabHost.newTabSpec("Tab3").setIndicator("Weather"),
+				(tabInfo = new TabInfo("Tab3", WeatherFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		this.onTabChanged("Tab1");
 		for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
@@ -184,36 +181,36 @@ public class MainActivity extends FragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.menu_add_action) {
 			switch (activeTab) {
-			case "ClockAlarmFragment": {
+			case "ClockFragment": {
 				Intent intentA = new Intent(this, ClockViewActivity.class);
 				intentA.putExtra("id", -1l);
 				startActivity(intentA);
 				break;
 			}
-			case "TimerAlarmFragment": {
+			case "TimerFragment": {
 				Intent intent = new Intent(this, TimerViewActivity.class);
 				intent.putExtra("id", -1l);
 				startActivity(intent);
 				break;
 			}
-			case "SleepScreenFragment": {
+			case "WeatherFragment": {
 				break;
 			}
 			}
 		}
 		if (item.getItemId() == R.id.menu_remove_action) {
 			switch (activeTab) {
-			case "ClockAlarmFragment": {
+			case "ClockFragment": {
 				Intent intent = new Intent(this, ClockRemoveActivity.class);
 				intent.putExtra("id", 0);
 				startActivity(intent);
 				break;
 			}
-			case "TimerAlarmFragment": {
+			case "TimerFragment": {
 				// TODO remove activity
 				break;
 			}
-			case "SleepScreenFragment": {
+			case "WeatherFragment": {
 				Intent intent = new Intent(this, WeatherRemoveActivity.class);
 				startActivity(intent);
 				break;
@@ -225,7 +222,7 @@ public class MainActivity extends FragmentActivity implements
 			intent.putExtra("id", 0);
 			startActivityForResult(intent, 13);
 		}
-		Logger.appInfo("Add tab item with value:" + item);
+		Logger.appInfo("Add tab item with value:" + item + " tab:" + activeTab);
 
 		return super.onOptionsItemSelected(item);
 	}
