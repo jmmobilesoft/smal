@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -63,6 +62,7 @@ public class MainActivity extends FragmentActivity implements
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Logger.serviceInfo("Application started");
 		try {
 			setContentView(R.layout.tabs_layout);
 			initialiseTabHost(savedInstanceState);
@@ -70,7 +70,7 @@ public class MainActivity extends FragmentActivity implements
 				mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
 			}
 			if (!isMyServiceRunning(ClockRepeatService.class)) {
-				Log.i("INFO", "ClockRepeatService started");
+				Logger.serviceInfo("ClockRepeatService started");
 				Intent startRepeatingService = new Intent(this,
 						ClockRepeatService.class);
 				startService(startRepeatingService);
@@ -78,7 +78,7 @@ public class MainActivity extends FragmentActivity implements
 		} catch (Exception e) {
 			StackTraceElement[] s = e.getStackTrace();
 			for (int i = 0; i < s.length; i++) {
-				Logger.appInfo(s[i].toString());
+				Logger.serviceInfo(s[i].toString());
 			}
 			throw e;
 		}
@@ -96,7 +96,7 @@ public class MainActivity extends FragmentActivity implements
 		MainActivity
 				.addTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab1")
 						.setIndicator("Alarm"), (tabInfo = new TabInfo("Tab1",
-						ClockAlarmFragment.class, args)));
+						ClockFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		MainActivity
 				.addTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab2")
@@ -106,7 +106,7 @@ public class MainActivity extends FragmentActivity implements
 		MainActivity
 				.addTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab3")
 						.setIndicator("Weather"), (tabInfo = new TabInfo(
-						"Tab3", SleepScreenFragment.class, args)));
+						"Tab3", WeatherFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		this.onTabChanged("Tab1");
 		for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {

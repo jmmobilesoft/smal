@@ -53,7 +53,7 @@ public class TimerAdapter extends BaseAdapter {
 		final LayoutInflater inflater = context
 				.getLayoutInflater(savedInstanceState);
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.timer_item_fragment, null);
+			convertView = inflater.inflate(R.layout.timer_adapter_item, null);
 		}
 		Timer timer = timers.get(position);
 		System.out.println(timer);

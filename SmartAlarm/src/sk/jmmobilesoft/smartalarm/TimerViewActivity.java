@@ -1,6 +1,7 @@
 package sk.jmmobilesoft.smartalarm;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Timer;
 import sk.jmmobilesoft.smartalarm.service.Helper;
 import sk.jmmobilesoft.smartalarm.service.TimerSetting;
@@ -51,12 +52,11 @@ public class TimerViewActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.i("INFO", "TimerViewActivity.class: started");
+		Logger.serviceInfo("TimerViewActivity.class: started");
 		ActionBar actionBar = getActionBar();
 		actionBar.hide();
 		setContentView(R.layout.timer_view_activity);
 		id = getIntent().getExtras().getLong("id");
-		Log.i("INFO", "Timer id:" + id);
 		initComponents();
 		minutes.setFormatter(Helper.getNumberPickFormater());
 		hours.setFormatter(Helper.getNumberPickFormater());
@@ -136,7 +136,7 @@ public class TimerViewActivity extends Activity {
 					Log.i("INFO", "media player already stopped");
 				}
 				setResult(11);
-				Log.i("INFO", "TimerViewActivity.class: finishing - save");
+				Logger.serviceInfo("TimerViewActivity.class: finishing - save");
 				finish();
 			}
 		});
@@ -161,7 +161,7 @@ public class TimerViewActivity extends Activity {
 					Log.i("INFO", "media player already stopped");
 				}
 				setResult(10);
-				Log.i("INFO", "TimerViewActivity.class: finishing - delete");
+				Logger.serviceInfo("TimerViewActivity.class: finishing - delete");
 				finish();
 			}
 		});

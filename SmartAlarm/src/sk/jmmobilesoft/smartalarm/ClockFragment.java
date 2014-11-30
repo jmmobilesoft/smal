@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class ClockAlarmFragment extends Fragment {
+public class ClockFragment extends Fragment {
 
 	private ListView list;
 

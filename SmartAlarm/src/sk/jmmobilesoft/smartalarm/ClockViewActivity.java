@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import sk.jmmobilesoft.smartalarm.service.ClockSetting;
 import sk.jmmobilesoft.smartalarm.service.Helper;
@@ -53,6 +54,7 @@ public class ClockViewActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Logger.serviceInfo("ClockViewActivity: started");
 		ActionBar actionBar = getActionBar();
 		actionBar.hide();
 		setView();
@@ -245,7 +247,7 @@ public class ClockViewActivity extends Activity {
 				} else {
 					db.updateClock(c);
 				}
-				Log.i("INFO", "Setting clock:" + c);
+				Logger.setInfo("Setting clock:" + c);
 				boolean t = ClockSetting.setClock(getApplicationContext(),
 						c.getId());
 				if (t) {
@@ -325,14 +327,9 @@ public class ClockViewActivity extends Activity {
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				try {
-					mp.stop();
-					mp.release();
-					mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-							originalVolume, 0);
-				} catch (NullPointerException | IllegalStateException e) {
-					Log.i("INFO", "media player already stopped");
-				}
+				mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+						originalVolume, 0);
+				stopMediaPlayer();
 				mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 				originalVolume = mAudioManager
 						.getStreamVolume(AudioManager.STREAM_MUSIC);

@@ -15,13 +15,19 @@ public class Logger {
 	private static String file = "smartLog.txt";
 
 	public static void appInfo(String s) {
-		String log = "INFO app: " + getTime() + s;
+		String log = getTime() + " INFO APP: " + s;
 		System.out.println(log);
 		writeToFile(log);
 	}
 
 	public static void setInfo(String s) {
-		String log = "INFO set: " + getTime() + s;
+		String log = getTime() + " INFO SET: " + s;
+		System.out.println(log);
+		writeToFile(log);
+	}
+	
+	public static void serviceInfo(String s) {
+		String log = getTime() + " SERVICE : " + s;
 		System.out.println(log);
 		writeToFile(log);
 	}

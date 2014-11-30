@@ -1,7 +1,6 @@
 package sk.jmmobilesoft.smartalarm.service;
 
 import java.lang.reflect.Field;
-import java.text.DecimalFormat;
 import java.util.Calendar;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import android.content.Context;
@@ -24,26 +23,28 @@ public abstract class Helper {
 		ret += Integer.toString(value);
 		return ret;
 	}
-	
+
 	private static PowerManager.WakeLock wl = null;
-	
-	public static void wakeLockOn(Context context){
-		PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+
+	public static void wakeLockOn(Context context) {
+		PowerManager pm = (PowerManager) context
+				.getSystemService(Context.POWER_SERVICE);
 		if (wl == null)
-			wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "CLOCK_ALARM");
+			wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
+					| PowerManager.ACQUIRE_CAUSES_WAKEUP, "CLOCK_ALARM");
 		wl.acquire();
 	}
-	
-	public static void wakeLockOff(Context context){
+
+	public static void wakeLockOff(Context context) {
 		try {
 			if (wl != null)
 				wl.release();
 		} catch (Exception e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
-	
-	public static Formatter getNumberPickFormater(){
+
+	public static Formatter getNumberPickFormater() {
 		return new Formatter() {
 
 			@Override
@@ -55,37 +56,35 @@ public abstract class Helper {
 			}
 		};
 	}
-	
-	public static boolean setNumberPickerTextColor(NumberPicker numberPicker, int color)
-	{
-	    final int count = numberPicker.getChildCount();
-	    for(int i = 0; i < count; i++){
-	        View child = numberPicker.getChildAt(i);
-	        if(child instanceof EditText){
-	            try{
-	                Field selectorWheelPaintField = numberPicker.getClass()
-	                    .getDeclaredField("mSelectorWheelPaint");
-	                selectorWheelPaintField.setAccessible(true);
-	                ((Paint)selectorWheelPaintField.get(numberPicker)).setColor(color);
-	                ((EditText)child).setTextColor(color);
-	                numberPicker.invalidate();
-	                return true;
-	            }
-	            catch(NoSuchFieldException e){
-	                Log.w("setNumberPickerTextColor", e);
-	            }
-	            catch(IllegalAccessException e){
-	                Log.w("setNumberPickerTextColor", e);
-	            }
-	            catch(IllegalArgumentException e){
-	                Log.w("setNumberPickerTextColor", e);
-	            }
-	        }
-	    }
-	    return false;
+
+	public static boolean setNumberPickerTextColor(NumberPicker numberPicker,
+			int color) {
+		final int count = numberPicker.getChildCount();
+		for (int i = 0; i < count; i++) {
+			View child = numberPicker.getChildAt(i);
+			if (child instanceof EditText) {
+				try {
+					Field selectorWheelPaintField = numberPicker.getClass()
+							.getDeclaredField("mSelectorWheelPaint");
+					selectorWheelPaintField.setAccessible(true);
+					((Paint) selectorWheelPaintField.get(numberPicker))
+							.setColor(color);
+					((EditText) child).setTextColor(color);
+					numberPicker.invalidate();
+					return true;
+				} catch (NoSuchFieldException e) {
+					Log.w("setNumberPickerTextColor", e);
+				} catch (IllegalAccessException e) {
+					Log.w("setNumberPickerTextColor", e);
+				} catch (IllegalArgumentException e) {
+					Log.w("setNumberPickerTextColor", e);
+				}
+			}
+		}
+		return false;
 	}
-	
-	public static Calendar getCurrentTime(){
+
+	public static Calendar getCurrentTime() {
 		Calendar current = Calendar.getInstance();
 		current.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
 		current.set(Calendar.MONTH, Calendar.getInstance().get(Calendar.MONTH));
@@ -101,7 +100,8 @@ public abstract class Helper {
 				.get(Calendar.SECOND));
 		return current;
 	}
-	public static void showToast(Clock c, Context context){
+
+	public static void showToast(Clock c, Context context) {
 		Calendar clock = Calendar.getInstance();
 		clock.set(Calendar.HOUR_OF_DAY, c.getHour());
 		clock.set(Calendar.MINUTE, c.getMinutes());
@@ -111,7 +111,7 @@ public abstract class Helper {
 			clock.set(Calendar.DATE,
 					Calendar.getInstance().get(Calendar.DATE) + 1);
 		}
-		
+
 		long timeToParse = clock.getTimeInMillis() - current.getTimeInMillis();
 		timeToParse = timeToParse / 1000 / 60;
 		int mins = (int) (timeToParse % 60);
@@ -120,15 +120,16 @@ public abstract class Helper {
 		Toast t = Toast.makeText(context, text, Toast.LENGTH_SHORT);
 		t.show();
 	}
-	
-	public static float kelvinToCelsius(float temperature){
-		float cels =  temperature - 273.15f;
+
+	public static float kelvinToCelsius(float temperature) {
+		float cels = temperature - 273.15f;
 		return Math.round(cels * 10) / 10;
 	}
-	
-	public static String milisToTime(long milliseconds){
+
+	public static String milisToTime(long milliseconds) {
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(milliseconds * 1000);
-		return format(c.get(Calendar.HOUR_OF_DAY)) + ":" + format(c.get(Calendar.MINUTE));
+		return format(c.get(Calendar.HOUR_OF_DAY)) + ":"
+				+ format(c.get(Calendar.MINUTE));
 	}
 }

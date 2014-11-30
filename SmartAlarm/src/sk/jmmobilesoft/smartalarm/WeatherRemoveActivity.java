@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.model.WeatherSelectAdapter;
 import android.app.Activity;
@@ -21,6 +22,7 @@ public class WeatherRemoveActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Logger.serviceInfo("WeatherRemoveActivity: started");
 		getActionBar().hide();
 		setContentView(R.layout.weather_select_activity);
 		db = new DBHelper(this);

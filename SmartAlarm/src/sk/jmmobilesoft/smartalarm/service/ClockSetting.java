@@ -46,15 +46,7 @@ public class ClockSetting {
 				aManager.set(AlarmManager.RTC_WAKEUP,
 						calendar.getTimeInMillis(), pIntent);
 				aManager.set(AlarmManager.RTC_WAKEUP,
-						calendar.getTimeInMillis() - 300000, weather); // 300000
-																		// -
-																		// fire
-																		// refresh
-																		// weather
-																		// 5
-																		// minutes
-																		// before
-																		// wakeup
+						calendar.getTimeInMillis() - 300000, weather);
 				Logger.setInfo("Setting clock: " + c + " - ACTIVE");
 				return true;
 			} else {

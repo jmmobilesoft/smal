@@ -20,7 +20,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class SleepScreenFragment extends Fragment {
+public class WeatherFragment extends Fragment {
 
 	private List<WeatherForecast> weathers;
 	private WeatherAdapter adapter;
@@ -32,7 +32,7 @@ public class SleepScreenFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		try {
-			final View view = inflater.inflate(R.layout.sleep_screen_fragment,
+			final View view = inflater.inflate(R.layout.weather_fragment,
 					container, false);
 			state = savedInstanceState;
 			db = new DBHelper(getActivity());
@@ -99,7 +99,7 @@ public class SleepScreenFragment extends Fragment {
 		} catch (Exception e) {
 			StackTraceElement[] s = e.getStackTrace();
 			for (int i = 0; i < s.length; i++) {
-				Logger.appInfo(s[i].toString());
+				Logger.serviceInfo(s[i].toString());
 			}
 			throw e;
 		}

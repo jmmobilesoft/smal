@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.network.NetworkService;
 import sk.jmmobilesoft.smartalarm.network.WeatherNetworkService;
@@ -26,7 +27,7 @@ public class WeatherRefreshService extends Service {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.i("INFO", "WeatherRefreshService: onStartCommand");
+		Logger.serviceInfo("WeatherRefreshService: onStartCommand");
 		intent.getLongExtra("ID", 0l);
 		network = new NetworkService();
 		new Connect(getApplicationContext()).execute();

@@ -3,6 +3,7 @@ package sk.jmmobilesoft.smartalarm;
 import java.util.Arrays;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.service.ClockSetting;
@@ -11,7 +12,6 @@ import android.app.Activity;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -31,8 +31,8 @@ public class ClockRingActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.i("INFO", "ClockRingScreen activity started");
-		Helper.wakeLockOn(this);
+		Logger.serviceInfo("ClockRingActivity: started");
+		Helper.wakeLockOn(this); //TODO remove
 		setWindow();
 		setView();
 

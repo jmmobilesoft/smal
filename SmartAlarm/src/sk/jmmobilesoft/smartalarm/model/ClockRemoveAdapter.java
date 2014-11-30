@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.R;
-import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.app.Activity;
 import android.graphics.Color;
@@ -22,7 +21,6 @@ public class ClockRemoveAdapter extends BaseAdapter{
 
 	private List<Clock> clocks;
 	private Activity context;
-	private DBHelper db;
 	public static boolean[] checkboxes;
 
 	public ClockRemoveAdapter(Activity context, List<Clock> clocks, Bundle state) {
@@ -30,7 +28,6 @@ public class ClockRemoveAdapter extends BaseAdapter{
 		this.context = context;
 		this.clocks = clocks;
 		checkboxes = new boolean[getCount()];
-		db = new DBHelper(context);
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import sk.jmmobilesoft.smartalarm.model.ClockRemoveAdapter;
 import android.app.Activity;
@@ -18,6 +19,7 @@ public class ClockRemoveActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Logger.serviceInfo("ClockRemoveActivity: started");
 		setContentView(R.layout.clock_remove_activity);
 		initView();
 		super.onCreate(savedInstanceState);

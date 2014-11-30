@@ -2,6 +2,7 @@ package sk.jmmobilesoft.smartalarm.service;
 
 import java.util.Calendar;
 
+import sk.jmmobilesoft.smartalarm.log.Logger;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -21,7 +22,7 @@ public class ClockRepeatService extends Service{
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.i("INFO" ,"ClockRepeatService started");
+		Logger.serviceInfo("ClockRepeatService started");
 		ClockSetting.setAllClocks(this);
 		setRepeatIntent();
 		return START_STICKY;
