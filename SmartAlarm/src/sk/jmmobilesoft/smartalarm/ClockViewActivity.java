@@ -327,8 +327,6 @@ public class ClockViewActivity extends Activity {
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-						originalVolume, 0);
 				stopMediaPlayer();
 				mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 				originalVolume = mAudioManager

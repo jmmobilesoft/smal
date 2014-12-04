@@ -101,6 +101,11 @@ public abstract class Helper {
 		return current;
 	}
 
+	public static void createToast(Context context, String message){
+		Toast t = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+		t.show();
+	}
+	
 	public static void showToast(Clock c, Context context) {
 		Calendar clock = Calendar.getInstance();
 		clock.set(Calendar.HOUR_OF_DAY, c.getHour());

@@ -27,13 +27,18 @@ public class WeatherNetworkService {
 	}
 
 	public boolean availableWeather(String city) {
-		WeatherHttpClient client = new WeatherHttpClient();
-		client.getWeatherData(city);
-		String s = client.getDataString();
-		if (s.contains("Error")) {
-			return false;
+		try {
+			WeatherHttpClient client = new WeatherHttpClient();
+			client.getWeatherData(city);
+			String s = client.getDataString();
+			if (s.contains("Error")) {
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+			
 		}
-		return true;
+		return false;
 	}
 
 	public List<WeatherForecast> getWeather(List<String> cityList) {
@@ -61,15 +66,15 @@ public class WeatherNetworkService {
 	public void connect(final Context context) {
 		new Connect(context).execute();
 	}
-	
+
 	public class Connect extends AsyncTask<Void, Void, Void> {
 
 		private Context mContext;
-		
-		public Connect(Context context){
+
+		public Connect(Context context) {
 			mContext = context;
 		}
-		
+
 		@Override
 		protected Void doInBackground(Void... params) {
 			try {
@@ -82,9 +87,9 @@ public class WeatherNetworkService {
 
 			} catch (Exception e) {
 				System.out.println(e);
-				//network.turnWifiOff(mContext);
+				// network.turnWifiOff(mContext);
 			}
 			return null;
-		}		
+		}
 	}
 }

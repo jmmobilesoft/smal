@@ -65,7 +65,6 @@ public class WeatherRefreshService extends Service {
 		protected void onPostExecute(Void result) {
 			if (network.isConnected(mContext)) {
 				DBHelper db = new DBHelper(mContext);
-				// Clock c = db.getClock(id);
 				WeatherNetworkService service = new WeatherNetworkService();
 				List<String> cityList = new ArrayList<>();// c.getCities();
 				for (WeatherForecast w : db.getWeather()) {
@@ -85,6 +84,7 @@ public class WeatherRefreshService extends Service {
 					}
 				}
 			}
+			Logger.serviceInfo("Network connected: " + network.isConnected(mContext));
 			network.turnWifiOff(mContext);
 			super.onPostExecute(result);
 		}

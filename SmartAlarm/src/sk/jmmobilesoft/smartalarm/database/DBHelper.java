@@ -381,14 +381,10 @@ public class DBHelper extends SQLiteOpenHelper {
 				db.close(); // TODO think about
 				return populateWeatherModel(c);
 			}
-			return null;
 		} catch (Exception e) {
-			StackTraceElement[] s = e.getStackTrace();
-			for (int i = 0; i < s.length; i++) {
-				Logger.appInfo(s[i].toString());
-			}
-			throw e;
+			Logger.logStackTrace(e.getStackTrace());
 		}
+		return null;
 	}
 
 	public WeatherForecast getWeatherByCity(String city) {

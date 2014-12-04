@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.os.Environment;
@@ -15,34 +16,35 @@ public class Logger {
 	private static String file = "smartLog.txt";
 
 	public static void appInfo(String s) {
-		String log = getTime() + " INFO APP: " + s;
+		String log = getTime() + " | INFO APP: " + s;
 		System.out.println(log);
 		writeToFile(log);
 	}
 
 	public static void setInfo(String s) {
-		String log = getTime() + " INFO SET: " + s;
+		String log = getTime() + " | INFO SET: " + s;
 		System.out.println(log);
 		writeToFile(log);
 	}
 	
 	public static void serviceInfo(String s) {
-		String log = getTime() + " SERVICE : " + s;
+		String log = getTime() + " | SERVICE : " + s;
 		System.out.println(log);
 		writeToFile(log);
 	}
 
+	public static void logStackTrace(StackTraceElement[] e){
+		for (int i = 0; i < e.length; i++) {
+			Logger.serviceInfo(e[i].toString());
+		}
+	}
+	
 	private static String getTime() {
 		Calendar current = Helper.getCurrentTime();
-		String time = current.get(Calendar.DAY_OF_MONTH) + "/"
-				+ (current.get(Calendar.MONTH) + 1) + "/"
-				+ current.get(Calendar.YEAR) + " - "
-				+ current.get(Calendar.HOUR_OF_DAY) + ":"
-				+ current.get(Calendar.MINUTE) + ":"
-				+ current.get(Calendar.SECOND) + " || ";
-		return time;
+		SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+		return formater.format(current.getTime());
 	}
-
+	
 	private static void writeToFile(String s) {
 		boolean mExternalStorageAvailable = false;
 		boolean mExternalStorageWriteable = false;

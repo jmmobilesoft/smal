@@ -3,9 +3,11 @@ package sk.jmmobilesoft.smartalarm.model;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.R;
+import sk.jmmobilesoft.smartalarm.WeatherViewActivity;
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.service.Helper;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -72,9 +74,11 @@ public class WeatherAdapter extends BaseAdapter {
 					.findViewById(R.id.weather_item_maxmintemp);
 
 			int resourceId = context.getResources().getIdentifier(
-					"w" + weather.getIcon(), "drawable", context.getActivity().getPackageName());
-			icon.setImageDrawable(context.getResources().getDrawable(resourceId));
-			
+					"w" + weather.getIcon(), "drawable",
+					context.getActivity().getPackageName());
+			icon.setImageDrawable(context.getResources()
+					.getDrawable(resourceId));
+
 			city.setText(weather.getCityName());
 			temp.setText(Helper.kelvinToCelsius(weather.getTemperature()) + "°"
 					+ "C"); // TODO jednotka teploty z nastaveni
@@ -86,11 +90,10 @@ public class WeatherAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					// TODO weather detail activity
-					// Intent intentA = new Intent(context.getActivity(),
-					// ClockViewActivity.class);
-					// intentA.putExtra("id", getItemId(position));
-					// context.startActivity(intentA);
+					Intent intentA = new Intent(context.getActivity(),
+							WeatherViewActivity.class);
+					intentA.putExtra("id", getItemId(position));
+					context.startActivity(intentA);
 				}
 			});
 			return convertView;

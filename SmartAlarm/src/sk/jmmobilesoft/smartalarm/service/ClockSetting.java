@@ -43,9 +43,9 @@ public class ClockSetting {
 				.getSystemService(Context.ALARM_SERVICE);
 		if (c.isActive() && getDayRepeat(c, nextday)) {
 			if (android.os.Build.VERSION.SDK_INT < 19) {
-				aManager.set(AlarmManager.RTC_WAKEUP,
+				aManager.setExact(AlarmManager.RTC_WAKEUP,
 						calendar.getTimeInMillis(), pIntent);
-				aManager.set(AlarmManager.RTC_WAKEUP,
+				aManager.setExact(AlarmManager.RTC_WAKEUP,
 						calendar.getTimeInMillis() - 300000, weather);
 				Logger.setInfo("Setting clock: " + c + " - ACTIVE");
 				return true;
@@ -84,7 +84,7 @@ public class ClockSetting {
 		AlarmManager aManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
 		if (android.os.Build.VERSION.SDK_INT < 19) {
-			aManager.set(AlarmManager.RTC_WAKEUP, current.getTimeInMillis(),
+			aManager.setExact(AlarmManager.RTC_WAKEUP, current.getTimeInMillis(),
 					pIntent);
 		} else {
 			aManager.setExact(AlarmManager.RTC_WAKEUP,

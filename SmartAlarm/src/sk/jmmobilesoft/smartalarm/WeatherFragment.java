@@ -9,6 +9,7 @@ import sk.jmmobilesoft.smartalarm.model.WeatherAdapter;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.network.NetworkService;
 import sk.jmmobilesoft.smartalarm.network.WeatherNetworkService;
+import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -31,9 +32,9 @@ public class WeatherFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		final View view = inflater.inflate(R.layout.weather_fragment,
+				container, false);
 		try {
-			final View view = inflater.inflate(R.layout.weather_fragment,
-					container, false);
 			state = savedInstanceState;
 			db = new DBHelper(getActivity());
 			list = (ListView) view.findViewById(R.id.sleep_screen_listview);
@@ -41,10 +42,7 @@ public class WeatherFragment extends Fragment {
 			try {
 				weathers = db.getWeather();
 			} catch (IllegalStateException e) {
-				StackTraceElement[] s = e.getStackTrace();
-				for (int i = 0; i < s.length; i++) {
-					Logger.appInfo(s[i].toString());
-				}
+				Logger.logStackTrace(e.getStackTrace());
 			}
 			if (weathers == null) {
 				weathers = new ArrayList<WeatherForecast>();
@@ -64,7 +62,8 @@ public class WeatherFragment extends Fragment {
 						if (service.availableWeather(cityS)) {
 							List<String> cities = new ArrayList<String>();
 							cities.add(cityS);
-							List<WeatherForecast> w = service.getWeather(cities);
+							List<WeatherForecast> w = service
+									.getWeather(cities);
 							WeatherForecast weather = w.get(0);
 							if (db.getWeatherByCity(weather.getCityName()) == null) { // TODO
 																						// CHECK
@@ -82,27 +81,19 @@ public class WeatherFragment extends Fragment {
 							String text = "Weather for city "
 									+ city.getText().toString()
 									+ " was not found.";
-							Toast t = Toast.makeText(getActivity(), text,
-									Toast.LENGTH_SHORT);
-							t.show();
+							Helper.createToast(getActivity(), text);
 						}
 					} else {
 						String text = "Network connection unavailable.";
-						Toast t = Toast.makeText(getActivity(), text,
-								Toast.LENGTH_SHORT);
-						t.show();
+						Helper.createToast(getActivity(), text);
 					}
 
 				}
 			});
-			return view;
 		} catch (Exception e) {
-			StackTraceElement[] s = e.getStackTrace();
-			for (int i = 0; i < s.length; i++) {
-				Logger.serviceInfo(s[i].toString());
-			}
-			throw e;
+			Logger.logStackTrace(e.getStackTrace());
 		}
+		return view;
 	}
 
 	@Override
@@ -110,7 +101,7 @@ public class WeatherFragment extends Fragment {
 		refreshWeathers();
 		super.onPause();
 	}
-	
+
 	private void refreshWeathers() {
 		weathers = db.getWeather();
 		if (weathers == null) {

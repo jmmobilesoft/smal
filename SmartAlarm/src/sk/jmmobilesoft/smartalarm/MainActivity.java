@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.service.ClockRepeatService;
+import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
@@ -18,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TabHost;
+import android.widget.Toast;
 import android.widget.TabHost.TabContentFactory;
 import android.widget.TextView;
 
@@ -76,11 +78,9 @@ public class MainActivity extends FragmentActivity implements
 				startService(startRepeatingService);
 			}
 		} catch (Exception e) {
-			StackTraceElement[] s = e.getStackTrace();
-			for (int i = 0; i < s.length; i++) {
-				Logger.serviceInfo(s[i].toString());
-			}
-			throw e;
+			Logger.logStackTrace(e.getStackTrace());
+			Helper.createToast(this, "Sorry something went wrong");
+			finish();
 		}
 	}
 
