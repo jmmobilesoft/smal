@@ -213,7 +213,6 @@ public class TimerViewActivity extends Activity {
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				System.out.println("progress:" + seekBar.getProgress());
 				try {
 					mp.stop();
 					mp.release();
@@ -274,7 +273,6 @@ public class TimerViewActivity extends Activity {
 	private float determineVolume(int seekbarStatus) {
 		final float MIN = 0.2f;
 		float volume = (float) (seekbarStatus * 0.01);
-		System.out.println(volume);
 		if (volume < MIN) {
 			return 0.1f;
 		}

@@ -7,7 +7,7 @@ public class WeatherForecast {
 	private String cityName;
 	private int cloudsAll;
 	private String country;
-	private String decsription;
+	private String description;
 	private int humidity;
 	private String icon;
 	private String latitude;
@@ -59,12 +59,12 @@ public class WeatherForecast {
 		this.country = country;
 	}
 
-	public String getDecsription() {
-		return decsription;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDecsription(String decsription) {
-		this.decsription = decsription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public int getHumidity() {
@@ -183,7 +183,7 @@ public class WeatherForecast {
 	public String toString() {
 		return "WeatherForecast [id=" + id + ", cityName=" + cityName
 				+ ", cloudsAll=" + cloudsAll + ", country=" + country
-				+ ", decsription=" + decsription + ", humidity=" + humidity
+				+ ", decsription=" + description + ", humidity=" + humidity
 				+ ", icon=" + icon + ", latitude=" + latitude + ", longitude="
 				+ longitude + ", mainDesc=" + mainDesc + ", pressure="
 				+ pressure + ", sunrise=" + sunrise + ", sunset=" + sunset

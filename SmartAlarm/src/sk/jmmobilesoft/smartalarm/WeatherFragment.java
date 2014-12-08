@@ -5,6 +5,7 @@ import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
+import sk.jmmobilesoft.smartalarm.model.Weather;
 import sk.jmmobilesoft.smartalarm.model.WeatherAdapter;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.network.NetworkService;
@@ -40,7 +41,7 @@ public class WeatherFragment extends Fragment {
 			list = (ListView) view.findViewById(R.id.sleep_screen_listview);
 
 			try {
-				weathers = db.getWeather();
+				weathers = db.getWeatherForecast();
 			} catch (IllegalStateException e) {
 				Logger.logStackTrace(e.getStackTrace());
 			}
@@ -63,19 +64,26 @@ public class WeatherFragment extends Fragment {
 							List<String> cities = new ArrayList<String>();
 							cities.add(cityS);
 							List<WeatherForecast> w = service
-									.getWeather(cities);
+									.downloadWeatherForecast(cities);
 							WeatherForecast weather = w.get(0);
-							if (db.getWeatherByCity(weather.getCityName()) == null) { // TODO
+							if (db.getWeatherForecastByCity(weather.getCityName()) == null) { // TODO
 																						// CHECK
-								db.createWeather(weather);
+								db.createWeatherForecast(weather);
 								refreshWeathers();
 								city.setText("");
 							} else {
-								weather.setId(db.getWeatherByCity(
+								weather.setId(db.getWeatherForecastByCity(
 										weather.getCityName()).getId());
-								db.updateWeather(weather);
+								db.updateWeatherForecast(weather);
 								refreshWeathers();
 								city.setText("");
+							}
+							List<Weather> weather2 = service.downloadWeather(cities);
+							if (weathers != null) {
+								db.deleteWeatherByCity(cityS);
+								for (Weather w2 : weather2) {
+									db.createWeather(w2);
+								}
 							}
 						} else {
 							String text = "Weather for city "
@@ -103,7 +111,7 @@ public class WeatherFragment extends Fragment {
 	}
 
 	private void refreshWeathers() {
-		weathers = db.getWeather();
+		weathers = db.getWeatherForecast();
 		if (weathers == null) {
 			weathers = new ArrayList<>();
 		}

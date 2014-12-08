@@ -2,6 +2,8 @@ package sk.jmmobilesoft.smartalarm.service;
 
 import java.lang.reflect.Field;
 import java.util.Calendar;
+import java.util.Date;
+
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import android.content.Context;
 import android.graphics.Paint;
@@ -16,7 +18,7 @@ import android.widget.Toast;
 public abstract class Helper {
 
 	public static String format(int value) {
-		String ret = "";
+		String ret = ""; 
 		if (value < 10) {
 			ret = "0";
 		}
@@ -136,5 +138,11 @@ public abstract class Helper {
 		c.setTimeInMillis(milliseconds * 1000);
 		return format(c.get(Calendar.HOUR_OF_DAY)) + ":"
 				+ format(c.get(Calendar.MINUTE));
+	}
+	
+	public static Date milisToDate(long miliseconds){
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(miliseconds * 1000);
+		return c.getTime();
 	}
 }

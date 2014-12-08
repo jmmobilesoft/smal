@@ -2,9 +2,9 @@ package sk.jmmobilesoft.smartalarm;
 
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.network.NetworkService;
+import sk.jmmobilesoft.smartalarm.network.WeatherHttpClient;
+import sk.jmmobilesoft.smartalarm.network.WeatherJsonParser;
 import sk.jmmobilesoft.smartalarm.service.Helper;
-import sk.jmmobilesoft.smartalarm.weather.WeatherHttpClient;
-import sk.jmmobilesoft.smartalarm.weather.WeatherJsonParser;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -86,8 +86,8 @@ public class SettingsActivity extends Activity {
 		WeatherJsonParser parser = new WeatherJsonParser();
 		WeatherForecast weather = null;
 		try {
-			client.getWeatherData(city.getText().toString());
-			weather = parser.parseData(client.getDataString());
+			client.getWeatherForecastData(city.getText().toString());
+			weather = parser.parseWeatherForecastData(client.getWeatherForecastString());
 		} catch (NullPointerException e) {
 			System.out.println(e);
 			return "cant download weather";

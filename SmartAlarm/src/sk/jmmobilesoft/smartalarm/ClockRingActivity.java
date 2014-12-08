@@ -156,7 +156,7 @@ public class ClockRingActivity extends Activity {
 			TextView description1 = (TextView) findViewById(R.id.ring_weather_1_desription_text);
 			TextView city1 = (TextView) findViewById(R.id.ring_weather_1_city_name);
 			TextView update1 = (TextView) findViewById(R.id.ring_weather_1_update_time);
-			WeatherForecast w = db.getWeatherByCity(c.getCities().get(0));
+			WeatherForecast w = db.getWeatherForecastByCity(c.getCities().get(0));
 			int resourceId = getResources().getIdentifier("w" + w.getIcon(),
 					"drawable", getPackageName());
 			iw.setImageDrawable(getResources().getDrawable(resourceId));
@@ -168,7 +168,7 @@ public class ClockRingActivity extends Activity {
 			humidity1.setText("Humidity: " + w.getHumidity() + "%");
 			min1.setText("Min: " + Helper.kelvinToCelsius(w.getTempMin()) + "°" + "C");
 			max1.setText("Max: " + Helper.kelvinToCelsius(w.getTempMax()) + "°" + "C");
-			description1.setText(w.getDecsription());
+			description1.setText(w.getDescription());
 			city1.setText(w.getCityName());
 			update1.setText(w.getUpdateTime());
 
@@ -185,7 +185,7 @@ public class ClockRingActivity extends Activity {
 				TextView city2 = (TextView) findViewById(R.id.ring_weather_2_city_name);
 				TextView update2 = (TextView) findViewById(R.id.ring_weather_2_update_time);
 
-				WeatherForecast w2 = db.getWeatherByCity(c.getCities().get(1));
+				WeatherForecast w2 = db.getWeatherForecastByCity(c.getCities().get(1));
 				int resourceId2 = getResources().getIdentifier(
 						"w" + w2.getIcon(), "drawable", getPackageName());
 				iw2.setImageDrawable(getResources().getDrawable(resourceId2));
@@ -197,7 +197,7 @@ public class ClockRingActivity extends Activity {
 				humidity2.setText("Humidity: " + w2.getHumidity() + "%");
 				min2.setText("Min: " + Helper.kelvinToCelsius(w2.getTempMin()) + "°" + "C");
 				max2.setText("Max: " + Helper.kelvinToCelsius(w2.getTempMax()) + "°" + "C");
-				description2.setText(w2.getDecsription());
+				description2.setText(w2.getDescription());
 				city2.setText(w2.getCityName());
 				update2.setText(w2.getUpdateTime());
 			} else {

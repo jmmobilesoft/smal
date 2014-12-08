@@ -5,9 +5,9 @@ import java.util.List;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import sk.jmmobilesoft.smartalarm.log.Logger;
+import sk.jmmobilesoft.smartalarm.model.Weather;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
-import sk.jmmobilesoft.smartalarm.weather.WeatherHttpClient;
-import sk.jmmobilesoft.smartalarm.weather.WeatherJsonParser;
 
 public class WeatherNetworkService {
 
@@ -17,11 +17,11 @@ public class WeatherNetworkService {
 		network = new NetworkService();
 	}
 
-	public List<WeatherForecast> downloadWeather(List<String> cityList,
+	public List<WeatherForecast> downloadAutomaticWeather(List<String> cityList,
 			Context context) {
 		network.turnWifiOn(context);
-		connect(context);
-		List<WeatherForecast> weather = getWeather(cityList);
+		new Connect(context).execute();
+		List<WeatherForecast> weather = downloadWeatherForecast(cityList);
 		network.turnWifiOff(context);
 		return weather;
 	}
@@ -29,8 +29,8 @@ public class WeatherNetworkService {
 	public boolean availableWeather(String city) {
 		try {
 			WeatherHttpClient client = new WeatherHttpClient();
-			client.getWeatherData(city);
-			String s = client.getDataString();
+			client.getWeatherForecastData(city);
+			String s = client.getWeatherForecastString();
 			if (s.contains("Error")) {
 				return false;
 			}
@@ -41,7 +41,7 @@ public class WeatherNetworkService {
 		return false;
 	}
 
-	public List<WeatherForecast> getWeather(List<String> cityList) {
+	public List<WeatherForecast> downloadWeatherForecast(List<String> cityList) {
 		WeatherHttpClient client = new WeatherHttpClient();
 		WeatherJsonParser parser = new WeatherJsonParser();
 		List<WeatherForecast> list = new ArrayList<WeatherForecast>();
@@ -49,22 +49,38 @@ public class WeatherNetworkService {
 		for (String s : cityList) {
 			try {
 				weather = null;
-				client.getWeatherData(s);
-				weather = parser.parseData(client.getDataString());
+				client.getWeatherForecastData(s);
+				weather = parser.parseWeatherForecastData(client.getWeatherForecastString());
 				if (weather != null) {
 					list.add(weather);
 				}
 			} catch (NullPointerException e) {
-				System.out.println(e);
+				Logger.logStackTrace(e.getStackTrace());
 				return null;
 			}
 		}
 
 		return list;
 	}
+	
+	public List<Weather> downloadWeather(List<String> cityList) {
+		WeatherHttpClient client = new WeatherHttpClient();
+		WeatherJsonParser parser = new WeatherJsonParser();
+		List<Weather> list = new ArrayList<Weather>();
+		for (String s : cityList) {
+			try {
+				client.getWeatherData(s);
+				List<Weather> w = parser.parseWeatherData(client.getWeatherString());
+				if (!w.isEmpty()) {
+					list.addAll(w);
+				}
+			} catch (NullPointerException e) {
+				Logger.logStackTrace(e.getStackTrace());
+				return null;
+			}
+		}
 
-	public void connect(final Context context) {
-		new Connect(context).execute();
+		return list;
 	}
 
 	public class Connect extends AsyncTask<Void, Void, Void> {
@@ -80,14 +96,12 @@ public class WeatherNetworkService {
 			try {
 				int counter = 0;
 				while (!network.isConnected(mContext) && counter <= 60) {
-					System.out.println("waiting:" + counter);
 					counter++;
 					Thread.yield();
 				}
 
 			} catch (Exception e) {
-				System.out.println(e);
-				// network.turnWifiOff(mContext);
+				Logger.logStackTrace(e.getStackTrace());
 			}
 			return null;
 		}

@@ -94,7 +94,7 @@ public class ClockViewActivity extends Activity {
 			DBHelper db = new DBHelper(getApplicationContext());
 			List<Integer> ids = b.getIntegerArrayList("weathers");			
 			for (int i = 0; i < ids.size(); i++) {
-					cities.add(db.getWeather(ids.get(i)).getCityName());
+					cities.add(db.getWeatherForecast(ids.get(i)).getCityName());
 			}
 			this.cities = cities;
 			weatherCities.setText(cities.toString().replace("[", "")
@@ -151,7 +151,6 @@ public class ClockViewActivity extends Activity {
 
 	private void setComponentsNewClock(Clock c, NumberPicker hours,
 			NumberPicker minutes, SeekBar volumeBar, TextView snooze) {
-		System.out.println("setnew clock");
 		snooze.setText(String.valueOf(5));
 		c.setSnoozeTime(5);
 		hours.setValue(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
@@ -163,8 +162,6 @@ public class ClockViewActivity extends Activity {
 	private void setComponentsOldClock(Clock c, EditText name,
 			NumberPicker hours, NumberPicker minutes, SeekBar volumeBar,
 			TextView snooze) {
-		System.out.println("setold");
-		System.out.println(c);
 		snooze.setText(String.valueOf(c.getSnoozeTime()));
 		name.setText(c.getName());
 		hours.setValue(c.getHour());

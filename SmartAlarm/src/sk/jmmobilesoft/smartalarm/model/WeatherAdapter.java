@@ -82,7 +82,7 @@ public class WeatherAdapter extends BaseAdapter {
 			city.setText(weather.getCityName());
 			temp.setText(Helper.kelvinToCelsius(weather.getTemperature()) + "°"
 					+ "C"); // TODO jednotka teploty z nastaveni
-			description.setText(weather.getDecsription());
+			description.setText(weather.getDescription());
 			maxMinTemp.setText(Helper.kelvinToCelsius(weather.getTempMin())
 					+ "/" + Helper.kelvinToCelsius(weather.getTempMax()) + "°"
 					+ "C");

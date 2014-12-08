@@ -29,7 +29,7 @@ public class WeatherRemoveActivity extends Activity {
 		ListView list = (ListView) findViewById(R.id.weather_select_listview);
 		List<WeatherForecast> weatherList = null;
 		try {
-			weatherList = db.getWeather();
+			weatherList = db.getWeatherForecast();
 		} catch (IllegalStateException e) {
 			Log.i("INFO", "clock databse is empty");
 		}
@@ -59,7 +59,7 @@ public class WeatherRemoveActivity extends Activity {
 				boolean[] checkboxes = adapter.getCheckboxes();
 				for (int i = 0; i < adapter.getCount(); i++) {
 					if (checkboxes[i]) {
-						db.deleteWeather(adapter.getItemId(i));
+						db.deleteWeatherForecast(adapter.getItemId(i));
 					}
 				}
 				finish();
