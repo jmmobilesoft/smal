@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/sleep_screen_city"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.2"
+            android:background="#2F2F2F"
+            android:textColor="#F7F5F5" />
+
+        <Button
+            android:id="@+id/sleep_screen_add"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.8"
+            android:text="Add" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/sleep_screen_listview"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent" />
+
+</LinearLayout>

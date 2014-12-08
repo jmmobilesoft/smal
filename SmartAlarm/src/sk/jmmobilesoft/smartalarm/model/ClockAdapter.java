@@ -5,7 +5,9 @@ import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.ClockViewActivity;
 import sk.jmmobilesoft.smartalarm.R;
-import sk.jmmobilesoft.smartalarm.database.ClockDBHelper;
+import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.service.ClockSetting;
+import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,25 +18,21 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
-
 
 public class ClockAdapter extends BaseAdapter {
 
-	
-	List<Clock> clocks;
-	Fragment context;
-	Bundle savedInstanceState;
-	private ClockDBHelper db;
+	private List<Clock> clocks;
+	private Fragment context;
+	private Bundle savedInstanceState;
+	private DBHelper db;
 
 	public ClockAdapter(Fragment context, List<Clock> clocks, Bundle state) {
 		super();
 		this.context = context;
 		this.clocks = clocks;
 		this.savedInstanceState = state;
-		db = new ClockDBHelper(context.getActivity());
+		db = new DBHelper(context.getActivity());
 	}
 
 	@Override
@@ -54,17 +52,22 @@ public class ClockAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = context.getLayoutInflater(savedInstanceState);
+		final LayoutInflater inflater = context
+				.getLayoutInflater(savedInstanceState);
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.clock_item_fragment, null);
+			convertView = inflater.inflate(R.layout.clock_adapter_item, null);
 		}
 
 		Clock clock = clocks.get(position);
-			
-		TextView clockText = (TextView) convertView.findViewById(R.id.clock_item_time);
-		clockText.setText(format(clock.getHour()) + ":" + format(clock.getMinutes()));
-		CheckBox active = (CheckBox) convertView.findViewById(R.id.clock_item_active);
-		TextView name = (TextView) convertView.findViewById(R.id.clock_item_name);
+
+		TextView clockText = (TextView) convertView
+				.findViewById(R.id.clock_item_time);
+		clockText.setText(Helper.format(clock.getHour()) + ":"
+				+ Helper.format(clock.getMinutes()));
+		final CheckBox active = (CheckBox) convertView
+				.findViewById(R.id.clock_item_active);
+		TextView name = (TextView) convertView
+				.findViewById(R.id.clock_item_name);
 		List<TextView> daysList = new ArrayList<>();
 		TextView MO = (TextView) convertView.findViewById(R.id.clock_item_MO);
 		daysList.add(MO);
@@ -81,54 +84,44 @@ public class ClockAdapter extends BaseAdapter {
 		TextView SU = (TextView) convertView.findViewById(R.id.clock_item_SU);
 		daysList.add(SU);
 		setMyColor(daysList, clock);
- 		name.setText(clock.getName());
+		name.setText(clock.getName());
 		active.setChecked(clock.isActive());
-		active.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+		active.setOnClickListener(new OnClickListener() {
+
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onClick(View v) {
 				Clock clock = (Clock) getItem(position);
-				clock.setActive(isChecked);
+				clock.setActive(active.isChecked());
 				db.updateClock(clock);
+				boolean t = ClockSetting.setClock(context.getActivity(), clock.getId());
+				if(t){
+					Helper.showToast(clock, context.getActivity());
+				}
 			}
 		});
+
 		convertView.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				Intent intentA = new Intent(context.getActivity(),
 						ClockViewActivity.class);
 				intentA.putExtra("id", getItemId(position));
 				context.startActivity(intentA);
-				
 			}
-		});		
+		});
 		return convertView;
 	}
-	
-	public View addItem(View convertView, Clock newClock) {
-		clocks.add(newClock);
-		return convertView;
-	}
-	
-	public void setMyColor(List<TextView> list, Clock clock){
-		for(int i = 0; i <= 6; i++){
+
+	public void setMyColor(List<TextView> list, Clock clock) {
+		for (int i = 0; i <= 6; i++) {
 			TextView text = list.get(i);
-			if(clock.getRepeat()[i] == 0){
-				text.setTextColor(Color.RED);
+			if (clock.getRepeat()[i] == 0) {
+				text.setTextColor(Color.rgb(112, 112, 112));
 			}
-			if(clock.getRepeat()[i] == 1){
-				text.setTextColor(Color.rgb(34, 139, 34));
+			if (clock.getRepeat()[i] == 1) {
+				text.setTextColor(Color.rgb(51, 181, 229));
 			}
 		}
-	}
-	
-	public String format(int value) {
-		String ret = "";
-		if (value < 10) {
-			ret = "0";
-		}
-		ret += Integer.toString(value);
-		return ret;
 	}
 }

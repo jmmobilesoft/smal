@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/ring_info_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" >
+
+        <TextView
+            android:id="@+id/ring_clock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="@android:color/background_light"
+            android:textSize="50sp" />
+
+        <TextView
+            android:id="@+id/ring_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@+id/ring_clock"
+            android:layout_centerHorizontal="true"
+            android:textColor="@android:color/background_light"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ring_weather_1_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ring_info_container" >
+
+        <TableLayout
+            android:id="@+id/ring_weather_1_container_table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:shrinkColumns="*"
+            android:stretchColumns="*" >
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:id="@+id/ring_weather_1_city_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="10dp"
+                    android:layout_span="2"
+                    android:text="Brno"
+                    android:textSize="25sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal" >
+
+                <ImageView
+                    android:id="@+id/ring_weather_1_image_view"
+                    android:layout_width="80dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_launcher" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/ring_weather_1_temperature_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:ellipsize="none"
+                        android:text="15°C"
+                        android:textSize="40sp" />
+
+                    <TextView
+                        android:id="@+id/ring_weather_1_desription_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="10dp"
+                        android:text="Partly cloudy"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/ring_weather_1_mintemp_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="10°C-15°C"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/ring_weather_1_maxtemp_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="10°C-15°C"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/ring_weather_1_sunrise_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="sunrise: 5:40"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/ring_weather_1_sunset_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="sunset 16:30"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/ring_weather_1_humidity_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="Humidity: 80%"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/ring_weather_1_wind_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="wind: 1.5 m/s"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:id="@+id/ring_weather_1_update_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="10dp"
+                    android:layout_span="2"
+                    android:text="time"
+                    android:textSize="10sp" />
+            </TableRow>
+        </TableLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ring_weather_2_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ring_weather_1_container" >
+
+        <TableLayout
+            android:id="@+id/ring_weather_2_container_table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:shrinkColumns="*"
+            android:stretchColumns="*" >
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:id="@+id/ring_weather_2_city_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="10dp"
+                    android:layout_span="2"
+                    android:text="Brno"
+                    android:textSize="25sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal" >
+
+                <ImageView
+                    android:id="@+id/ring_weather_2_image_view"
+                    android:layout_width="70dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_launcher" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/ring_weather_2_temperature_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:ellipsize="none"
+                        android:text="15°C"
+                        android:textSize="40sp" />
+
+                    <TextView
+                        android:id="@+id/ring_weather_2_desription_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="10dp"
+                        android:text="Partly cloudy"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/ring_weather_2_mintemp_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="10°C-15°C"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/ring_weather_2_maxtemp_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="10°C-15°C"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/ring_weather_2_sunrise_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="sunrise: 5:40"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/ring_weather_2_sunset_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="sunset 16:30"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/ring_weather_2_humidity_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="Humidity: 80%"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/ring_weather_2_wind_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="wind: 1.5 m/s"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:id="@+id/ring_weather_2_update_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="10dp"
+                    android:layout_span="2"
+                    android:text="time"
+                    android:textSize="10sp" />
+            </TableRow>
+        </TableLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ring_seek_container"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal" >
+
+        <SeekBar
+            android:id="@+id/ring_seek_dismiss"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/seek_style"
+            android:thumb="@color/seek_trackball_style"
+            android:translationX="-2dp" />
+
+        <SeekBar
+            android:id="@+id/ring_seek_snooze"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/seek_style"
+            android:thumb="@color/seek_trackball_style"
+            android:translationX="2dp" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,6 +1,8 @@
 package sk.jmmobilesoft.smartalarm.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import android.net.Uri;
 
@@ -13,19 +15,25 @@ public class Clock {
 	private boolean active;
 	private Uri sound;
 	private String name;
+	private int snoozeTime;
+	private float volume;  
+	private List<String> cities;
+	//private boolean niceWakeUp; //TODO
 	private int[] repeat = new int[]{0,0,0,0,0,0,0};
 	
 	public Clock(){
-		id = -1;
+		id = -1l;
+		cities = new ArrayList<String>();
 	}
 	
 	public Clock(int hour, int minutes, boolean active, String name,int[] repeat){
-		id = -1;
+		id = -1l;
 		this.hour = hour;
 		this.minutes = minutes;
 		this.name = name;
 		this.active = active;
 		this.repeat = repeat;
+		cities = new ArrayList<String>();
 	}
 
 	public long getId() {
@@ -84,6 +92,30 @@ public class Clock {
 		this.repeat = repeat;
 	}
 	
+	public int getSnoozeTime() {
+		return snoozeTime;
+	}
+
+	public void setSnoozeTime(int snoozeTime) {
+		this.snoozeTime = snoozeTime;
+	}
+
+	public float getVolume() {
+		return volume;
+	}
+
+	public void setVolume(float volume) {
+		this.volume = volume;
+	}
+	
+	public List<String> getCities() {
+		return cities;
+	}
+
+	public void setCities(List<String> cities) {
+		this.cities = cities;
+	}
+
 	public String toDBRepeat(int[] repeats){
 		String result = String.valueOf(repeats[0]) + String.valueOf(repeats[1]) + String.valueOf(repeats[2] + String.valueOf(repeats[3]) +
 				String.valueOf(repeats[4]) + String.valueOf(repeats[5]) + String.valueOf(repeats[6]));
@@ -148,8 +180,5 @@ public class Clock {
 		} else if (!sound.equals(other.sound))
 			return false;
 		return true;
-	}
-	
-	
-		
+	}		
 }
