@@ -11,6 +11,7 @@ import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.network.NetworkService;
 import sk.jmmobilesoft.smartalarm.network.WeatherNetworkService;
 import sk.jmmobilesoft.smartalarm.service.Helper;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ public class WeatherFragment extends Fragment {
 	private DBHelper db;
 	private ListView list;
 	private Bundle state;
+	private EditText city;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,52 +52,13 @@ public class WeatherFragment extends Fragment {
 			}
 			adapter = new WeatherAdapter(this, weathers, savedInstanceState);
 			list.setAdapter(adapter);
-			final EditText city = (EditText) view
-					.findViewById(R.id.sleep_screen_city);
+			city = (EditText) view.findViewById(R.id.sleep_screen_city);
 			Button add = (Button) view.findViewById(R.id.sleep_screen_add);
 			add.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					WeatherNetworkService service = new WeatherNetworkService();
-					if (new NetworkService().isConnected(getActivity())) {
-						String cityS = city.getText().toString();
-						if (service.availableWeather(cityS)) {
-							List<String> cities = new ArrayList<String>();
-							cities.add(cityS);
-							List<WeatherForecast> w = service
-									.downloadWeatherForecast(cities);
-							WeatherForecast weather = w.get(0);
-							if (db.getWeatherForecastByCity(weather.getCityName()) == null) { // TODO
-																						// CHECK
-								db.createWeatherForecast(weather);
-								refreshWeathers();
-								city.setText("");
-							} else {
-								weather.setId(db.getWeatherForecastByCity(
-										weather.getCityName()).getId());
-								db.updateWeatherForecast(weather);
-								refreshWeathers();
-								city.setText("");
-							}
-							List<Weather> weather2 = service.downloadWeather(cities);
-							if (weathers != null) {
-								db.deleteWeatherByCity(cityS);
-								for (Weather w2 : weather2) {
-									db.createWeather(w2);
-								}
-							}
-						} else {
-							String text = "Weather for city "
-									+ city.getText().toString()
-									+ " was not found.";
-							Helper.createToast(getActivity(), text);
-						}
-					} else {
-						String text = "Network connection unavailable.";
-						Helper.createToast(getActivity(), text);
-					}
-
+					new Refresh().execute();
 				}
 			});
 		} catch (Exception e) {
@@ -117,5 +80,64 @@ public class WeatherFragment extends Fragment {
 		}
 		adapter = new WeatherAdapter(this, weathers, state);
 		list.setAdapter(adapter);
+	}
+
+	class Refresh extends AsyncTask<Void, Void, Void> {
+
+		private boolean toastNotFound = false;
+		private boolean toastNoNetwork = false;
+		private String cityS;
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			WeatherNetworkService service = new WeatherNetworkService();
+			if (new NetworkService().isConnected(getActivity())) {
+				cityS = city.getText().toString();
+				if (service.availableWeather(cityS)) {
+					List<String> cities = new ArrayList<String>();
+					cities.add(cityS);
+					List<WeatherForecast> w = service
+							.downloadWeatherForecast(cities);
+					WeatherForecast weather = w.get(0);
+					if (db.getWeatherForecastByCity(weather.getCityName()) == null) { // TODO
+						// CHECK
+						db.createWeatherForecast(weather);
+					} else {
+						weather.setId(db.getWeatherForecastByCity(
+								weather.getCityName()).getId());
+						db.updateWeatherForecast(weather);
+					}
+					List<Weather> weather2 = service.downloadWeather(cities);
+					if (weathers != null) {
+						db.deleteWeatherByCity(cityS);
+						for (Weather w2 : weather2) {
+							db.createWeather(w2);
+						}
+					}
+				} else {
+					toastNotFound = true;
+
+				}
+			} else {
+				toastNoNetwork = true;
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			refreshWeathers();
+			city.setText("");
+			if (toastNoNetwork) {
+				String text = "Network connection unavailable.";
+				Helper.createToast(getActivity(), text);
+			}
+			if (toastNotFound) {
+				String text = "Weather for city " + cityS + " was not found.";
+				Helper.createToast(getActivity(), text);
+			}
+			super.onPostExecute(result);
+		}
+
 	}
 }

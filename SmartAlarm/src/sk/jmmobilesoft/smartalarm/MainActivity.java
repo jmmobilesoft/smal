@@ -9,6 +9,7 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ClipData.Item;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,7 @@ public class MainActivity extends FragmentActivity implements
 	private HashMap<String, TabInfo> mapTabInfo = new HashMap<String, TabInfo>();
 	private TabInfo mLastTab = null;
 	private String activeTab;
+	private Menu menu;
 
 	private class TabInfo {
 		private String tag;
@@ -151,8 +153,8 @@ public class MainActivity extends FragmentActivity implements
 					ft.attach(newTab.fragment);
 				}
 			}
-
 			mLastTab = newTab;
+			setMenuLabel(newTab);
 			ft.commit();
 			this.getSupportFragmentManager().executePendingTransactions();
 		}
@@ -174,6 +176,7 @@ public class MainActivity extends FragmentActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
+		this.menu = menu;
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -225,5 +228,23 @@ public class MainActivity extends FragmentActivity implements
 		Logger.appInfo("Add tab item with value:" + item + " tab:" + activeTab);
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void setMenuLabel(TabInfo newTab) {
+		try {
+			MenuItem item = menu.findItem(R.id.menu_add_action);
+			if (newTab.fragment.getClass().getSimpleName()
+					.equals("WeatherFragment")) {
+				item.setTitle("Refresh");
+				item.setIcon(getResources().getDrawable(
+						R.drawable.ic_action_refresh));
+			} else {
+				item.setTitle("Add");
+				item.setIcon(getResources().getDrawable(
+						R.drawable.ic_action_new));
+			}
+		} catch (Exception e) {
+			Logger.logStackTrace(e.getStackTrace());
+		}
 	}
 }

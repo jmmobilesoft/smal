@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item 
-        android:id="@+id/menu_remove_action"
-        android:title="Remove"
-        android:showAsAction="always"/>
-    
     <item
         android:id="@+id/menu_add_action"
-        android:title="Add"
-        android:showAsAction="always"/>
+        android:icon="@drawable/ic_action_new"
+        android:showAsAction="always"
+        android:title="Add"/>
+    <item
+        android:id="@+id/menu_remove_action"
+        android:icon="@drawable/ic_action_remove"
+        android:showAsAction="always"
+        android:title="Remove"/>
     <item
         android:id="@+id/menu_settings_action"
-        android:title="Settings"
-        android:showAsAction="ifRoom"/>
+        android:icon="@drawable/ic_action_settings"
+        android:showAsAction="ifRoom"
+        android:title="Settings"/>
 
 </menu>
