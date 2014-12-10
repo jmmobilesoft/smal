@@ -30,7 +30,6 @@ public class MainActivity extends FragmentActivity implements
 
 	private TabHost mTabHost;
 	private HashMap<String, TabInfo> mapTabInfo = new HashMap<String, TabInfo>();
-	private String activeTab;
 	private Menu menu;
 	private PagerAdapter mPagerAdapter;
 	private ViewPager mViewPager;
@@ -116,16 +115,22 @@ public class MainActivity extends FragmentActivity implements
 		mTabHost.setup();
 		TabInfo tabInfo = null;
 		MainActivity.addTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Tab1").setIndicator("Alarm"),
-				(tabInfo = new TabInfo("Tab1", ClockFragment.class, args)));
+				this.mTabHost.newTabSpec(ClockFragment.class.getSimpleName())
+						.setIndicator("Alarm"), (tabInfo = new TabInfo(
+						ClockFragment.class.getSimpleName(),
+						ClockFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		MainActivity.addTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Tab2").setIndicator("Timer"),
-				(tabInfo = new TabInfo("Tab2", TimerFragment.class, args)));
+				this.mTabHost.newTabSpec(TimerFragment.class.getSimpleName())
+						.setIndicator("Timer"), (tabInfo = new TabInfo(
+						TimerFragment.class.getSimpleName(),
+						TimerFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		MainActivity.addTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Tab3").setIndicator("Weather"),
-				(tabInfo = new TabInfo("Tab3", WeatherFragment.class, args)));
+				this.mTabHost.newTabSpec(WeatherFragment.class.getSimpleName())
+						.setIndicator("Weather"), (tabInfo = new TabInfo(
+						WeatherFragment.class.getSimpleName(),
+						WeatherFragment.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		this.onTabChanged("Tab1");
 		for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
@@ -169,7 +174,7 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.menu_add_action) {
-			switch (activeTab) {
+			switch (mTabHost.getCurrentTabTag()) {
 			case "ClockFragment": {
 				Intent intentA = new Intent(this, ClockViewActivity.class);
 				intentA.putExtra("id", -1l);
@@ -188,7 +193,7 @@ public class MainActivity extends FragmentActivity implements
 			}
 		}
 		if (item.getItemId() == R.id.menu_remove_action) {
-			switch (activeTab) {
+			switch (mTabHost.getCurrentTabTag()) {
 			case "ClockFragment": {
 				Intent intent = new Intent(this, ClockRemoveActivity.class);
 				intent.putExtra("id", 0);
@@ -211,7 +216,7 @@ public class MainActivity extends FragmentActivity implements
 			intent.putExtra("id", 0);
 			startActivityForResult(intent, 13);
 		}
-		Logger.appInfo("Add tab item with value:" + item + " tab:" + activeTab);
+		Logger.appInfo("Add tab item with value:" + item + " tab:" + mTabHost.getCurrentTabTag());
 
 		return super.onOptionsItemSelected(item);
 	}
