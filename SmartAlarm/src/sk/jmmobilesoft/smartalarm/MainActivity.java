@@ -16,7 +16,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,7 +30,6 @@ public class MainActivity extends FragmentActivity implements
 
 	private TabHost mTabHost;
 	private HashMap<String, TabInfo> mapTabInfo = new HashMap<String, TabInfo>();
-	private TabInfo mLastTab = null;
 	private String activeTab;
 	private Menu menu;
 	private PagerAdapter mPagerAdapter;
@@ -71,24 +69,24 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Logger.serviceInfo("Application started");
-		// try {
-		setContentView(R.layout.tabs_layout);
-		intialiseViewPager();
-		initialiseTabHost(savedInstanceState);
-		if (savedInstanceState != null) {
-			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
+		try {
+			setContentView(R.layout.tabs_layout);
+			intialiseViewPager();
+			initialiseTabHost(savedInstanceState);
+			if (savedInstanceState != null) {
+				mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
+			}
+			if (!isMyServiceRunning(ClockRepeatService.class)) {
+				Logger.serviceInfo("ClockRepeatService started");
+				Intent startRepeatingService = new Intent(this,
+						ClockRepeatService.class);
+				startService(startRepeatingService);
+			}
+		} catch (Exception e) {
+			Logger.logStackTrace(e.getStackTrace());
+			Helper.createToast(this, "Sorry something went wrong");
+			finish();
 		}
-		if (!isMyServiceRunning(ClockRepeatService.class)) {
-			Logger.serviceInfo("ClockRepeatService started");
-			Intent startRepeatingService = new Intent(this,
-					ClockRepeatService.class);
-			startService(startRepeatingService);
-		}
-		// } catch (Exception e) {
-		// Logger.logStackTrace(e.getStackTrace());
-		// Helper.createToast(this, "Sorry something went wrong");
-		// finish();
-		// }
 	}
 
 	protected void onSaveInstanceState(Bundle outState) {
@@ -112,7 +110,7 @@ public class MainActivity extends FragmentActivity implements
 		this.mViewPager.setAdapter(this.mPagerAdapter);
 		this.mViewPager.setOnPageChangeListener(this);
 	}
-	
+
 	private void initialiseTabHost(Bundle args) {
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();
@@ -140,51 +138,13 @@ public class MainActivity extends FragmentActivity implements
 
 	private static void addTab(MainActivity activity, TabHost tabHost,
 			TabHost.TabSpec tabSpec, TabInfo tabInfo) {
-//		tabSpec.setContent(activity.new TabFactory(activity));
-//		String tag = tabSpec.getTag();
-//
-//		tabInfo.fragment = activity.getSupportFragmentManager()
-//				.findFragmentByTag(tag);
-//		if (tabInfo.fragment != null && !tabInfo.fragment.isDetached()) {
-//			FragmentTransaction ft = activity.getSupportFragmentManager()
-//					.beginTransaction();
-//			ft.detach(tabInfo.fragment);
-//			ft.commit();
-//			activity.getSupportFragmentManager().executePendingTransactions();
-//		}
-//
-//		tabHost.addTab(tabSpec);
 		tabSpec.setContent(activity.new TabFactory(activity));
-        tabHost.addTab(tabSpec);
+		tabHost.addTab(tabSpec);
 	}
 
 	public void onTabChanged(String tag) {
 		int pos = this.mTabHost.getCurrentTab();
 		this.mViewPager.setCurrentItem(pos);
-		// TabInfo newTab = this.mapTabInfo.get(tag);
-		// if (mLastTab != newTab) {
-		// FragmentTransaction ft = this.getSupportFragmentManager()
-		// .beginTransaction();
-		// if (mLastTab != null) {
-		// if (mLastTab.fragment != null) {
-		// ft.detach(mLastTab.fragment);
-		// }
-		// }
-		// if (newTab != null) {
-		// if (newTab.fragment == null) {
-		// newTab.fragment = Fragment.instantiate(this,
-		// newTab.clss.getName(), newTab.args);
-		// ft.add(R.id.realtabcontent, newTab.fragment, newTab.tag);
-		// } else {
-		// ft.attach(newTab.fragment);
-		// }
-		// }
-		// mLastTab = newTab;
-		// setMenuLabel(newTab);
-		// ft.commit();
-		// this.getSupportFragmentManager().executePendingTransactions();
-		// }
-		// activeTab = newTab.fragment.getClass().getSimpleName();
 	}
 
 	private boolean isMyServiceRunning(Class<?> serviceClass) {
