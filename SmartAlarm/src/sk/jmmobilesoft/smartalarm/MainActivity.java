@@ -1,37 +1,41 @@
 package sk.jmmobilesoft.smartalarm;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Vector;
 
 import sk.jmmobilesoft.smartalarm.log.Logger;
+import sk.jmmobilesoft.smartalarm.model.PagerAdapter;
 import sk.jmmobilesoft.smartalarm.service.ClockRepeatService;
 import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ClipData.Item;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TabHost;
-import android.widget.Toast;
 import android.widget.TabHost.TabContentFactory;
 import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity implements
-		TabHost.OnTabChangeListener {
+		TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
 
 	private TabHost mTabHost;
 	private HashMap<String, TabInfo> mapTabInfo = new HashMap<String, TabInfo>();
 	private TabInfo mLastTab = null;
 	private String activeTab;
 	private Menu menu;
+	private PagerAdapter mPagerAdapter;
+	private ViewPager mViewPager;
 
 	private class TabInfo {
 		private String tag;
@@ -67,23 +71,24 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Logger.serviceInfo("Application started");
-		try {
-			setContentView(R.layout.tabs_layout);
-			initialiseTabHost(savedInstanceState);
-			if (savedInstanceState != null) {
-				mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
-			}
-			if (!isMyServiceRunning(ClockRepeatService.class)) {
-				Logger.serviceInfo("ClockRepeatService started");
-				Intent startRepeatingService = new Intent(this,
-						ClockRepeatService.class);
-				startService(startRepeatingService);
-			}
-		} catch (Exception e) {
-			Logger.logStackTrace(e.getStackTrace());
-			Helper.createToast(this, "Sorry something went wrong");
-			finish();
+		// try {
+		setContentView(R.layout.tabs_layout);
+		intialiseViewPager();
+		initialiseTabHost(savedInstanceState);
+		if (savedInstanceState != null) {
+			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
 		}
+		if (!isMyServiceRunning(ClockRepeatService.class)) {
+			Logger.serviceInfo("ClockRepeatService started");
+			Intent startRepeatingService = new Intent(this,
+					ClockRepeatService.class);
+			startService(startRepeatingService);
+		}
+		// } catch (Exception e) {
+		// Logger.logStackTrace(e.getStackTrace());
+		// Helper.createToast(this, "Sorry something went wrong");
+		// finish();
+		// }
 	}
 
 	protected void onSaveInstanceState(Bundle outState) {
@@ -91,6 +96,23 @@ public class MainActivity extends FragmentActivity implements
 		super.onSaveInstanceState(outState);
 	}
 
+	private void intialiseViewPager() {
+
+		List<Fragment> fragments = new Vector<Fragment>();
+		fragments
+				.add(Fragment.instantiate(this, ClockFragment.class.getName()));
+		fragments
+				.add(Fragment.instantiate(this, TimerFragment.class.getName()));
+		fragments.add(Fragment.instantiate(this,
+				WeatherFragment.class.getName()));
+		this.mPagerAdapter = new PagerAdapter(
+				super.getSupportFragmentManager(), fragments);
+		//
+		this.mViewPager = (ViewPager) super.findViewById(R.id.viewpager);
+		this.mViewPager.setAdapter(this.mPagerAdapter);
+		this.mViewPager.setOnPageChangeListener(this);
+	}
+	
 	private void initialiseTabHost(Bundle args) {
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();
@@ -118,47 +140,51 @@ public class MainActivity extends FragmentActivity implements
 
 	private static void addTab(MainActivity activity, TabHost tabHost,
 			TabHost.TabSpec tabSpec, TabInfo tabInfo) {
+//		tabSpec.setContent(activity.new TabFactory(activity));
+//		String tag = tabSpec.getTag();
+//
+//		tabInfo.fragment = activity.getSupportFragmentManager()
+//				.findFragmentByTag(tag);
+//		if (tabInfo.fragment != null && !tabInfo.fragment.isDetached()) {
+//			FragmentTransaction ft = activity.getSupportFragmentManager()
+//					.beginTransaction();
+//			ft.detach(tabInfo.fragment);
+//			ft.commit();
+//			activity.getSupportFragmentManager().executePendingTransactions();
+//		}
+//
+//		tabHost.addTab(tabSpec);
 		tabSpec.setContent(activity.new TabFactory(activity));
-		String tag = tabSpec.getTag();
-
-		tabInfo.fragment = activity.getSupportFragmentManager()
-				.findFragmentByTag(tag);
-		if (tabInfo.fragment != null && !tabInfo.fragment.isDetached()) {
-			FragmentTransaction ft = activity.getSupportFragmentManager()
-					.beginTransaction();
-			ft.detach(tabInfo.fragment);
-			ft.commit();
-			activity.getSupportFragmentManager().executePendingTransactions();
-		}
-
-		tabHost.addTab(tabSpec);
+        tabHost.addTab(tabSpec);
 	}
 
 	public void onTabChanged(String tag) {
-		TabInfo newTab = this.mapTabInfo.get(tag);
-		if (mLastTab != newTab) {
-			FragmentTransaction ft = this.getSupportFragmentManager()
-					.beginTransaction();
-			if (mLastTab != null) {
-				if (mLastTab.fragment != null) {
-					ft.detach(mLastTab.fragment);
-				}
-			}
-			if (newTab != null) {
-				if (newTab.fragment == null) {
-					newTab.fragment = Fragment.instantiate(this,
-							newTab.clss.getName(), newTab.args);
-					ft.add(R.id.realtabcontent, newTab.fragment, newTab.tag);
-				} else {
-					ft.attach(newTab.fragment);
-				}
-			}
-			mLastTab = newTab;
-			setMenuLabel(newTab);
-			ft.commit();
-			this.getSupportFragmentManager().executePendingTransactions();
-		}
-		activeTab = newTab.fragment.getClass().getSimpleName();
+		int pos = this.mTabHost.getCurrentTab();
+		this.mViewPager.setCurrentItem(pos);
+		// TabInfo newTab = this.mapTabInfo.get(tag);
+		// if (mLastTab != newTab) {
+		// FragmentTransaction ft = this.getSupportFragmentManager()
+		// .beginTransaction();
+		// if (mLastTab != null) {
+		// if (mLastTab.fragment != null) {
+		// ft.detach(mLastTab.fragment);
+		// }
+		// }
+		// if (newTab != null) {
+		// if (newTab.fragment == null) {
+		// newTab.fragment = Fragment.instantiate(this,
+		// newTab.clss.getName(), newTab.args);
+		// ft.add(R.id.realtabcontent, newTab.fragment, newTab.tag);
+		// } else {
+		// ft.attach(newTab.fragment);
+		// }
+		// }
+		// mLastTab = newTab;
+		// setMenuLabel(newTab);
+		// ft.commit();
+		// this.getSupportFragmentManager().executePendingTransactions();
+		// }
+		// activeTab = newTab.fragment.getClass().getSimpleName();
 	}
 
 	private boolean isMyServiceRunning(Class<?> serviceClass) {
@@ -246,5 +272,23 @@ public class MainActivity extends FragmentActivity implements
 		} catch (Exception e) {
 			Logger.logStackTrace(e.getStackTrace());
 		}
+	}
+
+	@Override
+	public void onPageScrollStateChanged(int arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onPageScrolled(int arg0, float arg1, int arg2) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onPageSelected(int position) {
+		this.mTabHost.setCurrentTab(position);
+
 	}
 }

@@ -134,7 +134,6 @@ public final class R {
         public static final int menu_add_action=0x7f0900bd;
         public static final int menu_remove_action=0x7f0900be;
         public static final int menu_settings_action=0x7f0900bf;
-        public static final int realtabcontent=0x7f090069;
         public static final int ring_clock=0x7f090023;
         public static final int ring_info_container=0x7f090022;
         public static final int ring_name=0x7f090024;
@@ -197,6 +196,7 @@ public final class R {
         public static final int timer_view_activity_sound_pick=0x7f09007d;
         public static final int timer_view_activity_volume_containter=0x7f09007f;
         public static final int timer_view_activity_volume_picker=0x7f090080;
+        public static final int viewpager=0x7f090069;
         public static final int weathe_select_item_selector=0x7f090097;
         public static final int weathe_select_item_spacer=0x7f090096;
         public static final int weather_item_city=0x7f090085;
