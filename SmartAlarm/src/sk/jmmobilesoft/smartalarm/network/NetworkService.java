@@ -7,14 +7,25 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.net.wifi.WifiManager.WifiLock;
 
 public class NetworkService {
 
-	public NetworkService(){}
-	
+	private WifiLock wifiLock = null;
+
+	public NetworkService() {
+	}
+
 	public void turnWifiOn(Context context) {
 		WifiManager wManager = (WifiManager) context
 				.getSystemService(Context.WIFI_SERVICE);
+		if (android.os.Build.VERSION.SDK_INT > 12)
+			wifiLock = wManager.createWifiLock(
+					WifiManager.WIFI_MODE_FULL_HIGH_PERF, "RefreshLock");
+		else
+			wifiLock = wManager.createWifiLock(WifiManager.WIFI_MODE_FULL,
+					"RefreshLock");
+		wifiLock.acquire();
 		wManager.setWifiEnabled(true);
 	}
 
@@ -22,6 +33,9 @@ public class NetworkService {
 		WifiManager wManager = (WifiManager) context
 				.getSystemService(Context.WIFI_SERVICE);
 		wManager.setWifiEnabled(false);
+		if (wifiLock != null) {
+			wifiLock.release();
+		}
 	}
 
 	public void turnMobileOn(Context context) {
