@@ -4,8 +4,12 @@ import java.lang.reflect.Field;
 import java.util.Calendar;
 import java.util.Date;
 
+import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.model.Clock;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.PowerManager;
 import android.util.Log;
@@ -18,7 +22,7 @@ import android.widget.Toast;
 public abstract class Helper {
 
 	public static String format(int value) {
-		String ret = ""; 
+		String ret = "";
 		if (value < 10) {
 			ret = "0";
 		}
@@ -103,11 +107,11 @@ public abstract class Helper {
 		return current;
 	}
 
-	public static void createToast(Context context, String message){
+	public static void createToast(Context context, String message) {
 		Toast t = Toast.makeText(context, message, Toast.LENGTH_SHORT);
 		t.show();
 	}
-	
+
 	public static void showToast(Clock c, Context context) {
 		Calendar clock = Calendar.getInstance();
 		clock.set(Calendar.HOUR_OF_DAY, c.getHour());
@@ -139,10 +143,83 @@ public abstract class Helper {
 		return format(c.get(Calendar.HOUR_OF_DAY)) + ":"
 				+ format(c.get(Calendar.MINUTE));
 	}
-	
-	public static Date milisToDate(long miliseconds){
+
+	public static Date milisToDate(long miliseconds) {
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(miliseconds * 1000);
 		return c.getTime();
+	}
+
+	public static void determineAlarmIcon(Context context) {
+		DBHelper db = new DBHelper(context);
+		
+		Calendar current = Helper.getCurrentTime();
+		boolean someActive = false;
+		for (Clock c: db.getClocks()) {
+			boolean nextday = false;
+			Calendar calendar = Calendar.getInstance();
+			calendar.set(Calendar.HOUR_OF_DAY, c.getHour());
+			calendar.set(Calendar.MINUTE, c.getMinutes());
+			calendar.set(Calendar.SECOND, 0);
+
+			if (calendar.before(current)) {
+				calendar.set(Calendar.DATE,
+						Calendar.getInstance().get(Calendar.DATE) + 1);
+				nextday = true;
+			} else {
+				calendar.set(Calendar.DATE,
+						Calendar.getInstance().get(Calendar.DATE));
+			}
+			if (c.isActive() && getDayRepeat(c, nextday)) {
+				someActive = true;
+			}
+		}
+		setAlarmIcon(context, someActive);
+	}
+
+	public static boolean getDayRepeat(Clock c, boolean nextday) {
+		int[] repeats = c.getRepeat();
+		int[] converted = new int[] { repeats[6], repeats[0], repeats[1],
+				repeats[2], repeats[3], repeats[4], repeats[5] };
+		int currentDay = getCurrentDay();
+		int nextdayInt = getCurrentDay() + 1;
+		if (nextdayInt == 7) {
+			nextdayInt = nextdayInt - 7;
+		}
+		if (nextday) {
+			if (converted[nextdayInt] == 1 || noRepeats(converted)) {
+				nextday = false;
+				return true;
+			}
+		} else {
+			if (converted[currentDay] == 1 || noRepeats(converted)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 
+	 * @return days 0-6 int value SU -> SA 1 -> 7 !!!
+	 */
+	public static int getCurrentDay() {
+		int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+		return day - 1;
+	}
+
+	public static boolean noRepeats(int[] repeats) {
+		for (int i = 0; i <= 6; i++) {
+			if (repeats[i] == 1) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private static void setAlarmIcon(Context context, boolean enabled) {
+		Intent alarmChanged = new Intent("android.intent.action.ALARM_CHANGED");
+		alarmChanged.putExtra("alarmSet", enabled);
+		context.sendBroadcast(alarmChanged);
 	}
 }

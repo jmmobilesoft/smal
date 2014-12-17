@@ -55,10 +55,12 @@ public class WeatherRefreshService extends Service {
 			try {
 				network.turnWifiOn(mContext);
 				int counter = 0;
-				while (!network.isConnected(mContext) && counter <= 60) {
+				while (!network.isConnected(mContext) && counter <= 120) {
 					counter++;
 					Thread.sleep(1000);
 				}
+				Logger.serviceInfo("Network after 120 seconds connected: "
+						+ network.isConnected(mContext));
 
 			} catch (Exception e) {
 				Logger.logStackTrace(e.getStackTrace());

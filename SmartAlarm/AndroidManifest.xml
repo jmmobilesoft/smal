@@ -4,7 +4,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="8"
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -43,13 +43,11 @@
         </activity>
         <activity
             android:name=".ClockRingActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".TimerRingScreen"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.NoActionBar" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ClockRemoveActivity"

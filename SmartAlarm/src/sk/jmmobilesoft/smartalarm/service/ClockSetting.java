@@ -41,22 +41,22 @@ public class ClockSetting {
 		PendingIntent weather = weatherPendingIntent(context, c);
 		AlarmManager aManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
-		if (c.isActive() && getDayRepeat(c, nextday)) {
+		Helper.determineAlarmIcon(context);
+		if (c.isActive() && Helper.getDayRepeat(c, nextday)) {
 			if (android.os.Build.VERSION.SDK_INT < 19) {
 				aManager.setExact(AlarmManager.RTC_WAKEUP,
 						calendar.getTimeInMillis(), pIntent);
 				aManager.setExact(AlarmManager.RTC_WAKEUP,
 						calendar.getTimeInMillis() - 300000, weather);
 				Logger.setInfo("Setting clock: " + c + " - ACTIVE");
-				return true;
 			} else {
 				aManager.setExact(AlarmManager.RTC_WAKEUP,
 						calendar.getTimeInMillis(), pIntent);
 				aManager.setExact(AlarmManager.RTC_WAKEUP,
 						calendar.getTimeInMillis() - 300000, weather);
 				Logger.setInfo("Setting clock: " + c + " - ACTIVE");
-				return true;
 			}
+			return true;
 		} else {
 			aManager.cancel(pIntent);
 			aManager.cancel(weather);
@@ -84,8 +84,8 @@ public class ClockSetting {
 		AlarmManager aManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
 		if (android.os.Build.VERSION.SDK_INT < 19) {
-			aManager.setExact(AlarmManager.RTC_WAKEUP, current.getTimeInMillis(),
-					pIntent);
+			aManager.setExact(AlarmManager.RTC_WAKEUP,
+					current.getTimeInMillis(), pIntent);
 		} else {
 			aManager.setExact(AlarmManager.RTC_WAKEUP,
 					current.getTimeInMillis(), pIntent);
@@ -124,45 +124,4 @@ public class ClockSetting {
 		return PendingIntent.getService(context, (int) c.getId(), intent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 	}
-
-	public static boolean getDayRepeat(Clock c, boolean nextday) {
-		int[] repeats = c.getRepeat();
-		int[] converted = new int[] { repeats[6], repeats[0], repeats[1],
-				repeats[2], repeats[3], repeats[4], repeats[5] };
-		int currentDay = getCurrentDay();
-		int nextdayInt = getCurrentDay() + 1;
-		if (nextdayInt == 7) {
-			nextdayInt = nextdayInt - 7;
-		}
-		if (nextday) {
-			if (converted[nextdayInt] == 1 || noRepeats(converted)) {
-				nextday = false;
-				return true;
-			}
-		} else {
-			if (converted[currentDay] == 1 || noRepeats(converted)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * 
-	 * @return days 0-6 int value SU -> SA 1 -> 7 !!!
-	 */
-	public static int getCurrentDay() {
-		int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-		return day - 1;
-	}
-
-	private static boolean noRepeats(int[] repeats) {
-		for (int i = 0; i <= 6; i++) {
-			if (repeats[i] == 1) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 }

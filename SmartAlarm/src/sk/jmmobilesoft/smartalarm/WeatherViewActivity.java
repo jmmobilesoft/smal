@@ -2,8 +2,6 @@ package sk.jmmobilesoft.smartalarm;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
-
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Weather;
