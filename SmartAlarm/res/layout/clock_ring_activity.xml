@@ -59,6 +59,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_span="2"
                     android:text="Brno"
+                    android:textColor="@android:color/background_light"
                     android:textSize="25sp" />
             </TableRow>
 
@@ -91,6 +92,7 @@
                         android:layout_weight="1"
                         android:ellipsize="none"
                         android:text="15°C"
+                        android:textColor="@android:color/background_light"
                         android:textSize="40sp" />
 
                     <TextView
@@ -100,6 +102,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="10dp"
                         android:text="Partly cloudy"
+                        android:textColor="@android:color/background_light"
                         android:textSize="20sp" />
                 </LinearLayout>
             </TableRow>
@@ -121,6 +124,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:text="10°C-15°C"
+                        android:textColor="@android:color/background_light"
                         android:textSize="15sp" />
                 </LinearLayout>
 
@@ -136,6 +140,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:text="10°C-15°C"
+                        android:textColor="@android:color/background_light"
                         android:textSize="15sp" />
                 </LinearLayout>
             </TableRow>
@@ -158,6 +163,7 @@
                         android:layout_gravity="left"
                         android:layout_marginLeft="10dp"
                         android:text="sunrise: 5:40"
+                        android:textColor="@android:color/background_light"
                         android:textSize="15sp" />
                 </LinearLayout>
 
@@ -174,6 +180,7 @@
                         android:layout_gravity="left"
                         android:layout_marginLeft="10dp"
                         android:text="sunset 16:30"
+                        android:textColor="@android:color/background_light"
                         android:textSize="15sp" />
                 </LinearLayout>
             </TableRow>
@@ -196,6 +203,7 @@
                         android:layout_gravity="left"
                         android:layout_marginLeft="10dp"
                         android:text="Humidity: 80%"
+                        android:textColor="@android:color/background_light"
                         android:textSize="15sp" />
                 </LinearLayout>
 
@@ -212,6 +220,7 @@
                         android:layout_gravity="left"
                         android:layout_marginLeft="10dp"
                         android:text="wind: 1.5 m/s"
+                        android:textColor="@android:color/background_light"
                         android:textSize="15sp" />
                 </LinearLayout>
             </TableRow>
@@ -229,6 +238,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_span="2"
                     android:text="time"
+                    android:textColor="@android:color/background_light"
                     android:textSize="10sp" />
             </TableRow>
         </TableLayout>
@@ -262,6 +272,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_span="2"
                     android:text="Brno"
+                    android:textColor="@android:color/background_light"
                     android:textSize="25sp" />
             </TableRow>
 
@@ -293,6 +304,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
                         android:ellipsize="none"
+                        android:textColor="@android:color/background_light"
                         android:text="15°C"
                         android:textSize="40sp" />
 
@@ -303,6 +315,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="10dp"
                         android:text="Partly cloudy"
+                        android:textColor="@android:color/background_light"
                         android:textSize="20sp" />
                 </LinearLayout>
             </TableRow>
@@ -324,6 +337,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:text="10°C-15°C"
+                        android:textColor="@android:color/background_light"
                         android:textSize="15sp" />
                 </LinearLayout>
 
@@ -339,6 +353,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:text="10°C-15°C"
+                        android:textColor="@android:color/background_light"
                         android:textSize="15sp" />
                 </LinearLayout>
             </TableRow>
@@ -361,6 +376,7 @@
                         android:layout_gravity="left"
                         android:layout_marginLeft="10dp"
                         android:text="sunrise: 5:40"
+                        android:textColor="@android:color/background_light"
                         android:textSize="15sp" />
                 </LinearLayout>
 
@@ -377,6 +393,7 @@
                         android:layout_gravity="left"
                         android:layout_marginLeft="10dp"
                         android:text="sunset 16:30"
+                        android:textColor="@android:color/background_light"
                         android:textSize="15sp" />
                 </LinearLayout>
             </TableRow>
@@ -399,6 +416,7 @@
                         android:layout_gravity="left"
                         android:layout_marginLeft="10dp"
                         android:text="Humidity: 80%"
+                        android:textColor="@android:color/background_light"
                         android:textSize="15sp" />
                 </LinearLayout>
 
@@ -415,6 +433,7 @@
                         android:layout_gravity="left"
                         android:layout_marginLeft="10dp"
                         android:text="wind: 1.5 m/s"
+                        android:textColor="@android:color/background_light"
                         android:textSize="15sp" />
                 </LinearLayout>
             </TableRow>
@@ -432,6 +451,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_span="2"
                     android:text="time"
+                    android:textColor="@android:color/background_light"
                     android:textSize="10sp" />
             </TableRow>
         </TableLayout>

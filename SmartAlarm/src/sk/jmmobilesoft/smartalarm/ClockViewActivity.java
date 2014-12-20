@@ -5,10 +5,11 @@ import java.util.Calendar;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
+import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import sk.jmmobilesoft.smartalarm.service.ClockSetting;
-import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -55,21 +56,20 @@ public class ClockViewActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Logger.serviceInfo("ClockViewActivity: started");
-		ActionBar actionBar = getActionBar();
-		actionBar.hide();
+		GlobalHelper.hideActionBar(this);
 		setView();
 		super.onCreate(savedInstanceState);
 	}
 
 	@Override
 	public void onUserInteraction() {
-		stopMediaPlayer();
+		GlobalHelper.stopMediaPlayer(mAudioManager, originalVolume, mp);
 		super.onUserInteraction();
 	}
 
 	@Override
 	protected void onPause() {
-		stopMediaPlayer();
+		GlobalHelper.stopMediaPlayer(mAudioManager, originalVolume, mp);
 		super.onPause();
 	}
 
@@ -143,10 +143,10 @@ public class ClockViewActivity extends Activity {
 		minutes.setMinValue(0);
 		hours.setMaxValue(23);
 		hours.setMinValue(0);
-		minutes.setFormatter(Helper.getNumberPickFormater());
-		hours.setFormatter(Helper.getNumberPickFormater());
-		Helper.setNumberPickerTextColor(hours, Color.rgb(247, 245, 245));
-		Helper.setNumberPickerTextColor(minutes, Color.rgb(247, 245, 245));
+		minutes.setFormatter(GlobalHelper.getNumberPickFormater());
+		hours.setFormatter(GlobalHelper.getNumberPickFormater());
+		GlobalHelper.setNumberPickerTextColor(hours, Color.rgb(247, 245, 245));
+		GlobalHelper.setNumberPickerTextColor(minutes, Color.rgb(247, 245, 245));
 	}
 
 	private void setComponentsNewClock(Clock c, NumberPicker hours,
@@ -235,7 +235,7 @@ public class ClockViewActivity extends Activity {
 				c.setName(name.getText().toString());
 				c.setActive(true);
 				c.setSound(sound);
-				c.setVolume(determineVolume(volumeBar.getProgress()));
+				c.setVolume(GlobalHelper.determineVolume(volumeBar.getProgress()));
 				c.setRepeat(getRepeats());
 				c.setSnoozeTime(Integer.valueOf(snooze.getText().toString()));
 				c.setCities(cities);
@@ -250,7 +250,7 @@ public class ClockViewActivity extends Activity {
 				if (t) {
 					Helper.showToast(c, getApplicationContext());
 				}
-				stopMediaPlayer();
+				GlobalHelper.stopMediaPlayer(mAudioManager, originalVolume, mp);
 				setResult(10);
 				finish();
 			}
@@ -264,9 +264,10 @@ public class ClockViewActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (c.getId() != -1) {
+					ClockSetting.deactivateClock(c, getApplicationContext());
 					db.deleteClock(c.getId());
 				}
-				stopMediaPlayer();
+				GlobalHelper.stopMediaPlayer(mAudioManager, originalVolume, mp);
 				setResult(10);
 				finish();
 			}
@@ -324,7 +325,7 @@ public class ClockViewActivity extends Activity {
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				stopMediaPlayer();
+				GlobalHelper.stopMediaPlayer(mAudioManager, originalVolume, mp);
 				mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 				originalVolume = mAudioManager
 						.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -334,7 +335,7 @@ public class ClockViewActivity extends Activity {
 						0);
 				mp = MediaPlayer.create(getApplicationContext(), sound);
 				mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-				float volume = determineVolume(seekBar.getProgress());
+				float volume = GlobalHelper.determineVolume(seekBar.getProgress());
 				mp.setVolume(volume, volume);
 				mp.start();
 			}
@@ -368,27 +369,6 @@ public class ClockViewActivity extends Activity {
 		} else {
 			soundName.setText(getSongName(sound));
 		}
-	}
-
-	private void stopMediaPlayer() {
-		try {
-			mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-					originalVolume, 0);
-			mp.stop();
-			mp.release();
-			mp.reset();
-		} catch (NullPointerException | IllegalStateException e) {
-			Log.i("INFO", "media player already stopped");
-		}
-	}
-
-	private float determineVolume(int seekbarStatus) {
-		final float MIN = 0.2f;
-		float volume = (float) (seekbarStatus * 0.01);
-		if (volume < MIN) {
-			return 0.1f;
-		}
-		return volume;
 	}
 
 	private int[] getRepeats() {

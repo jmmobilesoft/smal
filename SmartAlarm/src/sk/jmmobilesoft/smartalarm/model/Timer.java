@@ -1,5 +1,7 @@
 package sk.jmmobilesoft.smartalarm.model;
 
+import java.util.Calendar;
+
 import android.net.Uri;
 
 public class Timer {
@@ -12,6 +14,8 @@ public class Timer {
 
 	private int seconds;
 
+	private Calendar start;
+	
 	private String name;
 
 	private boolean active;
@@ -95,11 +99,19 @@ public class Timer {
 		this.volume = volume;
 	}
 
+	public Calendar getStart() {
+		return start;
+	}
+
+	public void setStart(Calendar start) {
+		this.start = start;
+	}
+
 	@Override
 	public String toString() {
 		return "Timer [id=" + id + ", hours=" + hours + ", minutes=" + minutes
 				+ ", seconds=" + seconds + ", name=" + name + ", active="
-				+ active + ", sound=" + sound + ", volume=" + volume + "]";
+				+ active + ", sound=" + sound + ", volume=" + volume + ", start=" + start +"]";
 	}
 
 	@Override

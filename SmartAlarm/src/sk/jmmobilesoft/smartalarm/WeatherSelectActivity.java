@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.model.WeatherSelectAdapter;
@@ -25,7 +26,7 @@ public class WeatherSelectActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Logger.serviceInfo("WeatherSelectActivity: started");
-		getActionBar().hide();
+		GlobalHelper.hideActionBar(this);
 		setContentView(R.layout.weather_select_activity);
 		db = new DBHelper(this);
 		ListView list = (ListView) findViewById(R.id.weather_select_listview);

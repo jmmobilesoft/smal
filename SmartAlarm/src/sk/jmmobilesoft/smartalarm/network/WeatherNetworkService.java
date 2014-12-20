@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Weather;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
@@ -17,6 +18,38 @@ public class WeatherNetworkService {
 		network = new NetworkService();
 	}
 
+	public void refreshAllWeather(final Context mContext){
+		DBHelper db = new DBHelper(mContext);
+		WeatherNetworkService service = new WeatherNetworkService();
+		List<String> cityList = new ArrayList<>();
+		for (WeatherForecast w : db.getWeatherForecast()) {
+			cityList.add(w.getCityName());
+		}
+		List<WeatherForecast> weathers = service
+				.downloadWeatherForecast(cityList);
+		if (weathers != null) {
+			for (WeatherForecast w : weathers) {
+				WeatherForecast up = db.getWeatherForecastByCity(w
+						.getCityName());
+				if (up != null) {
+					w.setId(up.getId());
+					db.updateWeatherForecast(w);
+				} else {
+					db.createWeatherForecast(w);
+				}
+			}
+		}
+		List<Weather> weather = service.downloadWeather(cityList);
+		if (weathers != null) {
+			db.deleteAllWeather();
+			for (Weather w : weather) {
+				db.createWeather(w);
+			}
+		}
+	}
+	
+	
+	
 	public List<WeatherForecast> downloadAutomaticWeather(List<String> cityList,
 			Context context) {
 		network.turnWifiOn(context);

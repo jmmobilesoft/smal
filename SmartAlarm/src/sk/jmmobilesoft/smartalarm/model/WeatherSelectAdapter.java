@@ -3,7 +3,7 @@ package sk.jmmobilesoft.smartalarm.model;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.R;
-import sk.jmmobilesoft.smartalarm.service.Helper;
+import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;

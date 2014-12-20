@@ -7,6 +7,7 @@ import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import sk.jmmobilesoft.smartalarm.model.ClockRemoveAdapter;
+import sk.jmmobilesoft.smartalarm.service.ClockSetting;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -59,8 +60,10 @@ public class ClockRemoveActivity extends Activity {
 			public void onClick(View v) {
 				for (int i = 0; i < adapter.getCount(); i++) {
 					if (ClockRemoveAdapter.checkboxes[i]) {
+						ClockSetting.deactivateClock(
+								db.getClock(adapter.getItemId(i)),
+								getApplicationContext());
 						db.deleteClock(adapter.getItemId(i));
-						// TODO log
 					}
 				}
 				finish();

@@ -1,9 +1,9 @@
 package sk.jmmobilesoft.smartalarm;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Timer;
-import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.app.Activity;
 import android.media.AudioManager;
 import android.media.MediaPlayer;

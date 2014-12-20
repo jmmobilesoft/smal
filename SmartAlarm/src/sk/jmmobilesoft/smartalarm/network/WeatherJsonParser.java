@@ -8,10 +8,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Weather;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
-import sk.jmmobilesoft.smartalarm.service.Helper;
 
 public class WeatherJsonParser {
 
@@ -89,7 +89,6 @@ public class WeatherJsonParser {
 		}
 
 		List<Weather> weathers = new ArrayList<>();
-
 		try {
 			for (int i = 1; i <= 3; i++) {
 				Weather weather = new Weather();

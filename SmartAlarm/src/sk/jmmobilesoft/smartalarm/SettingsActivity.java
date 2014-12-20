@@ -1,10 +1,10 @@
 package sk.jmmobilesoft.smartalarm;
 
+import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.network.NetworkService;
 import sk.jmmobilesoft.smartalarm.network.WeatherHttpClient;
 import sk.jmmobilesoft.smartalarm.network.WeatherJsonParser;
-import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;

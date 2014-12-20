@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Weather;
 import sk.jmmobilesoft.smartalarm.model.WeatherAdapter;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.network.NetworkService;
 import sk.jmmobilesoft.smartalarm.network.WeatherNetworkService;
-import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

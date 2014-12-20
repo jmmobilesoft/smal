@@ -141,6 +141,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		return weatherDAO.getWeather(getReadableDatabase());
 	}
 
+	//TODO id namiesto city
 	public Weather getWeatherByCityDate(String city, String date) {
 		return weatherDAO.getWeatherByCityDate(getReadableDatabase(), city,
 				date);

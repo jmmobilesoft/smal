@@ -1,21 +1,13 @@
-package sk.jmmobilesoft.smartalarm.service;
+package sk.jmmobilesoft.smartalarm.helpers;
 
-import java.lang.reflect.Field;
 import java.util.Calendar;
 import java.util.Date;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.model.Clock;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.PowerManager;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.NumberPicker.Formatter;
 import android.widget.Toast;
 
@@ -50,45 +42,6 @@ public abstract class Helper {
 		}
 	}
 
-	public static Formatter getNumberPickFormater() {
-		return new Formatter() {
-
-			@Override
-			public String format(int value) {
-				if (value < 10) {
-					return "0" + value;
-				}
-				return String.valueOf(value);
-			}
-		};
-	}
-
-	public static boolean setNumberPickerTextColor(NumberPicker numberPicker,
-			int color) {
-		final int count = numberPicker.getChildCount();
-		for (int i = 0; i < count; i++) {
-			View child = numberPicker.getChildAt(i);
-			if (child instanceof EditText) {
-				try {
-					Field selectorWheelPaintField = numberPicker.getClass()
-							.getDeclaredField("mSelectorWheelPaint");
-					selectorWheelPaintField.setAccessible(true);
-					((Paint) selectorWheelPaintField.get(numberPicker))
-							.setColor(color);
-					((EditText) child).setTextColor(color);
-					numberPicker.invalidate();
-					return true;
-				} catch (NoSuchFieldException e) {
-					Log.w("setNumberPickerTextColor", e);
-				} catch (IllegalAccessException e) {
-					Log.w("setNumberPickerTextColor", e);
-				} catch (IllegalArgumentException e) {
-					Log.w("setNumberPickerTextColor", e);
-				}
-			}
-		}
-		return false;
-	}
 
 	public static Calendar getCurrentTime() {
 		Calendar current = Calendar.getInstance();
@@ -153,24 +106,9 @@ public abstract class Helper {
 	public static void determineAlarmIcon(Context context) {
 		DBHelper db = new DBHelper(context);
 		
-		Calendar current = Helper.getCurrentTime();
 		boolean someActive = false;
 		for (Clock c: db.getClocks()) {
-			boolean nextday = false;
-			Calendar calendar = Calendar.getInstance();
-			calendar.set(Calendar.HOUR_OF_DAY, c.getHour());
-			calendar.set(Calendar.MINUTE, c.getMinutes());
-			calendar.set(Calendar.SECOND, 0);
-
-			if (calendar.before(current)) {
-				calendar.set(Calendar.DATE,
-						Calendar.getInstance().get(Calendar.DATE) + 1);
-				nextday = true;
-			} else {
-				calendar.set(Calendar.DATE,
-						Calendar.getInstance().get(Calendar.DATE));
-			}
-			if (c.isActive() && getDayRepeat(c, nextday)) {
+			if (c.isActive()) {
 				someActive = true;
 			}
 		}

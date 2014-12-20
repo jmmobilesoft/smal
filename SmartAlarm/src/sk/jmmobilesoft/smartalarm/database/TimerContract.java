@@ -15,6 +15,7 @@ public abstract class TimerContract {
 		public static final String COLUMN_NAME_TIMER_ENABLED = "enabled";
 		public static final String COLUMN_NAME_TIMER_TONE = "tone";
 		public static final String COLUMN_NAME_TIMER_VOLUME = "volume";
+		public static final String COLUMN_NAME_TIMER_START = "start";
 	}
 	
 }

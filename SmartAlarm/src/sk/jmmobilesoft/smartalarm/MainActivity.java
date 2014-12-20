@@ -4,10 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
+import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.PagerAdapter;
+import sk.jmmobilesoft.smartalarm.network.WeatherNetworkService;
 import sk.jmmobilesoft.smartalarm.service.ClockRepeatService;
-import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
@@ -148,6 +149,7 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	public void onTabChanged(String tag) {
+		setMenuLabel(tag);
 		int pos = this.mTabHost.getCurrentTab();
 		this.mViewPager.setCurrentItem(pos);
 	}
@@ -188,6 +190,9 @@ public class MainActivity extends FragmentActivity implements
 				break;
 			}
 			case "WeatherFragment": {
+				WeatherNetworkService nS = new WeatherNetworkService();
+				nS.refreshAllWeather(getApplicationContext());
+				recreate();
 				break;
 			}
 			}
@@ -221,11 +226,11 @@ public class MainActivity extends FragmentActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void setMenuLabel(TabInfo newTab) {
+	private void setMenuLabel(String tag) {
+		System.out.println("tag:" + tag);
 		try {
 			MenuItem item = menu.findItem(R.id.menu_add_action);
-			if (newTab.fragment.getClass().getSimpleName()
-					.equals("WeatherFragment")) {
+			if (tag.equals("WeatherFragment")) {
 				item.setTitle("Refresh");
 				item.setIcon(getResources().getDrawable(
 						R.drawable.ic_action_refresh));

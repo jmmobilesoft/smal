@@ -1,11 +1,14 @@
 package sk.jmmobilesoft.smartalarm.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.R;
 import sk.jmmobilesoft.smartalarm.TimerViewActivity;
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
-import sk.jmmobilesoft.smartalarm.service.Helper;
+import sk.jmmobilesoft.smartalarm.helpers.Helper;
+import sk.jmmobilesoft.smartalarm.helpers.TimerHelper;
 import sk.jmmobilesoft.smartalarm.service.TimerSetting;
 import android.content.Intent;
 import android.os.Bundle;
@@ -66,6 +69,9 @@ public class TimerAdapter extends BaseAdapter {
 			TextView name = (TextView) convertView
 					.findViewById(R.id.timer_item_name);
 			name.setText(timer.getName());
+			final TextView start = (TextView) convertView.findViewById(R.id.timer_item_start);
+			final TextView end = (TextView) convertView.findViewById(R.id.timer_item_end);
+			
 			final CheckBox active = (CheckBox) convertView
 					.findViewById(R.id.timer_item_active);
 			active.setChecked(timer.isActive());
@@ -75,10 +81,13 @@ public class TimerAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					Timer timer = (Timer) getItem(position);
 					timer.setActive(active.isChecked());
+					timer.setStart(Helper.getCurrentTime());
 					db.updateTimer(timer);
+					TimerHelper.setTimerAdapterLabels(timer, active.isChecked(), start, end);
 					TimerSetting.setTimer(context.getActivity(), timer.getId());
 				}
 			});
+			TimerHelper.setTimerAdapterLabels(timer, active.isChecked(), start, end);
 		}
 		convertView.setOnClickListener(new OnClickListener() {
 
@@ -87,10 +96,9 @@ public class TimerAdapter extends BaseAdapter {
 				Intent intent = new Intent(context.getActivity(),
 						TimerViewActivity.class);
 				intent.putExtra("id", getItemId(position));
-				context.startActivity(intent);
+				context.startActivityForResult(intent, 16);
 			}
 		});
 		return convertView;
 	}
-
 }

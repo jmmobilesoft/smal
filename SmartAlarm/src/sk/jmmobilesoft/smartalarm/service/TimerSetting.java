@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import sk.jmmobilesoft.smartalarm.TimerRingScreen;
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.model.Timer;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -12,61 +13,41 @@ import android.content.Context;
 import android.content.Intent;
 
 public class TimerSetting {
-	
+
 	@SuppressLint("NewApi")
-	public static void setTimer(Context context, long id){
+	public static void setTimer(Context context, long id) {
 		DBHelper db = new DBHelper(context);
 		Timer t = db.getTimer(id);
-		
-		Calendar current = Helper.getCurrentTime();
-		
-		current.add(Calendar.SECOND, t.getSeconds());
-		current.add(Calendar.MINUTE, t.getMinutes());
-		current.add(Calendar.HOUR_OF_DAY, t.getHours());
-		
-//		Calendar cal = Calendar.getInstance();
-//		
-//		
-//		//check setting
-//		if(current.get(Calendar.SECOND) +  seconds > 59){
-//			cal.set(Calendar.SECOND, current.get(Calendar.SECOND) +  seconds - 60);
-//			minutes += 1;
-//		} else {
-//			cal.set(Calendar.SECOND, current.get(Calendar.SECOND) + seconds);
-//		}
-//		if(current.get(Calendar.MINUTE) +  minutes > 59){
-//			cal.set(Calendar.MINUTE, current.get(Calendar.MINUTE) +  minutes - 60);
-//			hours += 1;
-//		} else {
-//			cal.set(Calendar.MINUTE, current.get(Calendar.MINUTE) + minutes);
-//		}
-//		if(current.get(Calendar.HOUR_OF_DAY) +  hours > 23){ 
-//			int days = hours / 24;
-//			hours = hours % 24;
-//			System.out.println("days:" + days + "   ,hours:" + hours);
-//			cal.set(Calendar.HOUR_OF_DAY, current.get(Calendar.HOUR_OF_DAY) +  hours);
-//			cal.set(Calendar.DAY_OF_WEEK, current.get(Calendar.DAY_OF_WEEK) + days);
-//		} else {
-//			cal.set(Calendar.HOUR_OF_DAY, current.get(Calendar.HOUR_OF_DAY) + hours);
-//		}
-		
-		
+
+		Calendar timer = Helper.getCurrentTime();
+
+		timer.add(Calendar.SECOND, t.getSeconds());
+		timer.add(Calendar.MINUTE, t.getMinutes());
+		timer.add(Calendar.HOUR_OF_DAY, t.getHours());
+
 		PendingIntent pIntent = createPendingIntent(context, t);
 		AlarmManager aManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
 		if (t.isActive()) {
 			if (android.os.Build.VERSION.SDK_INT < 19) {
-				aManager.set(AlarmManager.RTC_WAKEUP,
-						current.getTimeInMillis(), pIntent);
+				aManager.set(AlarmManager.RTC_WAKEUP, timer.getTimeInMillis(),
+						pIntent);
 			} else {
 				aManager.setExact(AlarmManager.RTC_WAKEUP,
-						current.getTimeInMillis(), pIntent);
+						timer.getTimeInMillis(), pIntent);
 			}
 		} else {
 			aManager.cancel(pIntent);
-		}		
+		}
 	}
-	
+
+	public static void deactivateTimer(Timer t, Context context) {
+		AlarmManager aManager = (AlarmManager) context
+				.getSystemService(Context.ALARM_SERVICE);
+		PendingIntent pIntent = createPendingIntent(context, t);
+		aManager.cancel(pIntent);
+	}
+
 	private static PendingIntent createPendingIntent(Context context, Timer t) {
 		Intent intent = new Intent(context, TimerRingScreen.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -74,9 +55,9 @@ public class TimerSetting {
 		intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 		intent.putExtra("ID", t.getId());
 
-		return PendingIntent.getBroadcast(context, (int) t.getId(), intent,
+		return PendingIntent.getActivity(context, (int) t.getId(), intent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 
 	}
-	
+
 }

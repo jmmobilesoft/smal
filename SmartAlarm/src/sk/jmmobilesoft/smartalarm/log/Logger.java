@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.os.Environment;
-import sk.jmmobilesoft.smartalarm.service.Helper;
+import sk.jmmobilesoft.smartalarm.helpers.Helper;
 
 public class Logger {
 

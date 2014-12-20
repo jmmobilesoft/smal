@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.R;
-import sk.jmmobilesoft.smartalarm.service.Helper;
+import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -52,7 +53,23 @@ public class ClockRemoveAdapter extends BaseAdapter{
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.clock_remove_adapter_item, null);
 		}
+		setView(convertView, position);
+		return convertView;
+	}
 
+	public void setMyColor(List<TextView> list, Clock clock) {
+		for (int i = 0; i <= 6; i++) {
+			TextView text = list.get(i);
+			if (clock.getRepeat()[i] == 0) {
+				text.setTextColor(Color.rgb(112, 112, 112));
+			}
+			if (clock.getRepeat()[i] == 1) {
+				text.setTextColor(Color.rgb(51, 181, 229));
+			}
+		}
+	}
+	
+	private void setView(View convertView,final int position){
 		Clock clock = clocks.get(position);
 
 		TextView clockText = (TextView) convertView
@@ -80,6 +97,13 @@ public class ClockRemoveAdapter extends BaseAdapter{
 		daysList.add(SU);
 		setMyColor(daysList, clock);
 		name.setText(clock.getName());
+		convertView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				delete.setChecked(!delete.isChecked());
+			}
+		});
 		delete.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
@@ -87,19 +111,6 @@ public class ClockRemoveAdapter extends BaseAdapter{
 				checkboxes[position] = isChecked;				
 			}
 		});
-		return convertView;
-	}
-
-	public void setMyColor(List<TextView> list, Clock clock) {
-		for (int i = 0; i <= 6; i++) {
-			TextView text = list.get(i);
-			if (clock.getRepeat()[i] == 0) {
-				text.setTextColor(Color.rgb(112, 112, 112));
-			}
-			if (clock.getRepeat()[i] == 1) {
-				text.setTextColor(Color.rgb(51, 181, 229));
-			}
-		}
 	}
 
 }

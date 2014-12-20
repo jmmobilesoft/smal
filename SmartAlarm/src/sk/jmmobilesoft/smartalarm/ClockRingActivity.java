@@ -3,11 +3,11 @@ package sk.jmmobilesoft.smartalarm;
 import java.util.Arrays;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.service.ClockSetting;
-import sk.jmmobilesoft.smartalarm.service.Helper;
 import android.app.Activity;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -96,6 +96,7 @@ public class ClockRingActivity extends Activity {
 					snooze.setVisibility(View.GONE);
 				}
 				seekBar.setProgress(0);
+				Helper.determineAlarmIcon(getApplicationContext());
 			}
 
 			@Override

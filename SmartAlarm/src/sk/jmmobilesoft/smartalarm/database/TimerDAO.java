@@ -1,6 +1,7 @@
 package sk.jmmobilesoft.smartalarm.database;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -21,8 +22,9 @@ public class TimerDAO {
 			+ TimerModel.COLUMN_NAME_TIMER_TIME_SECOND + " INTEGER,"
 			+ TimerModel.COLUMN_NAME_TIMER_ENABLED + " INTEGER,"
 			+ TimerModel.COLUMN_NAME_TIMER_TONE + " TEXT,"
-			+ TimerModel.COLUMN_NAME_TIMER_VOLUME + " TEXT" + ")";
-	
+			+ TimerModel.COLUMN_NAME_TIMER_VOLUME + " TEXT,"
+			+ TimerModel.COLUMN_NAME_TIMER_START + " INTEGER" + " )";
+
 	private static final String SQL_DROP_TABLE = "DROP TABLE IF EXIST "
 			+ TimerModel.TABLE_NAME;
 
@@ -33,31 +35,29 @@ public class TimerDAO {
 	public void dropTable(SQLiteDatabase db) {
 		db.execSQL(SQL_DROP_TABLE);
 	}
-	
+
 	public long createTimer(SQLiteDatabase db, Timer timer) {
 		ContentValues values = populateTimerContent(timer);
-		long id = db.insert(TimerModel.TABLE_NAME, null,
-				values);
+		long id = db.insert(TimerModel.TABLE_NAME, null, values);
 		db.close();
 		return id;
 	}
-	
+
 	public long updateTimer(SQLiteDatabase db, Timer timer) {
 		ContentValues values = populateTimerContent(timer);
-		long id = db.update(TimerModel.TABLE_NAME, values,
-				TimerModel._ID + "=?",
-				new String[] { String.valueOf(timer.getId()) });
+		long id = db.update(TimerModel.TABLE_NAME, values, TimerModel._ID
+				+ "=?", new String[] { String.valueOf(timer.getId()) });
 		db.close();
 		return id;
 	}
-	
+
 	public int deleteTimer(SQLiteDatabase db, long id) {
-		int rows = db.delete(TimerModel.TABLE_NAME,
-				TimerModel._ID + " =?", new String[] { String.valueOf(id) });
+		int rows = db.delete(TimerModel.TABLE_NAME, TimerModel._ID + " =?",
+				new String[] { String.valueOf(id) });
 		db.close();
 		return rows;
 	}
-	
+
 	public Timer getTimer(SQLiteDatabase db, long id) {
 		String select = "SELECT * FROM " + TimerModel.TABLE_NAME + " WHERE "
 				+ TimerModel._ID + " = " + id;
@@ -70,7 +70,7 @@ public class TimerDAO {
 		}
 		return null;
 	}
-	
+
 	public List<Timer> getTimers(SQLiteDatabase db) {
 		String select = "SELECT * FROM " + TimerModel.TABLE_NAME;
 		Cursor c = db.rawQuery(select, null);
@@ -81,7 +81,7 @@ public class TimerDAO {
 		db.close();
 		return timerList;
 	}
-	
+
 	private Timer populateTimerModel(Cursor c) {
 		Timer timer = new Timer();
 		timer.setId(c.getLong(c.getColumnIndex(TimerModel._ID)));
@@ -103,6 +103,10 @@ public class TimerDAO {
 				: null);
 		timer.setVolume(c.getFloat(c
 				.getColumnIndex(TimerModel.COLUMN_NAME_TIMER_VOLUME)));
+		Calendar start = Calendar.getInstance();
+		start.setTimeInMillis(c.getLong(c
+				.getColumnIndex(TimerModel.COLUMN_NAME_TIMER_START)));
+		timer.setStart(start);
 		return timer;
 	}
 
@@ -117,6 +121,8 @@ public class TimerDAO {
 		values.put(TimerModel.COLUMN_NAME_TIMER_TONE,
 				timer.getSound() != null ? timer.getSound().toString() : "");
 		values.put(TimerModel.COLUMN_NAME_TIMER_VOLUME, timer.getVolume());
+		values.put(TimerModel.COLUMN_NAME_TIMER_START, timer.getStart()
+				.getTimeInMillis());
 		return values;
 	}
 }

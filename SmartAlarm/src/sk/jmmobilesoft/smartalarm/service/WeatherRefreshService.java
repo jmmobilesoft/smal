@@ -1,6 +1,7 @@
 package sk.jmmobilesoft.smartalarm.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
@@ -30,8 +31,9 @@ public class WeatherRefreshService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Logger.serviceInfo("WeatherRefreshService: onStartCommand");
-		PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-		WakeLock lock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+		PowerManager pm = (PowerManager) getApplicationContext()
+				.getSystemService(Context.POWER_SERVICE);
+		WakeLock lock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK,
 				"WeatherRefresh");
 		lock.acquire();
 		intent.getLongExtra("ID", 0l);

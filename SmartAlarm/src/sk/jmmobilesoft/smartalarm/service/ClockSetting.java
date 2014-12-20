@@ -5,6 +5,7 @@ import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.ClockRingActivity;
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import android.annotation.SuppressLint;
@@ -102,6 +103,13 @@ public class ClockSetting {
 		for (Clock c : clocks) {
 			setClock(context, c.getId());
 		}
+	}
+	
+	public static void deactivateClock(Clock c, Context context){
+		AlarmManager aManager = (AlarmManager) context
+				.getSystemService(Context.ALARM_SERVICE);
+		PendingIntent pIntent = createPendingIntent(context, c);
+		aManager.cancel(pIntent);
 	}
 
 	private static PendingIntent createPendingIntent(Context context, Clock c) {
