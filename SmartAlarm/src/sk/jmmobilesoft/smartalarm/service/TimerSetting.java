@@ -29,13 +29,8 @@ public class TimerSetting {
 		AlarmManager aManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
 		if (t.isActive()) {
-			if (android.os.Build.VERSION.SDK_INT < 19) {
-				aManager.set(AlarmManager.RTC_WAKEUP, timer.getTimeInMillis(),
-						pIntent);
-			} else {
 				aManager.setExact(AlarmManager.RTC_WAKEUP,
 						timer.getTimeInMillis(), pIntent);
-			}
 		} else {
 			aManager.cancel(pIntent);
 		}

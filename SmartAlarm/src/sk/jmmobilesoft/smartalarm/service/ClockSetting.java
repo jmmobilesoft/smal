@@ -5,6 +5,7 @@ import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.ClockRingActivity;
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.helpers.ClockHelper;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
@@ -42,7 +43,7 @@ public class ClockSetting {
 		PendingIntent weather = weatherPendingIntent(context, c);
 		AlarmManager aManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
-		Helper.determineAlarmIcon(context);
+		ClockHelper.determineAlarmIcon(context);
 		if (c.isActive() && Helper.getDayRepeat(c, nextday)) {
 			if (android.os.Build.VERSION.SDK_INT < 19) {
 				aManager.setExact(AlarmManager.RTC_WAKEUP,

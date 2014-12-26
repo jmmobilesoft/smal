@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.helpers.ClockHelper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import sk.jmmobilesoft.smartalarm.model.ClockRemoveAdapter;
@@ -64,6 +65,7 @@ public class ClockRemoveActivity extends Activity {
 								db.getClock(adapter.getItemId(i)),
 								getApplicationContext());
 						db.deleteClock(adapter.getItemId(i));
+						ClockHelper.determineAlarmIcon(getApplicationContext());
 					}
 				}
 				finish();

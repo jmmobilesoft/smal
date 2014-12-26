@@ -27,6 +27,7 @@ public class NetworkService {
 					"RefreshLock");
 		wifiLock.acquire();
 		wManager.setWifiEnabled(true);
+		wManager.startScan();
 	}
 
 	public void turnWifiOff(Context context) {

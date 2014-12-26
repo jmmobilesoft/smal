@@ -103,18 +103,6 @@ public abstract class Helper {
 		return c.getTime();
 	}
 
-	public static void determineAlarmIcon(Context context) {
-		DBHelper db = new DBHelper(context);
-		
-		boolean someActive = false;
-		for (Clock c: db.getClocks()) {
-			if (c.isActive()) {
-				someActive = true;
-			}
-		}
-		setAlarmIcon(context, someActive);
-	}
-
 	public static boolean getDayRepeat(Clock c, boolean nextday) {
 		int[] repeats = c.getRepeat();
 		int[] converted = new int[] { repeats[6], repeats[0], repeats[1],
@@ -153,11 +141,5 @@ public abstract class Helper {
 			}
 		}
 		return true;
-	}
-
-	private static void setAlarmIcon(Context context, boolean enabled) {
-		Intent alarmChanged = new Intent("android.intent.action.ALARM_CHANGED");
-		alarmChanged.putExtra("alarmSet", enabled);
-		context.sendBroadcast(alarmChanged);
 	}
 }

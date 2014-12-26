@@ -9,14 +9,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
-public class WeatherSelectAdapter extends BaseAdapter {	
-	
+public class WeatherSelectAdapter extends BaseAdapter {
+
 	private List<WeatherForecast> weathers;
 	private Activity context;
 	private boolean[] checkboxes;
@@ -63,7 +64,7 @@ public class WeatherSelectAdapter extends BaseAdapter {
 				.findViewById(R.id.weather_select_item_description);
 		TextView maxMinTemp = (TextView) convertView
 				.findViewById(R.id.weather_select_item_maxmintemp);
-		CheckBox selector = (CheckBox) convertView
+		final CheckBox selector = (CheckBox) convertView
 				.findViewById(R.id.weathe_select_item_selector);
 
 		city.setText(weather.getCityName());
@@ -81,10 +82,18 @@ public class WeatherSelectAdapter extends BaseAdapter {
 			}
 		});
 
+		convertView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				selector.setChecked(!selector.isChecked());
+			}
+		});
+
 		return convertView;
 	}
-	
-	public boolean[] getCheckboxes(){
+
+	public boolean[] getCheckboxes() {
 		return checkboxes;
 	}
 

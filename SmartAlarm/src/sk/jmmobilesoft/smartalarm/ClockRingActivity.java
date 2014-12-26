@@ -3,6 +3,8 @@ package sk.jmmobilesoft.smartalarm;
 import java.util.Arrays;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.helpers.ClockHelper;
+import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
@@ -32,6 +34,7 @@ public class ClockRingActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Logger.serviceInfo("ClockRingActivity: started");
+		GlobalHelper.hideActionBar(this);
 		Helper.wakeLockOn(this); //TODO remove
 		setWindow();
 		setView();
@@ -96,7 +99,7 @@ public class ClockRingActivity extends Activity {
 					snooze.setVisibility(View.GONE);
 				}
 				seekBar.setProgress(0);
-				Helper.determineAlarmIcon(getApplicationContext());
+				ClockHelper.determineAlarmIcon(getApplicationContext());
 			}
 
 			@Override

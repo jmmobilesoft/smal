@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.helpers.ClockHelper;
 import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
@@ -266,6 +267,7 @@ public class ClockViewActivity extends Activity {
 				if (c.getId() != -1) {
 					ClockSetting.deactivateClock(c, getApplicationContext());
 					db.deleteClock(c.getId());
+					ClockHelper.determineAlarmIcon(getApplicationContext());
 				}
 				GlobalHelper.stopMediaPlayer(mAudioManager, originalVolume, mp);
 				setResult(10);

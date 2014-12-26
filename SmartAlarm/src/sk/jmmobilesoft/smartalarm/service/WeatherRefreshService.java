@@ -31,22 +31,18 @@ public class WeatherRefreshService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Logger.serviceInfo("WeatherRefreshService: onStartCommand");
-		PowerManager pm = (PowerManager) getApplicationContext()
-				.getSystemService(Context.POWER_SERVICE);
-		WakeLock lock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK,
-				"WeatherRefresh");
-		lock.acquire();
+		
 		intent.getLongExtra("ID", 0l);
 		network = new NetworkService();
 		new Connect(getApplicationContext()).execute();
-		lock.release();
-		stopSelf();
 		return super.onStartCommand(intent, flags, startId);
 	}
 
 	public class Connect extends AsyncTask<Void, Void, Void> {
 
 		private Context mContext;
+		
+		private WakeLock lock;
 
 		public Connect(Context context) {
 			mContext = context;
@@ -54,11 +50,17 @@ public class WeatherRefreshService extends Service {
 
 		@Override
 		protected Void doInBackground(Void... params) {
+			PowerManager pm = (PowerManager) getApplicationContext()
+					.getSystemService(Context.POWER_SERVICE);
+			lock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK,
+					"WeatherRefresh");
+			lock.acquire();
 			try {
 				network.turnWifiOn(mContext);
 				int counter = 0;
 				while (!network.isConnected(mContext) && counter <= 120) {
 					counter++;
+					Logger.serviceInfo("counter:" + counter);
 					Thread.sleep(1000);
 				}
 				Logger.serviceInfo("Network after 120 seconds connected: "
@@ -105,6 +107,9 @@ public class WeatherRefreshService extends Service {
 			Logger.serviceInfo("Network connected: "
 					+ network.isConnected(mContext));
 			network.turnWifiOff(mContext);
+			lock.release();
+			Logger.serviceInfo("lock released");
+			stopSelf();
 			super.onPostExecute(result);
 		}
 	}
