@@ -7,6 +7,7 @@ import java.util.Vector;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.PagerAdapter;
+import sk.jmmobilesoft.smartalarm.network.NetworkService;
 import sk.jmmobilesoft.smartalarm.network.WeatherNetworkService;
 import sk.jmmobilesoft.smartalarm.service.ClockRepeatService;
 import android.app.ActivityManager;
@@ -149,7 +150,9 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	public void onTabChanged(String tag) {
-		setMenuLabel(tag);
+		if (menu != null) {
+			setMenuLabel(mTabHost.getCurrentTabTag());
+		}
 		int pos = this.mTabHost.getCurrentTab();
 		this.mViewPager.setCurrentItem(pos);
 	}
@@ -170,6 +173,7 @@ public class MainActivity extends FragmentActivity implements
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
 		this.menu = menu;
+		setMenuLabel(mTabHost.getCurrentTabTag());
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -190,9 +194,15 @@ public class MainActivity extends FragmentActivity implements
 				break;
 			}
 			case "WeatherFragment": {
-				WeatherNetworkService nS = new WeatherNetworkService();
-				nS.refreshAllWeather(getApplicationContext());
-				recreate();
+				NetworkService ns = new NetworkService();
+				WeatherNetworkService weatherNS = new WeatherNetworkService();
+				if (ns.isConnected(getApplicationContext())) {
+					weatherNS.refreshAllWeather(this);
+					recreate();
+				} else {
+					String text = "Network connection unavailable.";
+					Helper.createToast(this, text);
+				}
 				break;
 			}
 			}
@@ -206,7 +216,8 @@ public class MainActivity extends FragmentActivity implements
 				break;
 			}
 			case "TimerFragment": {
-				// TODO remove activity
+				Intent intent = new Intent(this, TimerRemoveActivity.class);
+				startActivity(intent);
 				break;
 			}
 			case "WeatherFragment": {
@@ -221,13 +232,13 @@ public class MainActivity extends FragmentActivity implements
 			intent.putExtra("id", 0);
 			startActivityForResult(intent, 13);
 		}
-		Logger.appInfo("Add tab item with value:" + item + " tab:" + mTabHost.getCurrentTabTag());
+		Logger.appInfo("Add tab item with value:" + item + " tab:"
+				+ mTabHost.getCurrentTabTag());
 
 		return super.onOptionsItemSelected(item);
 	}
 
 	private void setMenuLabel(String tag) {
-		System.out.println("tag:" + tag);
 		try {
 			MenuItem item = menu.findItem(R.id.menu_add_action);
 			if (tag.equals("WeatherFragment")) {

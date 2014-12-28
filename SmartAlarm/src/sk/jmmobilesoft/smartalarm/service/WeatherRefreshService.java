@@ -1,7 +1,6 @@
 package sk.jmmobilesoft.smartalarm.service;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
@@ -14,6 +13,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -21,6 +21,11 @@ import android.os.PowerManager.WakeLock;
 public class WeatherRefreshService extends Service {
 
 	private NetworkService network;
+
+	private Handler handler;
+	private Runnable r;
+	private int counter = 0;
+	private boolean refresh = false;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -31,17 +36,47 @@ public class WeatherRefreshService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Logger.serviceInfo("WeatherRefreshService: onStartCommand");
+
+		PowerManager pm = (PowerManager) getApplicationContext()
+				.getSystemService(Context.POWER_SERVICE);
+		WakeLock lock = pm
+				.newWakeLock(PowerManager.FULL_WAKE_LOCK, "WeatherRefresh");
+		lock.acquire();
 		
-		intent.getLongExtra("ID", 0l);
 		network = new NetworkService();
-		new Connect(getApplicationContext()).execute();
+		network.turnWifiOn(getApplicationContext());
+		counter = 0;
+		handler = new Handler();
+		r = new Runnable() {
+
+			public void run() {
+				if (!network.isConnected(getApplicationContext())
+						&& counter <= 60) {
+					counter++;
+					Logger.serviceInfo("counter:" + counter);
+					handler.postDelayed(r, 2000);
+				} else {
+					if (network.isConnected(getApplicationContext())) {
+						refresh = true;
+						Logger.serviceInfo("succesfully connected refresh set to true");
+					} else {
+						Logger.serviceInfo("cant connect to network");
+					}
+				}
+			}
+		};
+		r.run();
+		if (refresh) {
+			// new Connect(getApplicationContext()).execute();
+		}
+		lock.release();
 		return super.onStartCommand(intent, flags, startId);
 	}
 
-	public class Connect extends AsyncTask<Void, Void, Void> {
+	class Connect extends AsyncTask<Void, Void, Void> {
 
 		private Context mContext;
-		
+
 		private WakeLock lock;
 
 		public Connect(Context context) {
@@ -52,8 +87,8 @@ public class WeatherRefreshService extends Service {
 		protected Void doInBackground(Void... params) {
 			PowerManager pm = (PowerManager) getApplicationContext()
 					.getSystemService(Context.POWER_SERVICE);
-			lock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK,
-					"WeatherRefresh");
+			lock = pm
+					.newWakeLock(PowerManager.FULL_WAKE_LOCK, "WeatherRefresh");
 			lock.acquire();
 			try {
 				network.turnWifiOn(mContext);

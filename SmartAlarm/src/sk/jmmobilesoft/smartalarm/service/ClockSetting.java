@@ -121,7 +121,7 @@ public class ClockSetting {
 		intent.putExtra("ID", c.getId());
 
 		return PendingIntent.getActivity(context, (int) c.getId(), intent,
-				PendingIntent.FLAG_UPDATE_CURRENT);
+				PendingIntent.FLAG_CANCEL_CURRENT);
 
 	}
 
