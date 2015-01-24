@@ -304,7 +304,7 @@
                 android:layout_gravity="center_horizontal"
                 android:textColor="#F7F5F5"
                 android:text="18°C"
-                android:textSize="20sp" />
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/weather_view_day1_description"
@@ -345,7 +345,7 @@
                 android:layout_gravity="center_horizontal"
                 android:textColor="#F7F5F5"
                 android:text="18°C"
-                android:textSize="20sp" />
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/weather_view_day2_description"
@@ -386,7 +386,7 @@
                 android:layout_gravity="center_horizontal"
                 android:textColor="#F7F5F5"
                 android:text="1°C"
-                android:textSize="20sp" />
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/weather_view_day3_description"

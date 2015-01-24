@@ -50,6 +50,7 @@ public class ClockRepeatService extends Service{
 		else{
 			aManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pRepeat);
 		}
+		stopSelf();
 	}
 	
 	private Calendar getCurrentTime(){

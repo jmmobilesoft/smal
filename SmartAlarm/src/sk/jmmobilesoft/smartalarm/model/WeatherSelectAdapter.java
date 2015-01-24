@@ -4,6 +4,7 @@ import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.R;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
+import sk.jmmobilesoft.smartalarm.helpers.WeatherHelper;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -68,11 +69,10 @@ public class WeatherSelectAdapter extends BaseAdapter {
 				.findViewById(R.id.weathe_select_item_selector);
 
 		city.setText(weather.getCityName());
-		temp.setText(Helper.kelvinToCelsius(weather.getTemperature()) + "°"
-				+ "C"); // TODO jednotka teploty z nastaveni
+		temp.setText(WeatherHelper.getTemperature(context, weather.getTemperature())); // TODO jednotka teploty z nastaveni
 		description.setText(weather.getDescription());
-		maxMinTemp.setText(Helper.kelvinToCelsius(weather.getTempMin()) + "/"
-				+ Helper.kelvinToCelsius(weather.getTempMax()) + "°" + "C");
+		maxMinTemp.setText(WeatherHelper.getTemperature(context, weather.getTempMin()) + "/"
+				+ WeatherHelper.getTemperature(context, weather.getTempMax()));
 		selector.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override

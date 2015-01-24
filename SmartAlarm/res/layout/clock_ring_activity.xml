@@ -471,8 +471,9 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@color/seek_style"
+            android:background="@color/seek_style_dismiss"
             android:thumb="@color/seek_trackball_style"
+            android:progressDrawable="@color/seek_progress_style"
             android:translationX="-2dp" />
 
         <SeekBar
@@ -480,7 +481,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@color/seek_style"
+            android:background="@color/seek_style_snooze"
+            android:progressDrawable="@color/seek_progress_style"
             android:thumb="@color/seek_trackball_style"
             android:translationX="2dp" />
     </LinearLayout>

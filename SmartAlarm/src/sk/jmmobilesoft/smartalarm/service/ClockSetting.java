@@ -6,6 +6,7 @@ import java.util.List;
 import sk.jmmobilesoft.smartalarm.ClockRingActivity;
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.helpers.ClockHelper;
+import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
@@ -45,19 +46,14 @@ public class ClockSetting {
 				.getSystemService(Context.ALARM_SERVICE);
 		ClockHelper.determineAlarmIcon(context);
 		if (c.isActive() && Helper.getDayRepeat(c, nextday)) {
-			if (android.os.Build.VERSION.SDK_INT < 19) {
-				aManager.setExact(AlarmManager.RTC_WAKEUP,
-						calendar.getTimeInMillis(), pIntent);
-				aManager.setExact(AlarmManager.RTC_WAKEUP,
-						calendar.getTimeInMillis() - 300000, weather);
-				Logger.setInfo("Setting clock: " + c + " - ACTIVE");
-			} else {
-				aManager.setExact(AlarmManager.RTC_WAKEUP,
-						calendar.getTimeInMillis(), pIntent);
-				aManager.setExact(AlarmManager.RTC_WAKEUP,
-						calendar.getTimeInMillis() - 300000, weather);
-				Logger.setInfo("Setting clock: " + c + " - ACTIVE");
-			}
+			aManager.setExact(AlarmManager.RTC_WAKEUP,
+					calendar.getTimeInMillis(), pIntent);
+			Calendar weatherC = Calendar.getInstance();
+			weatherC.setTimeInMillis(calendar.getTimeInMillis() - 300000);
+			aManager.setExact(AlarmManager.RTC_WAKEUP,
+					weatherC.getTimeInMillis(), weather);
+			Logger.setInfo("Setting clock: " + c + " - ACTIVE \nfor:" + calendar.getTime());
+			Logger.serviceInfo("Setting weather refresh for:" + weatherC.getTime());
 			return true;
 		} else {
 			aManager.cancel(pIntent);
@@ -91,7 +87,6 @@ public class ClockSetting {
 		} else {
 			aManager.setExact(AlarmManager.RTC_WAKEUP,
 					current.getTimeInMillis(), pIntent);
-
 			Logger.setInfo("Setting clock: " + c + " - ACTIVE");
 		}
 		System.out.println("setting snooze for:" + current);
@@ -105,8 +100,8 @@ public class ClockSetting {
 			setClock(context, c.getId());
 		}
 	}
-	
-	public static void deactivateClock(Clock c, Context context){
+
+	public static void deactivateClock(Clock c, Context context) {
 		AlarmManager aManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
 		PendingIntent pIntent = createPendingIntent(context, c);
@@ -131,6 +126,6 @@ public class ClockSetting {
 		intent.putExtra("ID", c.getId());
 
 		return PendingIntent.getService(context, (int) c.getId(), intent,
-				PendingIntent.FLAG_UPDATE_CURRENT);
+				PendingIntent.FLAG_CANCEL_CURRENT);
 	}
 }

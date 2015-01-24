@@ -19,6 +19,7 @@ public class WeatherJsonParser {
 
 		JSONObject data = null;
 		try {
+			Logger.serviceInfo("data for parse: " + dataS);
 			data = new JSONObject(dataS);
 		} catch (JSONException e1) {
 			Logger.logStackTrace(e1.getStackTrace());

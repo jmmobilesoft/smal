@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
+import sk.jmmobilesoft.smartalarm.helpers.WeatherHelper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Weather;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
@@ -44,19 +45,20 @@ public class WeatherViewActivity extends Activity {
 				"w" + weatherForecast.getIcon(), "drawable", getPackageName());
 		main.setImageDrawable(getResources().getDrawable(resourceId));
 		city.setText(weatherForecast.getCityName());
-		temp.setText(Helper.kelvinToCelsius(weatherForecast.getTemperature())
-				+ "°C");
-		minTemp.setText(Helper.kelvinToCelsius(weatherForecast.getTempMin())
-				+ "°C");
-		maxTemp.setText(Helper.kelvinToCelsius(weatherForecast.getTempMax())
-				+ "°C");
+		temp.setText(WeatherHelper.getTemperature(this,
+				weatherForecast.getTemperature()));
+		minTemp.setText(WeatherHelper.getTemperature(this,
+				weatherForecast.getTempMin()));
+		maxTemp.setText(WeatherHelper.getTemperature(this,
+				weatherForecast.getTempMax()));
 		description.setText(weatherForecast.getDescription());
 		sunrise.setText(Helper.milisToTime(weatherForecast.getSunrise()));
 		sunset.setText(Helper.milisToTime(weatherForecast.getSunset()));
 		humidity.setText(weatherForecast.getHumidity() + " %");
 		pressure.setText(weatherForecast.getPressure() + " hPa");
 		winddeg.setText(weatherForecast.getWindDeg() + " deg");
-		windspeed.setText(weatherForecast.getWindSpeed() + " m/s");
+		windspeed.setText(WeatherHelper.getWindSpeed(this,
+				weatherForecast.getWindSpeed()));
 		update.setText(weatherForecast.getUpdateTime());
 
 		SimpleDateFormat formater = new SimpleDateFormat("dd.MM.yyyy");
@@ -84,6 +86,7 @@ public class WeatherViewActivity extends Activity {
 		c3.add(Calendar.DAY_OF_MONTH, 3);
 
 		try {
+			Logger.serviceInfo("requested: " + formater.format(c.getTime()));
 			Weather day1 = db
 					.getWeatherByCityDate(weatherForecast.getCityName(),
 							formater.format(c.getTime()));
@@ -92,7 +95,9 @@ public class WeatherViewActivity extends Activity {
 					"w" + day1.getIcon(), "drawable", getPackageName());
 			imageViewd1.setImageDrawable(getResources().getDrawable(
 					resourceDay1));
-			tempd1.setText(day1.getTempMin() + "/" + day1.getTempMax() + " °C");
+			tempd1.setText(WeatherHelper.getTemperature(this, day1.getTempMin() + 273.15f)
+					+ "/"
+					+ WeatherHelper.getTemperature(this, day1.getTempMax() + 273.15f));
 			descd1.setText(day1.getDescription());
 		} catch (RuntimeException e) {
 			dated1.setText(useFromat.format(c.getTime()));
@@ -103,6 +108,7 @@ public class WeatherViewActivity extends Activity {
 		}
 
 		try {
+			Logger.serviceInfo("requested: " + formater.format(c2.getTime()));
 			Weather day2 = db.getWeatherByCityDate(
 					weatherForecast.getCityName(),
 					formater.format(c2.getTime()));
@@ -111,7 +117,9 @@ public class WeatherViewActivity extends Activity {
 					"w" + day2.getIcon(), "drawable", getPackageName());
 			imageViewd2.setImageDrawable(getResources().getDrawable(
 					resourceDay2));
-			tempd2.setText(day2.getTempMin() + "/" + day2.getTempMax() + " °C");
+			tempd2.setText(WeatherHelper.getTemperature(this, day2.getTempMin() + 273.15f)
+					+ "/"
+					+ WeatherHelper.getTemperature(this, day2.getTempMax() + 273.15f));
 			descd2.setText(day2.getDescription());
 		} catch (RuntimeException e) {
 			dated2.setText(useFromat.format(c2.getTime()));
@@ -122,6 +130,7 @@ public class WeatherViewActivity extends Activity {
 		}
 
 		try {
+			Logger.serviceInfo("requested: " + formater.format(c3.getTime()));
 			Weather day3 = db.getWeatherByCityDate(
 					weatherForecast.getCityName(),
 					formater.format(c3.getTime()));
@@ -130,7 +139,9 @@ public class WeatherViewActivity extends Activity {
 					"w" + day3.getIcon(), "drawable", getPackageName());
 			imageViewd3.setImageDrawable(getResources().getDrawable(
 					resourceDay3));
-			tempd3.setText(day3.getTempMin() + "/" + day3.getTempMax() + " °C");
+			tempd3.setText(WeatherHelper.getTemperature(this, day3.getTempMin() + 273.15f)
+					+ "/"
+					+ WeatherHelper.getTemperature(this, day3.getTempMax() + 273.15f));
 			descd3.setText(day3.getDescription());
 		} catch (RuntimeException e) {
 			dated3.setText(useFromat.format(c3.getTime()));
@@ -139,6 +150,7 @@ public class WeatherViewActivity extends Activity {
 			tempd3.setText("No data");
 			descd3.setText("refresh");
 		}
+		Logger.serviceInfo("available:" + db.getWeather());
 	}
 
 	private WeatherForecast getDatasFromDB(Long id) {

@@ -4,11 +4,14 @@ import java.lang.reflect.Field;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Paint;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -103,5 +106,11 @@ public class GlobalHelper {
 		} catch (NullPointerException | IllegalStateException e) {
 			Log.i("INFO", "media player already stopped");
 		}
+	}
+	
+	public static String getPreference(Context context, String key, String defaultV){
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+		String value = sharedPref.getString(key, defaultV);
+		return value;
 	}
 }

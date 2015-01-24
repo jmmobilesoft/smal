@@ -1,53 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@android:color/black" >
-   
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher" />
-    
-    <Button 
-        android:id="@+id/image_button_wifi_on"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="wifi ON"/>
-    <Button 
-        android:id="@+id/image_button_wifi_off"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="wifi OFF"/>
-    <Button 
-        android:id="@+id/image_button_mobile_on"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="mobile ON"/>
-    <Button 
-        android:id="@+id/image_button_mobile_off"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="mobileOFF"/>
-     <EditText 
-         android:id="@+id/image_edittext_city"
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
-         android:textColor="@android:color/white"
-         android:text="Brno"/>
-     <Button 
-        android:id="@+id/image_button_weather_refresh"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="refresh weather"/>
-    <TextView 
-        android:id="@+id/weather_text"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
-        android:text="weather"/>
-    
 
-</LinearLayout>
+    <PreferenceCategory
+        android:key="data_settings"
+        android:title="@string/settings_activity_data_category" >
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="allow_mobile"
+            android:summary="@string/settings_activity_data_summary"
+            android:title="@string/settings_activity_data_title" />
+
+        <ListPreference
+            android:dialogTitle="Automatic refresh interval"
+            android:entries="@array/syncFrequency"
+            android:entryValues="@array/syncFrequencyValues"
+            android:key="automatic_refresh"
+            android:title="Automatic refresh"
+            android:defaultValue="0" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="data_locale"
+        android:title="@string/settings_activity_locale_category" >
+        
+        <ListPreference
+            android:dialogTitle="Language"
+            android:entries="@array/language"
+            android:entryValues="@array/language_values"
+            android:key="language"
+            android:title="@string/settings_activity_language_title"
+            android:defaultValue="EN" />
+        
+        <ListPreference
+            android:dialogTitle="Measurements"
+            android:entries="@array/measurements"
+            android:entryValues="@array/measurements_values"
+            android:key="measurements"
+            android:title="@string/settings_activity_measurements_title"
+            android:summary="@string/settings_activity_measurements_summary"
+            android:defaultValue="M" />
+        
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

@@ -2,7 +2,6 @@ package sk.jmmobilesoft.smartalarm.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Weather;
@@ -12,8 +11,9 @@ import sk.jmmobilesoft.smartalarm.network.WeatherNetworkService;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
+import android.net.wifi.WifiManager.WifiLock;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -21,11 +21,6 @@ import android.os.PowerManager.WakeLock;
 public class WeatherRefreshService extends Service {
 
 	private NetworkService network;
-
-	private Handler handler;
-	private Runnable r;
-	private int counter = 0;
-	private boolean refresh = false;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -36,46 +31,16 @@ public class WeatherRefreshService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Logger.serviceInfo("WeatherRefreshService: onStartCommand");
-
-		PowerManager pm = (PowerManager) getApplicationContext()
-				.getSystemService(Context.POWER_SERVICE);
-		WakeLock lock = pm
-				.newWakeLock(PowerManager.FULL_WAKE_LOCK, "WeatherRefresh");
-		lock.acquire();
-		
 		network = new NetworkService();
-		network.turnWifiOn(getApplicationContext());
-		counter = 0;
-		handler = new Handler();
-		r = new Runnable() {
-
-			public void run() {
-				if (!network.isConnected(getApplicationContext())
-						&& counter <= 60) {
-					counter++;
-					Logger.serviceInfo("counter:" + counter);
-					handler.postDelayed(r, 2000);
-				} else {
-					if (network.isConnected(getApplicationContext())) {
-						refresh = true;
-						Logger.serviceInfo("succesfully connected refresh set to true");
-					} else {
-						Logger.serviceInfo("cant connect to network");
-					}
-				}
-			}
-		};
-		r.run();
-		if (refresh) {
-			// new Connect(getApplicationContext()).execute();
-		}
-		lock.release();
+		new Connect(getApplicationContext()).execute();
 		return super.onStartCommand(intent, flags, startId);
 	}
 
 	class Connect extends AsyncTask<Void, Void, Void> {
 
 		private Context mContext;
+		
+		private WifiLock wifiLock;
 
 		private WakeLock lock;
 
@@ -90,20 +55,34 @@ public class WeatherRefreshService extends Service {
 			lock = pm
 					.newWakeLock(PowerManager.FULL_WAKE_LOCK, "WeatherRefresh");
 			lock.acquire();
+			Logger.serviceInfo("Wake lock acquired");
+			
+			WifiManager wManager = (WifiManager) getApplicationContext()
+					.getSystemService(Context.WIFI_SERVICE);
+			if (android.os.Build.VERSION.SDK_INT > 12)
+				wifiLock = wManager.createWifiLock(
+						WifiManager.WIFI_MODE_FULL_HIGH_PERF, "RefreshLock");
+			else
+				wifiLock = wManager.createWifiLock(WifiManager.WIFI_MODE_FULL,
+						"RefreshLock");
+			wifiLock.acquire();
+			Logger.serviceInfo("Wifi lock acquired");
+			wManager.setWifiEnabled(true);
+			Logger.serviceInfo("scan start:" + wManager.startScan());
+			
+			
 			try {
-				network.turnWifiOn(mContext);
 				int counter = 0;
-				while (!network.isConnected(mContext) && counter <= 120) {
+				while (!network.isConnected(mContext) && counter <= 40) {
 					counter++;
 					Logger.serviceInfo("counter:" + counter);
-					Thread.sleep(1000);
+					Thread.sleep(3000);
 				}
 				Logger.serviceInfo("Network after 120 seconds connected: "
 						+ network.isConnected(mContext));
 
 			} catch (Exception e) {
 				Logger.logStackTrace(e.getStackTrace());
-				// network.turnWifiOff(mContext);
 			}
 			return null;
 		}
@@ -143,9 +122,9 @@ public class WeatherRefreshService extends Service {
 					+ network.isConnected(mContext));
 			network.turnWifiOff(mContext);
 			lock.release();
-			Logger.serviceInfo("lock released");
+			wifiLock.release();
+			Logger.serviceInfo("locks released");
 			stopSelf();
-			super.onPostExecute(result);
 		}
 	}
 }

@@ -6,6 +6,7 @@ import sk.jmmobilesoft.smartalarm.R;
 import sk.jmmobilesoft.smartalarm.WeatherViewActivity;
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
+import sk.jmmobilesoft.smartalarm.helpers.WeatherHelper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import android.content.Intent;
 import android.os.Bundle;
@@ -58,8 +59,6 @@ public class WeatherAdapter extends BaseAdapter {
 				convertView = inflater.inflate(R.layout.weather_adapter_item,
 						null);
 			}
-			System.out.println(weathers);
-			System.out.println("position:" + weathers.get(position));
 			WeatherForecast weather = weathers.get(position);
 
 			ImageView icon = (ImageView) convertView
@@ -80,12 +79,10 @@ public class WeatherAdapter extends BaseAdapter {
 					.getDrawable(resourceId));
 
 			city.setText(weather.getCityName());
-			temp.setText(Helper.kelvinToCelsius(weather.getTemperature()) + "°"
-					+ "C"); // TODO jednotka teploty z nastaveni
+			temp.setText(WeatherHelper.getTemperature(context.getActivity(), weather.getTemperature()));
 			description.setText(weather.getDescription());
-			maxMinTemp.setText(Helper.kelvinToCelsius(weather.getTempMin())
-					+ "/" + Helper.kelvinToCelsius(weather.getTempMax()) + "°"
-					+ "C");
+			maxMinTemp.setText(WeatherHelper.getTemperature(context.getActivity(), weather.getTempMin())
+					+ "/" + WeatherHelper.getTemperature(context.getActivity(), weather.getTempMax()));
 			convertView.setOnClickListener(new OnClickListener() {
 
 				@Override

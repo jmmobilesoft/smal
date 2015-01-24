@@ -89,6 +89,11 @@ public abstract class Helper {
 		float cels = temperature - 273.15f;
 		return Math.round(cels * 10) / 10;
 	}
+	
+	public static float kelvinToFarenheit(float temperature) {
+		float farenheit = (temperature - 273.15f) * 1.8f + 32;
+		return Math.round(farenheit * 10) / 10;
+	}
 
 	public static String milisToTime(long milliseconds) {
 		Calendar c = Calendar.getInstance();
