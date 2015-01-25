@@ -28,9 +28,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -108,6 +110,7 @@ public class ClockViewActivity extends Activity {
 		setContentView(R.layout.clock_view_activity);
 		EditText name = (EditText) findViewById(R.id.clock_view_activity_name);
 		TextView snooze = (TextView) findViewById(R.id.clock_view_activity_snooze_number);
+		CheckBox vibrate = (CheckBox) findViewById(R.id.clock_view_activity_vibrator_checkbox);
 		weatherCities = (TextView) findViewById(R.id.clock_view_activity_weather_name);
 		NumberPicker hours = (NumberPicker) findViewById(R.id.clock_view_activity_hours_picker);
 		NumberPicker minutes = (NumberPicker) findViewById(R.id.clock_view_activity_minutes_picker);
@@ -134,9 +137,10 @@ public class ClockViewActivity extends Activity {
 		}
 		setSnoozeButtons(c, snooze);
 		setSoundPickContainer();
+		setVibrateContainer(vibrate, c);
 		setVolumeContainer(volumeBar);
 		setWeatherContainer(c);
-		setControlButtons(c, db, name, hours, minutes, volumeBar, snooze);
+		setControlButtons(c, db, name, hours, minutes, vibrate, volumeBar, snooze);
 	}
 
 	private void setNumberPickers(NumberPicker hours, NumberPicker minutes) {
@@ -217,14 +221,14 @@ public class ClockViewActivity extends Activity {
 
 	private void setControlButtons(final Clock c, final DBHelper db,
 			final EditText name, final NumberPicker hours,
-			final NumberPicker minutes, final SeekBar volumeBar,
+			final NumberPicker minutes, final CheckBox vibrate, final SeekBar volumeBar,
 			final TextView snooze) {
-		setSaveButton(c, hours, minutes, name, volumeBar, snooze, db);
+		setSaveButton(c, hours, minutes, name, vibrate, volumeBar, snooze, db);
 		setDeleteButton(c, db);
 	}
 
 	private void setSaveButton(final Clock c, final NumberPicker hours,
-			final NumberPicker minutes, final EditText name,
+			final NumberPicker minutes, final EditText name, final CheckBox vibrate,
 			final SeekBar volumeBar, final TextView snooze, final DBHelper db) {
 		Button save = (Button) findViewById(R.id.clock_view_activity_save);
 		save.setOnClickListener(new OnClickListener() {
@@ -236,6 +240,7 @@ public class ClockViewActivity extends Activity {
 				c.setName(name.getText().toString());
 				c.setActive(true);
 				c.setSound(sound);
+				c.setVibrate(vibrate.isChecked());
 				c.setVolume(GlobalHelper.determineVolume(volumeBar.getProgress()));
 				c.setRepeat(getRepeats());
 				c.setSnoozeTime(Integer.valueOf(snooze.getText().toString()));
@@ -314,6 +319,19 @@ public class ClockViewActivity extends Activity {
 		});
 	}
 
+	private void setVibrateContainer(final CheckBox vibrate, Clock c){
+		vibrate.setChecked(c.isVibrate());
+		RelativeLayout layout = (RelativeLayout) findViewById(R.id.clock_view_activity_vibrator_container);
+		layout.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				vibrate.setChecked(!vibrate.isChecked());
+				
+			}
+		});
+	}
+	
 	private void setVolumeContainer(SeekBar volumeBar) {
 		volumeBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 

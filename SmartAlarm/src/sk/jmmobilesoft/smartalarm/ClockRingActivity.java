@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -31,11 +32,13 @@ public class ClockRingActivity extends Activity {
 
 	private AudioManager audioManager;
 
+	private Vibrator v;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Logger.serviceInfo("ClockRingActivity: started");
 		GlobalHelper.hideActionBar(this);
-		Helper.wakeLockOn(this); //TODO remove
+		Helper.wakeLockOn(this); // TODO remove
 		setWindow();
 		setView();
 
@@ -160,7 +163,8 @@ public class ClockRingActivity extends Activity {
 			TextView description1 = (TextView) findViewById(R.id.ring_weather_1_desription_text);
 			TextView city1 = (TextView) findViewById(R.id.ring_weather_1_city_name);
 			TextView update1 = (TextView) findViewById(R.id.ring_weather_1_update_time);
-			WeatherForecast w = db.getWeatherForecastByCity(c.getCities().get(0));
+			WeatherForecast w = db.getWeatherForecastByCity(c.getCities()
+					.get(0));
 			int resourceId = getResources().getIdentifier("w" + w.getIcon(),
 					"drawable", getPackageName());
 			iw.setImageDrawable(getResources().getDrawable(resourceId));
@@ -170,8 +174,10 @@ public class ClockRingActivity extends Activity {
 			sunrise1.setText("Sunrise: " + Helper.milisToTime(w.getSunrise()));
 			wind1.setText("Speed: " + w.getWindSpeed() + "m/s");
 			humidity1.setText("Humidity: " + w.getHumidity() + "%");
-			min1.setText("Min: " + Helper.kelvinToCelsius(w.getTempMin()) + "°" + "C");
-			max1.setText("Max: " + Helper.kelvinToCelsius(w.getTempMax()) + "°" + "C");
+			min1.setText("Min: " + Helper.kelvinToCelsius(w.getTempMin()) + "°"
+					+ "C");
+			max1.setText("Max: " + Helper.kelvinToCelsius(w.getTempMax()) + "°"
+					+ "C");
 			description1.setText(w.getDescription());
 			city1.setText(w.getCityName());
 			update1.setText(w.getUpdateTime());
@@ -189,18 +195,22 @@ public class ClockRingActivity extends Activity {
 				TextView city2 = (TextView) findViewById(R.id.ring_weather_2_city_name);
 				TextView update2 = (TextView) findViewById(R.id.ring_weather_2_update_time);
 
-				WeatherForecast w2 = db.getWeatherForecastByCity(c.getCities().get(1));
+				WeatherForecast w2 = db.getWeatherForecastByCity(c.getCities()
+						.get(1));
 				int resourceId2 = getResources().getIdentifier(
 						"w" + w2.getIcon(), "drawable", getPackageName());
 				iw2.setImageDrawable(getResources().getDrawable(resourceId2));
 				temp2.setText(Float.toString(Helper.kelvinToCelsius(w2
 						.getTemperature())) + "°C");
 				sunset2.setText("Sunset: " + Helper.milisToTime(w2.getSunset()));
-				sunrise2.setText("Sunrise: " + Helper.milisToTime(w2.getSunrise()));
+				sunrise2.setText("Sunrise: "
+						+ Helper.milisToTime(w2.getSunrise()));
 				wind2.setText("Speed: " + w2.getWindSpeed() + "m/s");
 				humidity2.setText("Humidity: " + w2.getHumidity() + "%");
-				min2.setText("Min: " + Helper.kelvinToCelsius(w2.getTempMin()) + "°" + "C");
-				max2.setText("Max: " + Helper.kelvinToCelsius(w2.getTempMax()) + "°" + "C");
+				min2.setText("Min: " + Helper.kelvinToCelsius(w2.getTempMin())
+						+ "°" + "C");
+				max2.setText("Max: " + Helper.kelvinToCelsius(w2.getTempMax())
+						+ "°" + "C");
 				description2.setText(w2.getDescription());
 				city2.setText(w2.getCityName());
 				update2.setText(w2.getUpdateTime());
@@ -227,19 +237,33 @@ public class ClockRingActivity extends Activity {
 				.getStreamVolume(AudioManager.STREAM_MUSIC);
 		audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
 				audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
+		audioManager.setSpeakerphoneOn(true);
 		mediaPlayer = MediaPlayer.create(this, c.getSound());
 		mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 		mediaPlayer.setLooping(true);
 		mediaPlayer.setVolume(c.getVolume(), c.getVolume());
 		mediaPlayer.start();
+		startVibrator(c);
 		return originalVolume;
 	}
 
 	private void stopMediaPlayer() {
+		stopVibrator();
 		audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, originalVolume,
 				0);
 		mediaPlayer.stop();
 		mediaPlayer.reset();
 		mediaPlayer.release();
+	}
+
+	private void startVibrator(Clock c) {
+		if (c.isVibrate()) {
+			v = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+			v.vibrate(new long[] { 1000, 1000 }, 0);
+		}
+	}
+
+	private void stopVibrator() {
+		v.cancel();
 	}
 }

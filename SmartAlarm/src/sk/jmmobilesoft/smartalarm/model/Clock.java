@@ -19,6 +19,7 @@ public class Clock {
 	private float volume;  
 	private List<String> cities;
 	//private boolean niceWakeUp; //TODO
+	private boolean vibrate = false;
 	private int[] repeat = new int[]{0,0,0,0,0,0,0};
 	
 	public Clock(){
@@ -116,6 +117,14 @@ public class Clock {
 		this.cities = cities;
 	}
 
+	public boolean isVibrate() {
+		return vibrate;
+	}
+
+	public void setVibrate(boolean vibrate) {
+		this.vibrate = vibrate;
+	}
+
 	public String toDBRepeat(int[] repeats){
 		String result = String.valueOf(repeats[0]) + String.valueOf(repeats[1]) + String.valueOf(repeats[2] + String.valueOf(repeats[3]) +
 				String.valueOf(repeats[4]) + String.valueOf(repeats[5]) + String.valueOf(repeats[6]));
@@ -132,7 +141,7 @@ public class Clock {
 	@Override
 	public String toString() {
 		return "Clock [id=" + id + ", hour=" + hour + ", minutes=" + minutes
-				+ ", active=" + active + ", name=" + name + ", repeat="
+				+ ", active=" + active + ", name=" + name + ", vibrate=" + vibrate + ", repeat="
 				+ Arrays.toString(repeat) + "]";
 	}
 

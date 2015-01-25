@@ -251,6 +251,42 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+            
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_above="@+id/clock_view_activity_vibrator_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#0099cc" />
+
+            <RelativeLayout
+                android:id="@+id/clock_view_activity_vibrator_container"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/clock_view_activity_volume_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="Vibrate"
+                    android:textColor="#F7F5F5"
+                    android:textSize="13sp" />
+
+                <CheckBox
+                    android:id="@+id/clock_view_activity_vibrator_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="14dp"/>
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="fill_parent"

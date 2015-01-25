@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -23,6 +24,8 @@ public class TimerRingScreen extends Activity {
 
 	private AudioManager mAudioManager;
 	
+	private Vibrator v;
+
 	private int originalVolume;
 
 	private Long id;
@@ -30,8 +33,8 @@ public class TimerRingScreen extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Logger.serviceInfo("TimerRingScreen activity started");
-		//Helper.wakeLockOn(this); TODO test
-		
+		// Helper.wakeLockOn(this); TODO test
+
 		final Window window = getWindow();
 		window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED // START
 																			// DISPLAY
@@ -55,6 +58,7 @@ public class TimerRingScreen extends Activity {
 		mp.setLooping(true);
 		mp.setVolume(t.getVolume(), t.getVolume());
 		mp.start();
+		startVibrator();
 		TextView name = (TextView) findViewById(R.id.timer_ring_activity_Name);
 		if (name.equals("")) {
 			name.setText("No specified name timer");
@@ -75,7 +79,7 @@ public class TimerRingScreen extends Activity {
 
 		super.onCreate(savedInstanceState);
 	}
-	
+
 	@Override
 	protected void onPause() {
 		Helper.wakeLockOff(this);
@@ -84,11 +88,22 @@ public class TimerRingScreen extends Activity {
 
 	@Override
 	public void onDetachedFromWindow() {
-		mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, originalVolume, 0);
+		stopVibrator();
+		mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+				originalVolume, 0);
 		mp.stop();
 		mp.reset();
 		mp.release();
 		super.onDetachedFromWindow();
+	}
+
+	private void startVibrator() {
+		v = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+		v.vibrate(new long[] { 1000, 1000 }, 0);
+	}
+
+	private void stopVibrator() {
+		v.cancel();
 	}
 
 }

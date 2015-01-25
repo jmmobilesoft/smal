@@ -36,6 +36,12 @@ public class WeatherRefreshService extends Service {
 		return super.onStartCommand(intent, flags, startId);
 	}
 
+	@Override
+	public void onDestroy() {
+		Logger.serviceInfo("WeatherRefreshService: onDestroy");
+		super.onDestroy();
+	}
+	
 	class Connect extends AsyncTask<Void, Void, Void> {
 
 		private Context mContext;
@@ -53,7 +59,7 @@ public class WeatherRefreshService extends Service {
 			PowerManager pm = (PowerManager) getApplicationContext()
 					.getSystemService(Context.POWER_SERVICE);
 			lock = pm
-					.newWakeLock(PowerManager.FULL_WAKE_LOCK, "WeatherRefresh");
+					.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "WeatherRefresh");
 			lock.acquire();
 			Logger.serviceInfo("Wake lock acquired");
 			
