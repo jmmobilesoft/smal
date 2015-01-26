@@ -24,9 +24,9 @@
             android:id="@+id/ring_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="10dp"
             android:layout_toLeftOf="@+id/ring_clock"
-            android:layout_centerHorizontal="true"
             android:textColor="@android:color/background_light"
             android:textSize="20sp" />
     </RelativeLayout>
@@ -304,8 +304,8 @@
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
                         android:ellipsize="none"
-                        android:textColor="@android:color/background_light"
                         android:text="15°C"
+                        android:textColor="@android:color/background_light"
                         android:textSize="40sp" />
 
                     <TextView
@@ -472,8 +472,8 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@color/seek_style_dismiss"
-            android:thumb="@color/seek_trackball_style"
             android:progressDrawable="@color/seek_progress_style"
+            android:thumb="@color/seek_trackball_style"
             android:translationX="-2dp" />
 
         <SeekBar
@@ -485,6 +485,64 @@
             android:progressDrawable="@color/seek_progress_style"
             android:thumb="@color/seek_trackball_style"
             android:translationX="2dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/clock_view_activity_buttons_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/clock_ring_activity_buttons_supercontainer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_above="@+id/clock_ring_activity_buttons_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#0099cc" />
+
+            <LinearLayout
+                android:id="@+id/clock_ring_activity_buttons_container"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/clock_ring_activity_show_button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="0dp"
+                    android:layout_weight="1"
+                    android:background="#000000"
+                    android:text="Show Weather"
+                    android:textColor="#33b5e5" />
+
+                <TextView
+                    android:id="@+id/clock_item_spacer"
+                    android:layout_width="1dp"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentBottom="true"
+                    android:background="#0099cc" />
+
+                <Button
+                    android:id="@+id/clock_ring_activity_close_button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="0dp"
+                    android:layout_weight="1"
+                    android:background="#000000"
+                    android:text="Close"
+                    android:textColor="#33b5e5" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

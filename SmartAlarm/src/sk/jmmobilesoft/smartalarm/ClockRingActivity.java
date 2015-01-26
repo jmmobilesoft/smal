@@ -11,14 +11,18 @@ import sk.jmmobilesoft.smartalarm.model.Clock;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.service.ClockSetting;
 import android.app.Activity;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -72,14 +76,16 @@ public class ClockRingActivity extends Activity {
 		TextView name = (TextView) findViewById(R.id.ring_name);
 		SeekBar dismiss = (SeekBar) findViewById(R.id.ring_seek_dismiss);
 		SeekBar snooze = (SeekBar) findViewById(R.id.ring_seek_snooze);
+		LinearLayout buttons = (LinearLayout) findViewById(R.id.clock_ring_activity_buttons_supercontainer);
 		RelativeLayout weatherLayout = (RelativeLayout) findViewById(R.id.ring_weather_1_container);
 
 		setTexts(time, name, c);
 		setWeatherContainer(c, db, weatherLayout);
-		setSeekBars(c, db, weatherLayout, dismiss, snooze);
+		setSeekBars(buttons, c, db, weatherLayout, dismiss, snooze);
+		setButtons(buttons);
 	}
 
-	private void setSeekBars(final Clock c, final DBHelper db,
+	private void setSeekBars(final LinearLayout buttons, final Clock c, final DBHelper db,
 			final RelativeLayout weatherLayout, final SeekBar dismiss,
 			final SeekBar snooze) {
 		dismiss.setProgress(0);
@@ -103,6 +109,7 @@ public class ClockRingActivity extends Activity {
 				}
 				seekBar.setProgress(0);
 				ClockHelper.determineAlarmIcon(getApplicationContext());
+				buttons.setVisibility(LinearLayout.VISIBLE);
 			}
 
 			@Override
@@ -148,6 +155,29 @@ public class ClockRingActivity extends Activity {
 		name.setText(c.getName());
 	}
 
+	private void setButtons(LinearLayout buttons){
+		buttons.setVisibility(LinearLayout.INVISIBLE);
+		Button close = (Button) findViewById(R.id.clock_ring_activity_close_button);
+		close.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();				
+			}
+		});
+		Button weather = (Button) findViewById(R.id.clock_ring_activity_show_button);
+		weather.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getApplication(), MainActivity.class);
+				i.putExtra("tab", "weather");
+				startActivity(i);
+				finish();
+			}
+		});
+	}
+	
 	private void setWeatherContainer(Clock c, DBHelper db,
 			RelativeLayout weatherLayout) {
 		RelativeLayout weatherLayout2 = (RelativeLayout) findViewById(R.id.ring_weather_2_container);

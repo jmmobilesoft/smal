@@ -77,6 +77,10 @@ public class MainActivity extends FragmentActivity implements
 			if (savedInstanceState != null) {
 				mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
 			}
+			if (getIntent().getStringExtra("tab") != null
+					&& getIntent().getStringExtra("tab").equals("weather")) {
+				mTabHost.setCurrentTabByTag("WeatherFragment");
+			}
 			if (!isMyServiceRunning(ClockRepeatService.class)) {
 				Logger.serviceInfo("ClockRepeatService started");
 				Intent startRepeatingService = new Intent(this,
