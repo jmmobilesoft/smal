@@ -264,6 +264,8 @@ public class ClockRingActivity extends Activity {
 	}
 
 	private void stopVibrator() {
-		v.cancel();
+		if (v != null) {
+			v.cancel();
+		}
 	}
 }

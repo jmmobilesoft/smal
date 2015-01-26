@@ -49,11 +49,16 @@ public class ClockSetting {
 			aManager.setExact(AlarmManager.RTC_WAKEUP,
 					calendar.getTimeInMillis(), pIntent);
 			Calendar weatherC = Calendar.getInstance();
-			weatherC.setTimeInMillis(calendar.getTimeInMillis() - 300000);
-			aManager.setExact(AlarmManager.RTC_WAKEUP,
-					weatherC.getTimeInMillis(), weather);
-			Logger.setInfo("Setting clock: " + c + " - ACTIVE \nfor:" + calendar.getTime());
-			Logger.serviceInfo("Setting weather refresh for:" + weatherC.getTime());
+			weatherC.setTimeInMillis(calendar.getTimeInMillis() - 600000);
+			Logger.setInfo("Setting clock: " + c + " - ACTIVE \nfor:"
+					+ calendar.getTime());
+			if ((weatherC.getTimeInMillis() - 60000) > Helper.getCurrentTime()
+					.getTimeInMillis()) {
+				aManager.setExact(AlarmManager.RTC_WAKEUP,
+						weatherC.getTimeInMillis(), weather);
+				Logger.serviceInfo("Setting weather refresh for:"
+						+ weatherC.getTime());
+			}else Logger.serviceInfo("Weather refresh not set");
 			return true;
 		} else {
 			aManager.cancel(pIntent);
