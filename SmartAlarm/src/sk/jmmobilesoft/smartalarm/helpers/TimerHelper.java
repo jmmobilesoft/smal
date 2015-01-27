@@ -11,7 +11,7 @@ public class TimerHelper {
 	public static void setTimerAdapterLabels(Timer timer, boolean active,
 			TextView start, TextView end) {
 		if (active) {
-			SimpleDateFormat formater = new SimpleDateFormat("hh:mm:ss");
+			SimpleDateFormat formater = new SimpleDateFormat("HH:mm:ss");
 			start.setText(formater.format(timer.getStart().getTime()));
 			Calendar c = timer.getStart();
 			c.add(Calendar.HOUR_OF_DAY, timer.getHours());

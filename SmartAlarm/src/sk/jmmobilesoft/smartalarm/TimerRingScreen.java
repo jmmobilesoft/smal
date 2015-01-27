@@ -2,6 +2,7 @@ package sk.jmmobilesoft.smartalarm;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
+import sk.jmmobilesoft.smartalarm.helpers.TimerHelper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Timer;
 import android.app.Activity;
@@ -23,7 +24,7 @@ public class TimerRingScreen extends Activity {
 	private MediaPlayer mp;
 
 	private AudioManager mAudioManager;
-	
+
 	private Vibrator v;
 
 	private int originalVolume;
@@ -59,12 +60,22 @@ public class TimerRingScreen extends Activity {
 		mp.setVolume(t.getVolume(), t.getVolume());
 		mp.start();
 		startVibrator();
-		TextView name = (TextView) findViewById(R.id.timer_ring_activity_Name);
-		if (name.equals("")) {
-			name.setText("No specified name timer");
-		} else {
-			name.setText(t.getName());
-		}
+		TextView name = (TextView) findViewById(R.id.timer_ring_activity_Title);
+
+		String nameS;
+		if (t.getName() == null) {
+			nameS = "";
+		} else
+			nameS = t.getName();
+		name.setText("Timer " + nameS + " ended.");
+		TextView time = (TextView) findViewById(R.id.timer_ring_activity_time);
+		time.setText(Helper.format(t.getHours()) + ":"
+				+ Helper.format(t.getMinutes()) + ":"
+				+ Helper.format(t.getSeconds()));
+		TextView start = (TextView) findViewById(R.id.timer_ring_activity_start);
+		TextView end = (TextView) findViewById(R.id.timer_ring_activity_end);
+
+		TimerHelper.setTimerAdapterLabels(t, true, start, end);
 
 		Button ok = (Button) findViewById(R.id.timer_ring_activity_OK);
 		ok.setOnClickListener(new OnClickListener() {
