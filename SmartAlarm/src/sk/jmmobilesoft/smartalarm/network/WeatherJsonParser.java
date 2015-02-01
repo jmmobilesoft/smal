@@ -91,7 +91,7 @@ public class WeatherJsonParser {
 
 		List<Weather> weathers = new ArrayList<>();
 		try {
-			for (int i = 1; i <= 3; i++) {
+			for (int i = 1; i <= 4; i++) {
 				Weather weather = new Weather();
 				JSONObject cityObj = data.getJSONObject("city"); 
 				weather.setCity(cityObj.getString("name"));

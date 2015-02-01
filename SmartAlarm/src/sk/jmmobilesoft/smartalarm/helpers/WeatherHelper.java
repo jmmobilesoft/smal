@@ -5,7 +5,7 @@ import android.content.Context;
 public class WeatherHelper {
 
 	public static String getTemperature(Context context, float temperature) {
-		String units = GlobalHelper.getPreference(context, "measurements", "M");
+		String units = GlobalHelper.getStringPreference(context, "measurements", "M");
 		if (units.equals("M")) {
 			return Helper.kelvinToCelsius(temperature) + "°" + "C";
 		}
@@ -16,7 +16,7 @@ public class WeatherHelper {
 	}
 	
 	public static String getWindSpeed(Context context, float speed){
-		String units = GlobalHelper.getPreference(context, "measurements", "M");
+		String units = GlobalHelper.getStringPreference(context, "measurements", "M");
 		if (units.equals("M")) {
 			return speed + " m/s";
 		}

@@ -106,7 +106,7 @@ public class WeatherFragment extends Fragment {
 								weather.getCityName()).getId());
 						db.updateWeatherForecast(weather);
 					}
-					List<Weather> weather2 = service.downloadWeather(cities);
+					List<Weather> weather2 = service.downloadWeather(getActivity(), cities);
 					if (weathers != null) {
 						db.deleteWeatherByCity(cityS);
 						for (Weather w2 : weather2) {

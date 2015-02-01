@@ -14,6 +14,19 @@ public class NetworkService {
 	public NetworkService() {
 	}
 
+	public boolean wifiAllowed(Context context) {
+		WifiManager wManager = (WifiManager) context
+				.getSystemService(Context.WIFI_SERVICE);
+		return wManager.isWifiEnabled();
+	}
+
+	public boolean mobileAllowed(Context context) {
+		ConnectivityManager dataManager = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		//TODO mobile on
+		return false;
+	}
+
 	public void turnWifiOn(Context context) {
 		WifiManager wManager = (WifiManager) context
 				.getSystemService(Context.WIFI_SERVICE);
@@ -69,8 +82,8 @@ public class NetworkService {
 			networkInfo = connectivityManager.getActiveNetworkInfo();
 		}
 
-		Logger.appInfo("isConnected: " + networkInfo == null? networkInfo.toString() : "networkinfo null");
-		return networkInfo != null
-				&& networkInfo.isConnected();
+		Logger.appInfo("isConnected: " + networkInfo == null ? networkInfo
+				.toString() : "networkinfo null");
+		return networkInfo != null && networkInfo.isConnected();
 	}
 }

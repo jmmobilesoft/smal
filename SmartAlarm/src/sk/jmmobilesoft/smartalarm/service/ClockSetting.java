@@ -49,7 +49,7 @@ public class ClockSetting {
 			aManager.setExact(AlarmManager.RTC_WAKEUP,
 					calendar.getTimeInMillis(), pIntent);
 			Calendar weatherC = Calendar.getInstance();
-			weatherC.setTimeInMillis(calendar.getTimeInMillis() - 600000);
+			weatherC.setTimeInMillis(calendar.getTimeInMillis() - 570000);
 			Logger.setInfo("Setting clock: " + c + " - ACTIVE \nfor:"
 					+ calendar.getTime());
 			if ((weatherC.getTimeInMillis() - 60000) > Helper.getCurrentTime()

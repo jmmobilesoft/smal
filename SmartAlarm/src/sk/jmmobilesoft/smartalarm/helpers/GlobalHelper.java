@@ -108,9 +108,15 @@ public class GlobalHelper {
 		}
 	}
 	
-	public static String getPreference(Context context, String key, String defaultV){
+	public static String getStringPreference(Context context, String key, String defaultV){
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 		String value = sharedPref.getString(key, defaultV);
+		return value;
+	}
+	
+	public static Boolean getBooleanPreference(Context context, String key, boolean defaultV){
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+		Boolean value = sharedPref.getBoolean(key, defaultV);
 		return value;
 	}
 }

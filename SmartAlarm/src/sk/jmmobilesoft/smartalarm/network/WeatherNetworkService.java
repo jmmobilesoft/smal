@@ -4,8 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
+import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Weather;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
@@ -39,7 +44,7 @@ public class WeatherNetworkService {
 				}
 			}
 		}
-		List<Weather> weather = service.downloadWeather(cityList);
+		List<Weather> weather = service.downloadWeather(mContext, cityList);
 		if (weathers != null) {
 			db.deleteAllWeather();
 			for (Weather w : weather) {
@@ -96,7 +101,7 @@ public class WeatherNetworkService {
 		return list;
 	}
 	
-	public List<Weather> downloadWeather(List<String> cityList) {
+	public List<Weather> downloadWeather(Context context, List<String> cityList) {
 		WeatherHttpClient client = new WeatherHttpClient();
 		WeatherJsonParser parser = new WeatherJsonParser();
 		List<Weather> list = new ArrayList<Weather>();
@@ -112,7 +117,10 @@ public class WeatherNetworkService {
 				return null;
 			}
 		}
-
+		SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(context);
+		Editor e = s.edit();
+		e.putLong("update", Helper.getCurrentTime().getTimeInMillis());
+		e.commit();
 		return list;
 	}
 
