@@ -45,6 +45,9 @@ public class WeatherRefreshService extends Service {
 		if(cU.getTimeInMillis() != 0 && cU.before(cC)){
 			new Connect(getApplicationContext()).execute();
 		}
+		else{
+			Logger.serviceInfo("Last refresh:" + cU.getTime() + " refresh stopped");
+		}
 		return super.onStartCommand(intent, flags, startId);
 	}
 
