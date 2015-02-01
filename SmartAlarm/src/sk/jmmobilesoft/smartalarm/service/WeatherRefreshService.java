@@ -37,16 +37,21 @@ public class WeatherRefreshService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Logger.serviceInfo("WeatherRefreshService: onStartCommand");
 		network = new NetworkService();
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		SharedPreferences sp = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
 		Calendar cU = Calendar.getInstance();
 		cU.setTimeInMillis(sp.getLong("update", 0l));
 		Calendar cC = Calendar.getInstance();
 		cC.add(Calendar.HOUR_OF_DAY, 1);
-		if(cU.getTimeInMillis() != 0 && cU.before(cC)){
+		if (cU.getTimeInMillis() != 0 && cU.before(cC)) {
 			new Connect(getApplicationContext()).execute();
+		} else {
+			Logger.serviceInfo("Last refresh:" + cU.getTime()
+					+ " refresh stopped");
 		}
-		else{
-			Logger.serviceInfo("Last refresh:" + cU.getTime() + " refresh stopped");
+		if (cU.getTimeInMillis() == 0) {
+			Logger.serviceInfo("Error reading preferences value 0.... refreshing");
+			new Connect(getApplicationContext()).execute();
 		}
 		return super.onStartCommand(intent, flags, startId);
 	}
@@ -148,7 +153,8 @@ public class WeatherRefreshService extends Service {
 						}
 					}
 				}
-				List<Weather> weather = service.downloadWeather(mContext, cityList);
+				List<Weather> weather = service.downloadWeather(mContext,
+						cityList);
 				if (weathers != null) {
 					db.deleteAllWeather();
 					for (Weather w : weather) {
