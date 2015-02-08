@@ -1,12 +1,15 @@
 package sk.jmmobilesoft.smartalarm;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.helpers.ClockHelper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
+import sk.jmmobilesoft.smartalarm.model.ClockComparator;
 import sk.jmmobilesoft.smartalarm.model.ClockRemoveAdapter;
 import sk.jmmobilesoft.smartalarm.service.ClockSetting;
 import android.app.Activity;
@@ -41,6 +44,8 @@ public class ClockRemoveActivity extends Activity {
 		ClockRemoveAdapter adapter = new ClockRemoveAdapter(this, clockList,
 				getIntent().getExtras());
 		ListView list = (ListView) findViewById(R.id.clock_remove_listview);
+		Collections.sort(clockList, new ClockComparator());
+		adapter.notifyDataSetChanged();
 		list.setAdapter(adapter);
 		initButtons(adapter, db);
 	}
