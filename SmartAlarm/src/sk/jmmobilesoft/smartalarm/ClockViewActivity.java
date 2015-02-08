@@ -1,6 +1,7 @@
 package sk.jmmobilesoft.smartalarm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -95,9 +96,9 @@ public class ClockViewActivity extends Activity {
 			Bundle b = intent.getBundleExtra("result");
 			List<String> cities = new ArrayList<>();
 			DBHelper db = new DBHelper(getApplicationContext());
-			List<Integer> ids = b.getIntegerArrayList("weathers");			
+			List<Integer> ids = b.getIntegerArrayList("weathers");
 			for (int i = 0; i < ids.size(); i++) {
-					cities.add(db.getWeatherForecast(ids.get(i)).getCityName());
+				cities.add(db.getWeatherForecast(ids.get(i)).getCityName());
 			}
 			this.cities = cities;
 			weatherCities.setText(cities.toString().replace("[", "")
@@ -140,7 +141,8 @@ public class ClockViewActivity extends Activity {
 		setVibrateContainer(vibrate, c);
 		setVolumeContainer(volumeBar);
 		setWeatherContainer(c);
-		setControlButtons(c, db, name, hours, minutes, vibrate, volumeBar, snooze);
+		setControlButtons(c, db, name, hours, minutes, vibrate, volumeBar,
+				snooze);
 	}
 
 	private void setNumberPickers(NumberPicker hours, NumberPicker minutes) {
@@ -151,7 +153,8 @@ public class ClockViewActivity extends Activity {
 		minutes.setFormatter(GlobalHelper.getNumberPickFormater());
 		hours.setFormatter(GlobalHelper.getNumberPickFormater());
 		GlobalHelper.setNumberPickerTextColor(hours, Color.rgb(247, 245, 245));
-		GlobalHelper.setNumberPickerTextColor(minutes, Color.rgb(247, 245, 245));
+		GlobalHelper
+				.setNumberPickerTextColor(minutes, Color.rgb(247, 245, 245));
 	}
 
 	private void setComponentsNewClock(Clock c, NumberPicker hours,
@@ -221,15 +224,16 @@ public class ClockViewActivity extends Activity {
 
 	private void setControlButtons(final Clock c, final DBHelper db,
 			final EditText name, final NumberPicker hours,
-			final NumberPicker minutes, final CheckBox vibrate, final SeekBar volumeBar,
-			final TextView snooze) {
+			final NumberPicker minutes, final CheckBox vibrate,
+			final SeekBar volumeBar, final TextView snooze) {
 		setSaveButton(c, hours, minutes, name, vibrate, volumeBar, snooze, db);
 		setDeleteButton(c, db);
 	}
 
 	private void setSaveButton(final Clock c, final NumberPicker hours,
-			final NumberPicker minutes, final EditText name, final CheckBox vibrate,
-			final SeekBar volumeBar, final TextView snooze, final DBHelper db) {
+			final NumberPicker minutes, final EditText name,
+			final CheckBox vibrate, final SeekBar volumeBar,
+			final TextView snooze, final DBHelper db) {
 		Button save = (Button) findViewById(R.id.clock_view_activity_save);
 		save.setOnClickListener(new OnClickListener() {
 
@@ -241,20 +245,29 @@ public class ClockViewActivity extends Activity {
 				c.setActive(true);
 				c.setSound(sound);
 				c.setVibrate(vibrate.isChecked());
-				c.setVolume(GlobalHelper.determineVolume(volumeBar.getProgress()));
+				c.setVolume(GlobalHelper.determineVolume(volumeBar
+						.getProgress()));
 				c.setRepeat(getRepeats());
 				c.setSnoozeTime(Integer.valueOf(snooze.getText().toString()));
 				c.setCities(cities);
-				if (c.getId() == -1) {
-					c.setId(db.createClock(c));
+				Clock dbClock;
+				if ((dbClock = db.getClockByTime(hours.getValue(),
+						minutes.getValue())) == null
+						|| !ClockHelper.compareRepeats(dbClock, c)) {
+					if (c.getId() == -1) {
+						c.setId(db.createClock(c));
+					} else {
+						db.updateClock(c);
+					}
+					Logger.setInfo("Setting clock:" + c);
+					boolean t = ClockSetting.setClock(getApplicationContext(),
+							c.getId());
+					if (t) {
+						Helper.showToast(c, getApplicationContext());
+					}
 				} else {
-					db.updateClock(c);
-				}
-				Logger.setInfo("Setting clock:" + c);
-				boolean t = ClockSetting.setClock(getApplicationContext(),
-						c.getId());
-				if (t) {
-					Helper.showToast(c, getApplicationContext());
+					Helper.createToast(getApplicationContext(),
+							"Alarm for this time already exist!");
 				}
 				GlobalHelper.stopMediaPlayer(mAudioManager, originalVolume, mp);
 				setResult(10);
@@ -319,19 +332,19 @@ public class ClockViewActivity extends Activity {
 		});
 	}
 
-	private void setVibrateContainer(final CheckBox vibrate, Clock c){
+	private void setVibrateContainer(final CheckBox vibrate, Clock c) {
 		vibrate.setChecked(c.isVibrate());
 		RelativeLayout layout = (RelativeLayout) findViewById(R.id.clock_view_activity_vibrator_container);
 		layout.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				vibrate.setChecked(!vibrate.isChecked());
-				
+
 			}
 		});
 	}
-	
+
 	private void setVolumeContainer(SeekBar volumeBar) {
 		volumeBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
@@ -355,7 +368,8 @@ public class ClockViewActivity extends Activity {
 						0);
 				mp = MediaPlayer.create(getApplicationContext(), sound);
 				mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-				float volume = GlobalHelper.determineVolume(seekBar.getProgress());
+				float volume = GlobalHelper.determineVolume(seekBar
+						.getProgress());
 				mp.setVolume(volume, volume);
 				mp.start();
 			}

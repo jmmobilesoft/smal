@@ -60,6 +60,10 @@ public class DBHelper extends SQLiteOpenHelper {
 	public Clock getClock(long id) {
 		return clockDAO.getClock(getReadableDatabase(), id);
 	}
+	
+	public Clock getClockByTime(int hour, int minutes){
+		return clockDAO.getClockByTime(getReadableDatabase(), hour, minutes);
+	}
 
 	public List<Clock> getClocks() {
 		return clockDAO.getClocks(getReadableDatabase());

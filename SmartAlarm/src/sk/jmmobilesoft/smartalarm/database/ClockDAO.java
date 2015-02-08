@@ -73,6 +73,22 @@ public class ClockDAO {
 		return null;
 	}
 
+	public Clock getClockByTime(SQLiteDatabase db, int hour, int minutes) {
+		String select = "SELECT * FROM " + ClockModel.TABLE_NAME + " WHERE "
+				+ ClockModel.COLUMN_NAME_CLOCK_TIME_HOUR + " = " + hour
+				+ " AND " + ClockModel.COLUMN_NAME_CLOCK_TIME_MINUTE + " = "
+				+ minutes;
+		
+		Cursor c = db.rawQuery(select, null);
+
+		if (c.moveToNext()) {
+			db.close();
+			return populateClockModel(c);
+		}
+		db.close();
+		return null;
+	}
+
 	public List<Clock> getClocks(SQLiteDatabase db) {
 		String select = "SELECT * FROM " + ClockModel.TABLE_NAME;
 		Cursor c = db.rawQuery(select, null);
