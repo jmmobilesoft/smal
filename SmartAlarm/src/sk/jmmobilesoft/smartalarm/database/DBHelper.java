@@ -52,7 +52,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public long updateClock(Clock clock) {
 		return clockDAO.updateClock(getWritableDatabase(), clock);
 	}
-	
+
 	public int deleteClock(long id) {
 		return clockDAO.deleteClock(getWritableDatabase(), id);
 	}
@@ -60,8 +60,8 @@ public class DBHelper extends SQLiteOpenHelper {
 	public Clock getClock(long id) {
 		return clockDAO.getClock(getReadableDatabase(), id);
 	}
-	
-	public Clock getClockByTime(int hour, int minutes){
+
+	public Clock getClockByTime(int hour, int minutes) {
 		return clockDAO.getClockByTime(getReadableDatabase(), hour, minutes);
 	}
 
@@ -80,14 +80,19 @@ public class DBHelper extends SQLiteOpenHelper {
 	public int deleteTimer(long id) {
 		return timerDAO.deleteTimer(getWritableDatabase(), id);
 	}
-	
+
 	public Timer getTimer(long id) {
 		return timerDAO.getTimer(getReadableDatabase(), id);
 	}
 
+	public Timer getTimerByTime(int hours, int minutes, int seconds) {
+		return timerDAO.getTimerByTime(getReadableDatabase(), hours, minutes,
+				seconds);
+	}
+
 	public List<Timer> getTimers() {
 		return timerDAO.getTimers(getReadableDatabase());
-	}	
+	}
 
 	public long createWeatherForecast(WeatherForecast weather) {
 		return weatherForecastDAO.createWeatherForecast(getWritableDatabase(),
@@ -132,8 +137,8 @@ public class DBHelper extends SQLiteOpenHelper {
 	public void deleteAllWeather() {
 		weatherDAO.deleteAll(getWritableDatabase());
 	}
-	
-	public void deleteWeatherByCity(String city){
+
+	public void deleteWeatherByCity(String city) {
 		weatherDAO.deleteWeatherByCity(getWritableDatabase(), city);
 	}
 
@@ -145,7 +150,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		return weatherDAO.getWeather(getReadableDatabase());
 	}
 
-	//TODO id namiesto city
+	// TODO id namiesto city
 	public Weather getWeatherByCityDate(String city, String date) {
 		return weatherDAO.getWeatherByCityDate(getReadableDatabase(), city,
 				date);

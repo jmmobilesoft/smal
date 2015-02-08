@@ -71,6 +71,22 @@ public class TimerDAO {
 		return null;
 	}
 
+	public Timer getTimerByTime(SQLiteDatabase db, int hours, int minutes,
+			int seconds) {
+		String select = "SELECT * FROM " + TimerModel.TABLE_NAME + " WHERE "
+				+ TimerModel.COLUMN_NAME_TIMER_TIME_HOUR + " = " + hours + " AND "
+				+ TimerModel.COLUMN_NAME_TIMER_TIME_MINUTE + " = " + minutes + " AND "
+				+ TimerModel.COLUMN_NAME_TIMER_TIME_SECOND + " = " + seconds;
+
+		Cursor c = db.rawQuery(select, null);
+
+		if (c.moveToNext()) {
+			db.close(); // TODO think about
+			return populateTimerModel(c);
+		}
+		return null;
+	}
+
 	public List<Timer> getTimers(SQLiteDatabase db) {
 		String select = "SELECT * FROM " + TimerModel.TABLE_NAME;
 		Cursor c = db.rawQuery(select, null);

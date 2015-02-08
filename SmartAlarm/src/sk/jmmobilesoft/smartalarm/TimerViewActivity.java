@@ -1,6 +1,7 @@
 package sk.jmmobilesoft.smartalarm;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
+import sk.jmmobilesoft.smartalarm.database.TimerDAO;
 import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
@@ -60,7 +61,7 @@ public class TimerViewActivity extends Activity {
 		SeekBar volumeBar = (SeekBar) findViewById(R.id.timer_view_activity_volume_picker);
 
 		setNumberPickers(hours, minutes, seconds);
-		
+
 		long id = getIntent().getExtras().getLong("id");
 		volumeBar.setProgress(0);
 		Timer t;
@@ -155,12 +156,18 @@ public class TimerViewActivity extends Activity {
 				t.setVolume(GlobalHelper.determineVolume(volumeBar
 						.getProgress()));
 				t.setActive(true);
-				if (t.getId() == -1) {
-					t.setId(db.createTimer(t));
+				if (db.getTimerByTime(hours.getValue(), minutes.getValue(),
+						seconds.getValue()) == null) {
+					if (t.getId() == -1) {
+						t.setId(db.createTimer(t));
+					} else {
+						db.updateTimer(t);
+					}
+					TimerSetting.setTimer(getApplicationContext(), t.getId());
 				} else {
-					db.updateTimer(t);
+					Helper.createToast(getApplicationContext(),
+							"Timer for this duration already exist!");
 				}
-				TimerSetting.setTimer(getApplicationContext(), t.getId());
 				GlobalHelper.stopMediaPlayer(mAudioManager, originalVolume, mp);
 				setResult(11);
 				Logger.serviceInfo("TimerViewActivity.class: finishing - save");
