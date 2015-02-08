@@ -12,7 +12,7 @@ public class WeatherHttpClient {
 	
 	private static String LONG_URL1 = "http://api.openweathermap.org/data/2.5/forecast/daily?q=";
 
-	private static String LONG_URL2 = "&mode=json&units=metric&cnt=4";
+	private static String LONG_URL2 = "&mode=json&units=metric&cnt=5";
 	
 	private static String result;
 	

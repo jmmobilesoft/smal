@@ -42,12 +42,15 @@ public class WeatherRefreshService extends Service {
 		Calendar cU = Calendar.getInstance();
 		cU.setTimeInMillis(sp.getLong("update", 0l));
 		Calendar cC = Calendar.getInstance();
-		cC.add(Calendar.HOUR_OF_DAY, 1);
+		cU.add(Calendar.HOUR_OF_DAY, 1);
+		Logger.serviceInfo("cU:" + cU.getTime() + "\n\n\n cC:" + cC.getTime());
 		if (cU.getTimeInMillis() != 0 && cU.before(cC)) {
+			Logger.serviceInfo("Normal refresh");
 			new Connect(getApplicationContext()).execute();
 		} else {
 			Logger.serviceInfo("Last refresh:" + cU.getTime()
 					+ " refresh stopped");
+			stopSelf();
 		}
 		if (cU.getTimeInMillis() == 0) {
 			Logger.serviceInfo("Error reading preferences value 0.... refreshing");

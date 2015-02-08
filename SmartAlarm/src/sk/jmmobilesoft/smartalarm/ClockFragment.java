@@ -1,11 +1,13 @@
 package sk.jmmobilesoft.smartalarm;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import sk.jmmobilesoft.smartalarm.model.ClockAdapter;
+import sk.jmmobilesoft.smartalarm.model.ClockComparator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -53,6 +55,8 @@ public class ClockFragment extends Fragment {
 		}
 		ClockAdapter adapter = new ClockAdapter(this, clockList,
 				this.getArguments());
+		Collections.sort(clockList, new ClockComparator());
+		adapter.notifyDataSetChanged();
 		list.setAdapter(adapter);
 	}
 }

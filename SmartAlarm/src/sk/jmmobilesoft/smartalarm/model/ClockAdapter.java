@@ -1,6 +1,7 @@
 package sk.jmmobilesoft.smartalarm.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.ClockViewActivity;
@@ -16,11 +17,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-public class ClockAdapter extends BaseAdapter {
+public class ClockAdapter extends ArrayAdapter<Clock> {
 
 	private List<Clock> clocks;
 	private Fragment context;
@@ -28,7 +30,7 @@ public class ClockAdapter extends BaseAdapter {
 	private DBHelper db;
 
 	public ClockAdapter(Fragment context, List<Clock> clocks, Bundle state) {
-		super();
+		super(context.getActivity(), 0, clocks);
 		this.context = context;
 		this.clocks = clocks;
 		this.savedInstanceState = state;
@@ -41,7 +43,7 @@ public class ClockAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public Clock getItem(int position) {
 		return clocks.get(position);
 	}
 
@@ -93,8 +95,9 @@ public class ClockAdapter extends BaseAdapter {
 				Clock clock = (Clock) getItem(position);
 				clock.setActive(active.isChecked());
 				db.updateClock(clock);
-				boolean t = ClockSetting.setClock(context.getActivity(), clock.getId());
-				if(t){
+				boolean t = ClockSetting.setClock(context.getActivity(),
+						clock.getId());
+				if (t) {
 					Helper.showToast(clock, context.getActivity());
 				}
 			}

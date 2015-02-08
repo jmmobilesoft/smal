@@ -71,7 +71,7 @@ public class ClockRemoveAdapter extends BaseAdapter{
 	
 	private void setView(View convertView,final int position){
 		Clock clock = clocks.get(position);
-
+		//TODO ERROR
 		TextView clockText = (TextView) convertView
 				.findViewById(R.id.clock_remove_item_time);
 		clockText.setText(Helper.format(clock.getHour()) + ":"
