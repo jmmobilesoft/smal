@@ -3,7 +3,6 @@ package sk.jmmobilesoft.smartalarm.model;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.R;
-import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.helpers.WeatherHelper;
 import android.app.Activity;
 import android.os.Bundle;
@@ -13,17 +12,15 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
-public class WeatherSelectAdapter extends BaseAdapter {
+public class WeatherRemoveAdapter extends BaseAdapter {
 
 	private List<WeatherForecast> weathers;
 	private Activity context;
 	private boolean[] checkboxes;
 
-	public WeatherSelectAdapter(Activity context,
+	public WeatherRemoveAdapter(Activity context,
 			List<WeatherForecast> weathers, Bundle state) {
 		super();
 		this.context = context;
@@ -51,20 +48,20 @@ public class WeatherSelectAdapter extends BaseAdapter {
 		final LayoutInflater inflater = context.getLayoutInflater();
 		if (convertView == null) {
 			convertView = inflater.inflate(
-					R.layout.weather_select_adapter_item, null);
+					R.layout.weather_remove_adapter_item, null);
 		}
 		WeatherForecast weather = weathers.get(position);
 
 		TextView city = (TextView) convertView
-				.findViewById(R.id.weather_select_item_city);
+				.findViewById(R.id.weather_remove_item_city);
 		TextView temp = (TextView) convertView
-				.findViewById(R.id.weather_select_item_temp);
+				.findViewById(R.id.weather_remove_item_temp);
 		TextView description = (TextView) convertView
-				.findViewById(R.id.weather_select_item_description);
+				.findViewById(R.id.weather_remove_item_description);
 		TextView maxMinTemp = (TextView) convertView
-				.findViewById(R.id.weather_select_item_maxmintemp);
-		final CheckBox selector = (CheckBox) convertView
-				.findViewById(R.id.weathe_select_item_selector);
+				.findViewById(R.id.weather_remove_item_maxmintemp);
+		final CheckBox delete = (CheckBox) convertView
+				.findViewById(R.id.weather_remove_item_delete);
 
 		city.setText(weather.getCityName());
 		temp.setText(WeatherHelper.getTemperature(context,
@@ -74,21 +71,21 @@ public class WeatherSelectAdapter extends BaseAdapter {
 				weather.getTempMin())
 				+ "/"
 				+ WeatherHelper.getTemperature(context, weather.getTempMax()));
-		selector.setChecked(checkboxes[position]);
+		delete.setChecked(checkboxes[position]);
 		convertView.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				selector.setChecked(!selector.isChecked());
-				checkboxes[position] = selector.isChecked();
+				delete.setChecked(!delete.isChecked());
+				checkboxes[position] = delete.isChecked();
 			}
 		});
 
 		return convertView;
 	}
-
+	
 	public boolean[] getCheckboxes() {
 		return checkboxes;
 	}
-
+	
 }

@@ -7,6 +7,7 @@ import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
+import sk.jmmobilesoft.smartalarm.model.WeatherRemoveAdapter;
 import sk.jmmobilesoft.smartalarm.model.WeatherSelectAdapter;
 import android.app.Activity;
 import android.os.Bundle;
@@ -37,13 +38,13 @@ public class WeatherRemoveActivity extends Activity {
 		if (weatherList == null) {
 			weatherList = new ArrayList<WeatherForecast>();
 		}
-		WeatherSelectAdapter adapter = new WeatherSelectAdapter(this,
+		WeatherRemoveAdapter adapter = new WeatherRemoveAdapter(this,
 				weatherList, savedInstanceState);
 		list.setAdapter(adapter);
 		initComponents(adapter);
 	}
 
-	private void initComponents(final WeatherSelectAdapter adapter) {
+	private void initComponents(final WeatherRemoveAdapter adapter) {
 		Button cancel = (Button) findViewById(R.id.weather_select_activity_cancel);
 		cancel.setOnClickListener(new OnClickListener() {
 
