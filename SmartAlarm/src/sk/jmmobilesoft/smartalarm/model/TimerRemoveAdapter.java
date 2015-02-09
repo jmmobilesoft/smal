@@ -76,19 +76,13 @@ public class TimerRemoveAdapter extends BaseAdapter {
 		final TextView end = (TextView) convertView.findViewById(R.id.timer_remove_item_end);
 		
 		TimerHelper.setTimerAdapterLabels(timer, timer.isActive(), start, end);
-		
+		delete.setChecked(checkboxes[position]);
 		convertView.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				delete.setChecked(!delete.isChecked());
-			}
-		});
-		delete.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checkboxes[position] = isChecked;				
+				checkboxes[position] = delete.isChecked();
 			}
 		});
 	}
