@@ -2,7 +2,7 @@ package sk.jmmobilesoft.smartalarm.service;
 
 import java.util.Calendar;
 
-import sk.jmmobilesoft.smartalarm.TimerRingScreen;
+import sk.jmmobilesoft.smartalarm.TimerRingActivity;
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.model.Timer;
@@ -44,7 +44,7 @@ public class TimerSetting {
 	}
 
 	private static PendingIntent createPendingIntent(Context context, Timer t) {
-		Intent intent = new Intent(context, TimerRingScreen.class);
+		Intent intent = new Intent(context, TimerRingActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);

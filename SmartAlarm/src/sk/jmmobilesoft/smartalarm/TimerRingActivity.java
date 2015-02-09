@@ -17,7 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class TimerRingScreen extends Activity {
+public class TimerRingActivity extends Activity {
 
 	private DBHelper db;
 
@@ -34,15 +34,13 @@ public class TimerRingScreen extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Logger.serviceInfo("TimerRingScreen activity started");
-		// Helper.wakeLockOn(this); TODO test
+		Helper.wakeLockOn(this); //TODO test
 
 		final Window window = getWindow();
-		window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED // START
-																			// DISPLAY
-																			// etc
-				| WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-		window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-				| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+		window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+		window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+		window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
 		db = new DBHelper(this);
 		setContentView(R.layout.timer_ring_activity);

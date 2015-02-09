@@ -47,7 +47,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".TimerRingScreen"
+            android:name=".TimerRingActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
