@@ -1,11 +1,13 @@
 package sk.jmmobilesoft.smartalarm;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Timer;
+import sk.jmmobilesoft.smartalarm.model.TimerComparator;
 import sk.jmmobilesoft.smartalarm.model.TimerRemoveAdapter;
 import sk.jmmobilesoft.smartalarm.service.TimerSetting;
 import android.app.Activity;
@@ -40,6 +42,8 @@ public class TimerRemoveActivity extends Activity {
 		TimerRemoveAdapter adapter = new TimerRemoveAdapter(this, timerList,
 				getIntent().getExtras());
 		ListView list = (ListView) findViewById(R.id.timer_remove_listview);
+		Collections.sort(timerList, new TimerComparator());
+		adapter.notifyDataSetChanged();
 		list.setAdapter(adapter);
 		initButtons(adapter, db);
 	}

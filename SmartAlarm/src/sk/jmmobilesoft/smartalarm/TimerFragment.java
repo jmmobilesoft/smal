@@ -1,11 +1,13 @@
 package sk.jmmobilesoft.smartalarm;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.model.Timer;
 import sk.jmmobilesoft.smartalarm.model.TimerAdapter;
+import sk.jmmobilesoft.smartalarm.model.TimerComparator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -39,6 +41,8 @@ public class TimerFragment extends Fragment {
 			timerList = new ArrayList<Timer>();
 		}
 		adapter = new TimerAdapter(this, timerList, savedInstanceState);
+		Collections.sort(timerList, new TimerComparator());
+		adapter.notifyDataSetChanged();
 		list.setAdapter(adapter);
 		return view;
 	}
@@ -50,6 +54,8 @@ public class TimerFragment extends Fragment {
 			timerList = new ArrayList<Timer>();
 		}
 		adapter = new TimerAdapter(this, timerList, bundle);
+		Collections.sort(timerList, new TimerComparator());
+		adapter.notifyDataSetChanged();
 		list.setAdapter(adapter);
 		super.onResume();
 	}
