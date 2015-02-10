@@ -250,10 +250,10 @@ public class ClockViewActivity extends Activity {
 				c.setRepeat(getRepeats());
 				c.setSnoozeTime(Integer.valueOf(snooze.getText().toString()));
 				c.setCities(cities);
-				Clock dbClock;
-				if ((dbClock = db.getClockByTime(hours.getValue(),
-						minutes.getValue())) == null
-						|| !ClockHelper.compareRepeats(dbClock, c)) {
+				Clock dbClock = db.getClockByTime(hours.getValue(),
+						minutes.getValue());
+				long testId = dbClock.getId();
+				if (dbClock == null || (c.getId() == testId && testId != -1)) {
 					if (c.getId() == -1) {
 						c.setId(db.createClock(c));
 					} else {

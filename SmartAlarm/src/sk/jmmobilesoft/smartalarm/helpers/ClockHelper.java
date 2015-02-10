@@ -19,18 +19,6 @@ public class ClockHelper {
 		setAlarmIcon(context, someActive);
 	}
 	
-	public static boolean compareRepeats(Clock c1, Clock c2){
-		if(c1 == null || c2 == null){
-			return false;
-		}
-		for(int i = 0; i < c1.getRepeat().length; i++){
-			if(c1.getRepeat()[i] != c2.getRepeat()[i]){
-				return false;
-			}
-		}
-		return true;
-	}
-	
 	private static void setAlarmIcon(Context context, boolean enabled) {
 		Intent alarmChanged = new Intent("android.intent.action.ALARM_CHANGED");
 		alarmChanged.putExtra("alarmSet", enabled);
