@@ -250,24 +250,16 @@ public class ClockViewActivity extends Activity {
 				c.setRepeat(getRepeats());
 				c.setSnoozeTime(Integer.valueOf(snooze.getText().toString()));
 				c.setCities(cities);
-				Clock dbClock = db.getClockByTime(hours.getValue(),
-						minutes.getValue());
-				long testId = dbClock.getId();
-				if (dbClock == null || (c.getId() == testId && testId != -1)) {
-					if (c.getId() == -1) {
-						c.setId(db.createClock(c));
-					} else {
-						db.updateClock(c);
-					}
-					Logger.setInfo("Setting clock:" + c);
-					boolean t = ClockSetting.setClock(getApplicationContext(),
-							c.getId());
-					if (t) {
-						Helper.showToast(c, getApplicationContext());
-					}
+				if (c.getId() == -1) {
+					c.setId(db.createClock(c));
 				} else {
-					Helper.createToast(getApplicationContext(),
-							"Alarm for this time already exist!");
+					db.updateClock(c);
+				}
+				Logger.setInfo("Setting clock:" + c);
+				boolean t = ClockSetting.setClock(getApplicationContext(),
+						c.getId());
+				if (t) {
+					Helper.showToast(c, getApplicationContext());
 				}
 				GlobalHelper.stopMediaPlayer(mAudioManager, originalVolume, mp);
 				setResult(10);
