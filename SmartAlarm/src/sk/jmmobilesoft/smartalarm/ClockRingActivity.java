@@ -1,6 +1,7 @@
 package sk.jmmobilesoft.smartalarm;
 
 import java.util.Arrays;
+import java.util.Calendar;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.helpers.ClockHelper;
@@ -85,9 +86,9 @@ public class ClockRingActivity extends Activity {
 		setButtons(buttons);
 	}
 
-	private void setSeekBars(final LinearLayout buttons, final Clock c, final DBHelper db,
-			final RelativeLayout weatherLayout, final SeekBar dismiss,
-			final SeekBar snooze) {
+	private void setSeekBars(final LinearLayout buttons, final Clock c,
+			final DBHelper db, final RelativeLayout weatherLayout,
+			final SeekBar dismiss, final SeekBar snooze) {
 		dismiss.setProgress(0);
 		dismiss.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
@@ -155,19 +156,19 @@ public class ClockRingActivity extends Activity {
 		name.setText(c.getName());
 	}
 
-	private void setButtons(LinearLayout buttons){
+	private void setButtons(LinearLayout buttons) {
 		buttons.setVisibility(LinearLayout.INVISIBLE);
 		Button close = (Button) findViewById(R.id.clock_ring_activity_close_button);
 		close.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				finish();				
+				finish();
 			}
 		});
 		Button weather = (Button) findViewById(R.id.clock_ring_activity_show_button);
 		weather.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(getApplication(), MainActivity.class);
@@ -177,7 +178,7 @@ public class ClockRingActivity extends Activity {
 			}
 		});
 	}
-	
+
 	private void setWeatherContainer(Clock c, DBHelper db,
 			RelativeLayout weatherLayout) {
 		RelativeLayout weatherLayout2 = (RelativeLayout) findViewById(R.id.ring_weather_2_container);
@@ -210,7 +211,15 @@ public class ClockRingActivity extends Activity {
 					+ "C");
 			description1.setText(w.getDescription());
 			city1.setText(w.getCityName());
-			update1.setText(w.getUpdateTime());
+			Calendar lastUpdate = ClockHelper.calendarFromString(w
+					.getUpdateTime());
+			lastUpdate.add(Calendar.HOUR_OF_DAY, 1);
+			Logger.serviceInfo(lastUpdate.getTime() + " - " + Calendar.getInstance().getTime());
+			if (lastUpdate.after(Calendar.getInstance())) {
+				update1.setText("last hour");
+			} else {
+				update1.setText(w.getUpdateTime());
+			}
 
 			if (c.getCities().size() == 2) {
 				ImageView iw2 = (ImageView) findViewById(R.id.ring_weather_2_image_view);
