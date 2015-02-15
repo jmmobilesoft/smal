@@ -35,12 +35,7 @@ public class GlobalHelper {
 	}
 	
 	public static float determineVolume(int seekbarStatus) {
-		final float MIN = 0.2f;
-		float volume = (float) (seekbarStatus * 0.01);
-		if (volume < MIN) {
-			return 0.1f;
-		}
-		return volume;
+		return (float) (seekbarStatus * 0.01);
 	}
 
 	public static Formatter getNumberPickFormater() {
