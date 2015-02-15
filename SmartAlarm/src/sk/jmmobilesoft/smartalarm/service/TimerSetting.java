@@ -45,13 +45,10 @@ public class TimerSetting {
 
 	private static PendingIntent createPendingIntent(Context context, Timer t) {
 		Intent intent = new Intent(context, TimerRingActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-		intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 		intent.putExtra("ID", t.getId());
 
-		return PendingIntent.getActivity(context, (int) t.getId(), intent,
-				PendingIntent.FLAG_UPDATE_CURRENT);
+		return PendingIntent.getBroadcast(context, (int) t.getId(), intent,
+				PendingIntent.FLAG_CANCEL_CURRENT);
 
 	}
 

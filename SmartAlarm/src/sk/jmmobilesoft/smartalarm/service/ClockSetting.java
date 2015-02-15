@@ -6,7 +6,6 @@ import java.util.List;
 import sk.jmmobilesoft.smartalarm.ClockRingActivity;
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.helpers.ClockHelper;
-import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
@@ -58,7 +57,8 @@ public class ClockSetting {
 						weatherC.getTimeInMillis(), weather);
 				Logger.serviceInfo("Setting weather refresh for:"
 						+ weatherC.getTime());
-			}else Logger.serviceInfo("Weather refresh not set");
+			} else
+				Logger.serviceInfo("Weather refresh not set");
 			return true;
 		} else {
 			aManager.cancel(pIntent);
@@ -114,13 +114,10 @@ public class ClockSetting {
 	}
 
 	private static PendingIntent createPendingIntent(Context context, Clock c) {
-		Intent intent = new Intent(context, ClockRingActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-		intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+		Intent intent = new Intent(context, ClockBroadcastReciever.class);
 		intent.putExtra("ID", c.getId());
 
-		return PendingIntent.getActivity(context, (int) c.getId(), intent,
+		return PendingIntent.getBroadcast(context, (int) c.getId(), intent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
 	}

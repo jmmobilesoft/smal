@@ -11,6 +11,7 @@ import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Clock;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.service.ClockSetting;
+import sk.jmmobilesoft.smartalarm.service.WeatherRefreshService;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -42,10 +43,14 @@ public class ClockRingActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Logger.serviceInfo("ClockRingActivity: started");
+		if(GlobalHelper.isMyServiceRunning(WeatherRefreshService.class, getApplicationContext())){
+			//TODO get weather service if it's running and end it
+		}
 		GlobalHelper.hideActionBar(this);
 		Helper.wakeLockOn(this); // TODO remove
 		setWindow();
 		setView();
+		Logger.serviceInfo("ClockRingActivity: fully started");
 
 		super.onCreate(savedInstanceState);
 	}
@@ -107,10 +112,10 @@ public class ClockRingActivity extends Activity {
 					}
 					dismiss.setVisibility(View.GONE);
 					snooze.setVisibility(View.GONE);
+					buttons.setVisibility(LinearLayout.VISIBLE);
 				}
 				seekBar.setProgress(0);
 				ClockHelper.determineAlarmIcon(getApplicationContext());
-				buttons.setVisibility(LinearLayout.VISIBLE);
 			}
 
 			@Override
@@ -214,7 +219,8 @@ public class ClockRingActivity extends Activity {
 			Calendar lastUpdate = ClockHelper.calendarFromString(w
 					.getUpdateTime());
 			lastUpdate.add(Calendar.HOUR_OF_DAY, 1);
-			Logger.serviceInfo(lastUpdate.getTime() + " - " + Calendar.getInstance().getTime());
+			Logger.serviceInfo(lastUpdate.getTime() + " - "
+					+ Calendar.getInstance().getTime());
 			if (lastUpdate.after(Calendar.getInstance())) {
 				update1.setText("last hour");
 			} else {
@@ -264,10 +270,10 @@ public class ClockRingActivity extends Activity {
 
 	private void setWindow() {
 		Window window = getWindow();
-		window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-		window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-		window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+		window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+				| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+				| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+				| WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 	}
 
 	private int startMediaPlayer(Clock c) {

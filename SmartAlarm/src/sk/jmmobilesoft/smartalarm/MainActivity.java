@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
+import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.PagerAdapter;
@@ -81,7 +82,7 @@ public class MainActivity extends FragmentActivity implements
 					&& getIntent().getStringExtra("tab").equals("weather")) {
 				mTabHost.setCurrentTabByTag("WeatherFragment");
 			}
-			if (!isMyServiceRunning(ClockRepeatService.class)) {
+			if (!GlobalHelper.isMyServiceRunning(ClockRepeatService.class, this)) {
 				Logger.serviceInfo("ClockRepeatService started");
 				Intent startRepeatingService = new Intent(this,
 						ClockRepeatService.class);
@@ -159,17 +160,6 @@ public class MainActivity extends FragmentActivity implements
 		}
 		int pos = this.mTabHost.getCurrentTab();
 		this.mViewPager.setCurrentItem(pos);
-	}
-
-	private boolean isMyServiceRunning(Class<?> serviceClass) {
-		ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-		for (RunningServiceInfo service : manager
-				.getRunningServices(Integer.MAX_VALUE)) {
-			if (serviceClass.getName().equals(service.service.getClassName())) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	@Override

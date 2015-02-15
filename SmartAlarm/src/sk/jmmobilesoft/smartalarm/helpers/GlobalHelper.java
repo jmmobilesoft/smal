@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -21,6 +23,17 @@ import android.widget.NumberPicker.Formatter;
 
 public class GlobalHelper {
 
+	public static boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
+		ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		for (RunningServiceInfo service : manager
+				.getRunningServices(Integer.MAX_VALUE)) {
+			if (serviceClass.getName().equals(service.service.getClassName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static float determineVolume(int seekbarStatus) {
 		final float MIN = 0.2f;
 		float volume = (float) (seekbarStatus * 0.01);

@@ -5,9 +5,9 @@
 
     <uses-sdk
         android:minSdkVersion="11"
-        android:targetSdkVersion="19" />
+        android:targetSdkVersion="18" />
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />R
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -18,7 +18,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -87,14 +87,25 @@
             android:name="sk.jmmobilesoft.smartalarm.service.WeatherRefreshService"
             android:enabled="true" >
         </service>
-        <service 
+        <service
             android:name="sk.jmmobilesoft.smartalarm.service.WifiConnectService"
-            android:enabled="true">
+            android:enabled="true" >
         </service>
-        <service 
+        <service
             android:name="sk.jmmobilesoft.smartalarm.service.MobileConnectService"
-            android:enabled="true">
+            android:enabled="true" >
         </service>
+
+        <receiver
+            android:name="sk.jmmobilesoft.smartalarm.service.ClockBroadcastReciever"
+            android:enabled="true"
+            android:exported="false" >
+        </receiver>
+        <receiver
+            android:name="sk.jmmobilesoft.smartalarm.service.TimerBroadcastReciever"
+            android:enabled="true"
+            android:exported="false" >
+        </receiver>
     </application>
 
 </manifest>
