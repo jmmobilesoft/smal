@@ -24,7 +24,7 @@ public class ClockRemoveAdapter extends ArrayAdapter<Clock> {
 
 	private List<Clock> clocks;
 	private Activity context;
-	public static boolean[] checkboxes;
+	private static boolean[] checkboxes;
 
 	public ClockRemoveAdapter(Activity context, List<Clock> clocks, Bundle state) {
 		super(context, 0, clocks);
@@ -33,6 +33,10 @@ public class ClockRemoveAdapter extends ArrayAdapter<Clock> {
 		checkboxes = new boolean[getCount()];
 	}
 
+	public boolean[] getCheckboxes(){
+		return checkboxes;
+	}
+	
 	@Override
 	public int getCount() {
 		return clocks.size();

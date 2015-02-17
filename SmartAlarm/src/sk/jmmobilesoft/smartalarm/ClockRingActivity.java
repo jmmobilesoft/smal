@@ -46,10 +46,9 @@ public class ClockRingActivity extends Activity {
 		if(GlobalHelper.isMyServiceRunning(WeatherRefreshService.class, getApplicationContext())){
 			//TODO get weather service if it's running and end it
 		}
-		GlobalHelper.hideActionBar(this);
-		Helper.wakeLockOn(this); // TODO remove
 		setWindow();
 		setView();
+		GlobalHelper.hideActionBar(this);
 		Logger.serviceInfo("ClockRingActivity: fully started");
 
 		super.onCreate(savedInstanceState);

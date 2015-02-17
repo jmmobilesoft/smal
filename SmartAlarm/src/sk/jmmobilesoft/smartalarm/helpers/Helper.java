@@ -28,7 +28,7 @@ public abstract class Helper {
 		PowerManager pm = (PowerManager) context
 				.getSystemService(Context.POWER_SERVICE);
 		if (wl == null)
-			wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
+			wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
 					| PowerManager.ACQUIRE_CAUSES_WAKEUP, "CLOCK_ALARM");
 		wl.acquire();
 	}

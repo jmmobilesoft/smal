@@ -36,32 +36,25 @@ public class WeatherRefreshService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Logger.serviceInfo("WeatherRefreshService: onStartCommand");
-		if (!GlobalHelper.isMyServiceRunning(WeatherRefreshService.class,
-				getApplicationContext())) {
-			network = new NetworkService();
-			SharedPreferences sp = PreferenceManager
-					.getDefaultSharedPreferences(getApplicationContext());
-			Calendar cU = Calendar.getInstance();
-			cU.setTimeInMillis(sp.getLong("update", 0l));
-			Calendar cC = Calendar.getInstance();
-			cU.add(Calendar.HOUR_OF_DAY, 1);
-			Logger.serviceInfo("cU:" + cU.getTime() + "\n\n\n cC:"
-					+ cC.getTime());
-			if (cU.getTimeInMillis() != 0 && cU.before(cC)) {
-				Logger.serviceInfo("Normal refresh");
-				new Connect(getApplicationContext()).execute();
-			} else {
-				Logger.serviceInfo("Last refresh:" + cU.getTime()
-						+ " refresh stopped");
-				stopSelf();
-			}
-			if (cU.getTimeInMillis() == 0) {
-				Logger.serviceInfo("Error reading preferences value 0.... refreshing");
-				new Connect(getApplicationContext()).execute();
-			}
+		network = new NetworkService();
+		SharedPreferences sp = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		Calendar cU = Calendar.getInstance();
+		cU.setTimeInMillis(sp.getLong("update", 0l));
+		Calendar cC = Calendar.getInstance();
+		cU.add(Calendar.HOUR_OF_DAY, 1);
+		Logger.serviceInfo("cU:" + cU.getTime() + "\n\n\n cC:" + cC.getTime());
+		if (cU.getTimeInMillis() != 0 && cU.before(cC)) {
+			Logger.serviceInfo("Normal refresh");
+			new Connect(getApplicationContext()).execute();
 		} else {
-			Logger.serviceInfo("Weather refresh won't start becasuse previous instance is running");
+			Logger.serviceInfo("Last refresh:" + cU.getTime()
+					+ " refresh stopped");
 			stopSelf();
+		}
+		if (cU.getTimeInMillis() == 0) {
+			Logger.serviceInfo("Error reading preferences value 0.... refreshing");
+			new Connect(getApplicationContext()).execute();
 		}
 		return super.onStartCommand(intent, flags, startId);
 	}

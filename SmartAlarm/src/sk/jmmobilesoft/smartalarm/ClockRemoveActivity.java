@@ -1,6 +1,7 @@
 package sk.jmmobilesoft.smartalarm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -64,8 +65,9 @@ public class ClockRemoveActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				System.out.println(Arrays.toString(adapter.getCheckboxes()));
 				for (int i = 0; i < adapter.getCount(); i++) {
-					if (ClockRemoveAdapter.checkboxes[i]) {
+					if (adapter.getCheckboxes()[i]) {
 						ClockSetting.deactivateClock(
 								db.getClock(adapter.getItemId(i)),
 								getApplicationContext());
