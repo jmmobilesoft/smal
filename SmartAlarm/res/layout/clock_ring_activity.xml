@@ -15,8 +15,9 @@
             android:id="@+id/ring_clock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
+            android:text="clock"
             android:textColor="@android:color/background_light"
             android:textSize="50sp" />
 
@@ -24,11 +25,31 @@
             android:id="@+id/ring_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
-            android:layout_toLeftOf="@+id/ring_clock"
+            android:layout_toRightOf="@+id/ring_clock"
+            android:text="name"
             android:textColor="@android:color/background_light"
             android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/ring_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ring_name"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/ring_clock"
+            android:text="date"
+            android:textColor="@android:color/background_light"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/ring_clock"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#0099cc" />
     </RelativeLayout>
 
     <RelativeLayout

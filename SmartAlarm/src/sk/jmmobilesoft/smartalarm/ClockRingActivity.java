@@ -1,7 +1,9 @@
 package sk.jmmobilesoft.smartalarm;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.logging.SimpleFormatter;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
 import sk.jmmobilesoft.smartalarm.helpers.ClockHelper;
@@ -46,8 +48,13 @@ public class ClockRingActivity extends Activity {
 		if(GlobalHelper.isMyServiceRunning(WeatherRefreshService.class, getApplicationContext())){
 			//TODO get weather service if it's running and end it
 		}
+		Logger.serviceInfo("start");
+		Helper.wakeLockOn(this); // TODO remove
+		Logger.serviceInfo("wake lock");
 		setWindow();
+		Logger.serviceInfo("window");
 		setView();
+		Logger.serviceInfo("view");
 		GlobalHelper.hideActionBar(this);
 		Logger.serviceInfo("ClockRingActivity: fully started");
 
@@ -79,12 +86,13 @@ public class ClockRingActivity extends Activity {
 
 		TextView time = (TextView) findViewById(R.id.ring_clock);
 		TextView name = (TextView) findViewById(R.id.ring_name);
+		TextView date = (TextView) findViewById(R.id.ring_date);
 		SeekBar dismiss = (SeekBar) findViewById(R.id.ring_seek_dismiss);
 		SeekBar snooze = (SeekBar) findViewById(R.id.ring_seek_snooze);
 		LinearLayout buttons = (LinearLayout) findViewById(R.id.clock_ring_activity_buttons_supercontainer);
 		RelativeLayout weatherLayout = (RelativeLayout) findViewById(R.id.ring_weather_1_container);
 
-		setTexts(time, name, c);
+		setTexts(time, name, c, date);
 		setWeatherContainer(c, db, weatherLayout);
 		setSeekBars(buttons, c, db, weatherLayout, dismiss, snooze);
 		setButtons(buttons);
@@ -154,10 +162,12 @@ public class ClockRingActivity extends Activity {
 		});
 	}
 
-	private void setTexts(TextView time, TextView name, Clock c) {
+	private void setTexts(TextView time, TextView name, Clock c, TextView date) {
 		time.setText(Helper.format(c.getHour()) + ":"
 				+ Helper.format(c.getMinutes()));
 		name.setText(c.getName());
+		SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+		date.setText(format.format(Helper.getCurrentTime().getTime()));
 	}
 
 	private void setButtons(LinearLayout buttons) {
