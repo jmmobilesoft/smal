@@ -17,8 +17,9 @@ public class ClockBroadcastReciever extends BroadcastReceiver {
 		clock.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		clock.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		clock.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+		clock.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		clock.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		clock.putExtras(intent);
-		
 		context.startActivity(clock);
 	}
 
