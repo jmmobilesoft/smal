@@ -23,7 +23,10 @@ public class NetworkService {
 	public boolean mobileAllowed(Context context) {
 		ConnectivityManager dataManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		//TODO mobile on
+		NetworkInfo netInfo = dataManager.getActiveNetworkInfo();
+		if (netInfo != null && netInfo.isConnected()) {
+			return true;
+		}
 		return false;
 	}
 
