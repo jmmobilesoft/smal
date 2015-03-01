@@ -45,8 +45,9 @@ public class ClockRingActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Logger.serviceInfo("ClockRingActivity: started");
-		if(GlobalHelper.isMyServiceRunning(WeatherRefreshService.class, getApplicationContext())){
-			//TODO get weather service if it's running and end it
+		if (GlobalHelper.isMyServiceRunning(WeatherRefreshService.class,
+				getApplicationContext())) {
+			// TODO get weather service if it's running and end it
 		}
 		Logger.serviceInfo("start");
 		Helper.wakeLockOn(this); // TODO remove
@@ -91,9 +92,10 @@ public class ClockRingActivity extends Activity {
 		SeekBar snooze = (SeekBar) findViewById(R.id.ring_seek_snooze);
 		LinearLayout buttons = (LinearLayout) findViewById(R.id.clock_ring_activity_buttons_supercontainer);
 		RelativeLayout weatherLayout = (RelativeLayout) findViewById(R.id.ring_weather_1_container);
+		ImageView icon = (ImageView) findViewById(R.id.clock_ring_activity_image_view);
 
 		setTexts(time, name, c, date);
-		setWeatherContainer(c, db, weatherLayout);
+		setWeatherContainer(c, db, weatherLayout, icon);
 		setSeekBars(buttons, c, db, weatherLayout, dismiss, snooze);
 		setButtons(buttons);
 	}
@@ -194,9 +196,13 @@ public class ClockRingActivity extends Activity {
 	}
 
 	private void setWeatherContainer(Clock c, DBHelper db,
-			RelativeLayout weatherLayout) {
+			RelativeLayout weatherLayout, ImageView icon) {
 		RelativeLayout weatherLayout2 = (RelativeLayout) findViewById(R.id.ring_weather_2_container);
+		int resourceIdWeather = getResources().getIdentifier(
+				"clock_ring_image", "drawable", this.getPackageName());
+		icon.setImageDrawable(getResources().getDrawable(resourceIdWeather));
 		if (!c.getCities().isEmpty()) {
+			icon.setVisibility(View.GONE);
 			ImageView iw = (ImageView) findViewById(R.id.ring_weather_1_image_view);
 			TextView temp1 = (TextView) findViewById(R.id.ring_weather_1_temperature_text);
 			TextView sunset1 = (TextView) findViewById(R.id.ring_weather_1_sunset_text);
@@ -274,6 +280,7 @@ public class ClockRingActivity extends Activity {
 		} else {
 			weatherLayout.setVisibility(View.GONE);
 			weatherLayout2.setVisibility(View.GONE);
+			icon.setVisibility(View.VISIBLE);
 		}
 	}
 

@@ -1,19 +1,43 @@
 package sk.jmmobilesoft.smartalarm;
 
+import sk.jmmobilesoft.smartalarm.log.Logger;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 
+	private static final String AUTOREFRESH_KEY = "automatic_refresh";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setTheme(android.R.style.Theme_Holo);
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.layout.settings_activity);
+		SharedPreferences sp = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		sp.registerOnSharedPreferenceChangeListener(this);
 	}
 
-	
-	
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+			String key) {
+		Logger.serviceInfo("key:" + key);
+		Logger.serviceInfo("equals:" + key.equals(AUTOREFRESH_KEY));
+		if(key.equals(AUTOREFRESH_KEY)){
+			SharedPreferences sp = PreferenceManager
+					.getDefaultSharedPreferences(getApplicationContext());
+			int refreshTime = Integer.valueOf(sp.getString(AUTOREFRESH_KEY, "0"));
+			
+			Logger.serviceInfo("refresh time:" + refreshTime);
+		}
+		
+	}
+    
 	
 	
 //	private String getWeatherString() {

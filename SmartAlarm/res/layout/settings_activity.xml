@@ -26,14 +26,6 @@
         android:title="@string/settings_activity_locale_category" >
         
         <ListPreference
-            android:dialogTitle="Language"
-            android:entries="@array/language"
-            android:entryValues="@array/language_values"
-            android:key="language"
-            android:title="@string/settings_activity_language_title"
-            android:defaultValue="EN" />
-        
-        <ListPreference
             android:dialogTitle="Measurements"
             android:entries="@array/measurements"
             android:entryValues="@array/measurements_values"
@@ -43,6 +35,14 @@
             android:defaultValue="M" />
         
     </PreferenceCategory>
+    
+    <!--        <ListPreference
+            android:dialogTitle="Language"
+            android:entries="@array/language"
+            android:entryValues="@array/language_values"
+            android:key="language"
+            android:title="@string/settings_activity_language_title"
+            android:defaultValue="EN" /> -->
 
 
 </PreferenceScreen>
