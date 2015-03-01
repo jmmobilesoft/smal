@@ -11,7 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/clock_view_activity_buttons_layout"
-        android:isScrollContainer="false">
+        android:isScrollContainer="false" >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -179,9 +179,10 @@
                     android:layout_marginBottom="3dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="3dp"
-                    android:singleLine="true"
                     android:layout_weight="1"
                     android:background="#2F2F2F"
+                    android:maxLength="20"
+                    android:singleLine="true"
                     android:textColor="#F7F5F5" />
             </LinearLayout>
 
@@ -251,7 +252,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-            
+
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
@@ -272,9 +273,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="14dp"
                     android:text="Vibrate"
                     android:textColor="#F7F5F5"
                     android:textSize="13sp" />
@@ -285,7 +286,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginBottom="14dp"/>
+                    android:layout_marginBottom="14dp" />
             </RelativeLayout>
 
             <TextView
@@ -330,10 +331,8 @@
                         android:layout_toLeftOf="@+id/clock_view_activity_snooze_number"
                         android:background="#000000"
                         android:text="-"
-                        android:textSize="20sp"
-                        android:textColor="#0099cc" />
-
-
+                        android:textColor="#0099cc"
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/clock_view_activity_snooze_number"
@@ -352,11 +351,11 @@
                         android:layout_toRightOf="@+id/clock_view_activity_snooze_number"
                         android:background="#000000"
                         android:text="+"
-                        android:textSize="20sp"
-                        android:textColor="#0099cc" />
+                        android:textColor="#0099cc"
+                        android:textSize="20sp" />
                 </RelativeLayout>
             </LinearLayout>
-            
+
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
@@ -364,7 +363,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="#0099cc" />
-            
+
             <LinearLayout
                 android:id="@+id/clock_view_activity_weather_container"
                 android:layout_width="fill_parent"
