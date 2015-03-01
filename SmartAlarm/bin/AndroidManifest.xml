@@ -88,11 +88,7 @@
             android:enabled="true" >
         </service>
         <service
-            android:name="sk.jmmobilesoft.smartalarm.service.WifiConnectService"
-            android:enabled="true" >
-        </service>
-        <service
-            android:name="sk.jmmobilesoft.smartalarm.service.MobileConnectService"
+            android:name="sk.jmmobilesoft.smartalarm.service.WeatherRegularRefreshService"
             android:enabled="true" >
         </service>
 

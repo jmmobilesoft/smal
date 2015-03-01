@@ -1,6 +1,8 @@
 package sk.jmmobilesoft.smartalarm;
 
 import sk.jmmobilesoft.smartalarm.log.Logger;
+import sk.jmmobilesoft.smartalarm.service.WeatherRegularRefreshService;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -32,8 +34,9 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			SharedPreferences sp = PreferenceManager
 					.getDefaultSharedPreferences(getApplicationContext());
 			int refreshTime = Integer.valueOf(sp.getString(AUTOREFRESH_KEY, "0"));
-			
 			Logger.serviceInfo("refresh time:" + refreshTime);
+			Intent service = new Intent(this, WeatherRegularRefreshService.class);
+			startService(service);
 		}
 		
 	}

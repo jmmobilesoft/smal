@@ -1,5 +1,6 @@
 package sk.jmmobilesoft.smartalarm.service;
 
+import sk.jmmobilesoft.smartalarm.log.Logger;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -13,11 +14,17 @@ public class WeatherRegularRefreshService extends Service {
 
 	@Override
 	public IBinder onBind(Intent intent) {
+		return null;
+	}
+
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		Logger.serviceInfo("WeatherRegularRefreshService: onStartCommand");
 		int refreshTime = intent.getIntExtra("refresh_time", 0);
 
 		Intent weather = new Intent(getApplicationContext(),
 				WeatherRefreshService.class);
-		
+
 		getApplicationContext().startService(weather);
 
 		PendingIntent weatherService = PendingIntent.getService(
@@ -28,10 +35,18 @@ public class WeatherRegularRefreshService extends Service {
 
 		AlarmManager alarmMgr = (AlarmManager) getApplicationContext()
 				.getSystemService(Context.ALARM_SERVICE);
-		alarmMgr.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, refreshTime
-				* 60 * 60 * 60 * 1000, weatherService);
-		
+		if (refreshTime != 0) {
+			alarmMgr.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, refreshTime
+					* 60 * 60 * 60 * 1000, weatherService);
+		}
+
 		stopSelf();
-		return null;
+		return super.onStartCommand(intent, flags, startId);
+	}
+
+	@Override
+	public void onDestroy() {
+		Logger.serviceInfo("WeatherRegularRefreshService: onDestroy");
+		super.onDestroy();
 	}
 }
