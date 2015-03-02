@@ -44,7 +44,7 @@ public class TimerSetting {
 	}
 
 	private static PendingIntent createPendingIntent(Context context, Timer t) {
-		Intent intent = new Intent(context, TimerRingActivity.class);
+		Intent intent = new Intent(context, TimerBroadcastReciever.class);
 		intent.putExtra("ID", t.getId());
 
 		return PendingIntent.getBroadcast(context, (int) t.getId(), intent,
