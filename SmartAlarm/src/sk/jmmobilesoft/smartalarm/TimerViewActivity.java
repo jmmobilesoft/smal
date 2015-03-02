@@ -67,7 +67,6 @@ public class TimerViewActivity extends Activity {
 		Timer t;
 		if (id != -1) {
 			t = db.getTimer(id);
-			System.out.println(t);
 			setComponentsOldTimer(name, hours, minutes, seconds, volumeBar, t);
 		} else {
 			t = new Timer();
@@ -156,8 +155,9 @@ public class TimerViewActivity extends Activity {
 				t.setVolume(GlobalHelper.determineVolume(volumeBar
 						.getProgress()));
 				t.setActive(true);
-				if (db.getTimerByTime(hours.getValue(), minutes.getValue(),
-						seconds.getValue()) == null) {
+				Timer dbt;
+				if ((dbt = db.getTimerByTime(hours.getValue(),
+						minutes.getValue(), seconds.getValue())) == null) {
 					if (t.getId() == -1) {
 						t.setId(db.createTimer(t));
 					} else {
@@ -165,8 +165,14 @@ public class TimerViewActivity extends Activity {
 					}
 					TimerSetting.setTimer(getApplicationContext(), t.getId());
 				} else {
-					Helper.createToast(getApplicationContext(),
-							"Timer for this duration already exist!");
+					if (dbt.getId() == t.getId()) {
+						db.updateTimer(t);
+						TimerSetting.setTimer(getApplicationContext(),
+								t.getId());
+					} else {
+						Helper.createToast(getApplicationContext(),
+								"Timer for this duration already exist!");
+					}
 				}
 				GlobalHelper.stopMediaPlayer(mAudioManager, originalVolume, mp);
 				setResult(11);
