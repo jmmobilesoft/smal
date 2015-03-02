@@ -1,5 +1,9 @@
 package sk.jmmobilesoft.smartalarm.service;
 
+import java.util.Calendar;
+
+import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
+import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -21,11 +25,8 @@ public class WeatherRegularRefreshService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Logger.serviceInfo("WeatherRegularRefreshService: onStartCommand");
 		int refreshTime = intent.getIntExtra("refresh_time", 0);
-
-		Intent weather = new Intent(getApplicationContext(),
-				WeatherRefreshService.class);
-
-		getApplicationContext().startService(weather);
+		Calendar weatherSet = Helper.getCurrentTime();
+		weatherSet.add(Calendar.HOUR_OF_DAY, refreshTime);
 
 		PendingIntent weatherService = PendingIntent.getService(
 				getApplicationContext(), (int) 34, new Intent(
@@ -36,9 +37,13 @@ public class WeatherRegularRefreshService extends Service {
 		AlarmManager alarmMgr = (AlarmManager) getApplicationContext()
 				.getSystemService(Context.ALARM_SERVICE);
 		if (refreshTime != 0) {
-			alarmMgr.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, refreshTime
-					* 60 * 60 * 60 * 1000, weatherService);
+			alarmMgr.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+					weatherSet.getTimeInMillis(), weatherService);
 		}
+
+		Intent weather = new Intent(getApplicationContext(),
+				WeatherRefreshService.class);
+		getApplicationContext().startService(weather);
 
 		stopSelf();
 		return super.onStartCommand(intent, flags, startId);
