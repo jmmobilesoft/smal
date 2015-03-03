@@ -165,8 +165,9 @@ public class ClockRingActivity extends Activity {
 	}
 
 	private void setTexts(TextView time, TextView name, Clock c, TextView date) {
-		time.setText(Helper.format(c.getHour()) + ":"
-				+ Helper.format(c.getMinutes()));
+		Calendar current = Helper.getCurrentTime();
+		time.setText(Helper.format(current.get(Calendar.HOUR_OF_DAY)) + ":"
+				+ Helper.format(current.get(Calendar.MINUTE)));
 		name.setText(c.getName());
 		SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 		date.setText(format.format(Helper.getCurrentTime().getTime()));

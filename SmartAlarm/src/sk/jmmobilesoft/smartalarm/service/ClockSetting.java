@@ -83,6 +83,7 @@ public class ClockSetting {
 		// long time = current.getTimeInMillis() + (1000 * 60 *
 		// c.getSnoozeTime());
 		current.add(Calendar.MINUTE, c.getSnoozeTime());
+		current.set(Calendar.SECOND, 0);
 		PendingIntent pIntent = createPendingIntent(context, c);
 		AlarmManager aManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
