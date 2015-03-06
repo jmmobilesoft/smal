@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="sk.jmmobilesoft.smartalarm"
+    android:installLocation="auto"
     android:versionCode="1"
-    android:versionName="1.0" android:installLocation="auto">
+    android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -63,10 +64,6 @@
         <service
             android:name="sk.jmmobilesoft.smartalarm.service.ClockRepeatService"
             android:enabled="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-            </intent-filter>
         </service>
         <service
             android:name="sk.jmmobilesoft.smartalarm.service.WeatherRefreshService"
@@ -77,6 +74,12 @@
             android:enabled="true" >
         </service>
 
+        <receiver android:name="sk.jmmobilesoft.smartalarm.service.AutoStartReciever" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
         <receiver
             android:name="sk.jmmobilesoft.smartalarm.service.ClockBroadcastReciever"
             android:enabled="true"
