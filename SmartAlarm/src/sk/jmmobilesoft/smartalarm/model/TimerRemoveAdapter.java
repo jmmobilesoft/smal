@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.R;
+import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.helpers.TimerHelper;
 import android.app.Activity;
@@ -76,6 +77,7 @@ public class TimerRemoveAdapter extends BaseAdapter {
 		final TextView end = (TextView) convertView.findViewById(R.id.timer_remove_item_end);
 		
 		TimerHelper.setTimerAdapterLabels(timer, timer.isActive(), start, end);
+		GlobalHelper.setCheckboxStyle(delete);
 		delete.setChecked(checkboxes[position]);
 		convertView.setOnClickListener(new OnClickListener() {
 			

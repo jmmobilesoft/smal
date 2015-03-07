@@ -8,6 +8,7 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Paint;
 import android.media.AudioManager;
@@ -17,14 +18,17 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.Formatter;
 
 public class GlobalHelper {
 
-	public static boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
-		ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+	public static boolean isMyServiceRunning(Class<?> serviceClass,
+			Context context) {
+		ActivityManager manager = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
 		for (RunningServiceInfo service : manager
 				.getRunningServices(Integer.MAX_VALUE)) {
 			if (serviceClass.getName().equals(service.service.getClassName())) {
@@ -33,7 +37,7 @@ public class GlobalHelper {
 		}
 		return false;
 	}
-	
+
 	public static float determineVolume(int seekbarStatus) {
 		return (float) (seekbarStatus * 0.01);
 	}
@@ -49,8 +53,8 @@ public class GlobalHelper {
 				return String.valueOf(value);
 			}
 		};
-	}	
-	
+	}
+
 	public static String getSongName(Uri uri, Activity activity) {
 		String[] projection = { MediaStore.Audio.Media.ARTIST,
 				MediaStore.Audio.Media.TITLE };
@@ -115,16 +119,26 @@ public class GlobalHelper {
 			Log.i("INFO", "media player already stopped");
 		}
 	}
-	
-	public static String getStringPreference(Context context, String key, String defaultV){
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+
+	public static String getStringPreference(Context context, String key,
+			String defaultV) {
+		SharedPreferences sharedPref = PreferenceManager
+				.getDefaultSharedPreferences(context);
 		String value = sharedPref.getString(key, defaultV);
 		return value;
 	}
-	
-	public static Boolean getBooleanPreference(Context context, String key, boolean defaultV){
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+
+	public static Boolean getBooleanPreference(Context context, String key,
+			boolean defaultV) {
+		SharedPreferences sharedPref = PreferenceManager
+				.getDefaultSharedPreferences(context);
 		Boolean value = sharedPref.getBoolean(key, defaultV);
 		return value;
+	}
+
+	public static void setCheckboxStyle(CheckBox box) {
+		int id = Resources.getSystem().getIdentifier("btn_check_holo_dark",
+				"drawable", "android");
+		box.setButtonDrawable(id);
 	}
 }

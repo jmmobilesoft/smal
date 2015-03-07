@@ -3,6 +3,7 @@ package sk.jmmobilesoft.smartalarm.model;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.R;
+import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarm.helpers.WeatherHelper;
 import android.app.Activity;
 import android.os.Bundle;
@@ -71,6 +72,7 @@ public class WeatherRemoveAdapter extends BaseAdapter {
 				weather.getTempMin())
 				+ "/"
 				+ WeatherHelper.getTemperature(context, weather.getTempMax()));
+		GlobalHelper.setCheckboxStyle(delete);
 		delete.setChecked(checkboxes[position]);
 		convertView.setOnClickListener(new OnClickListener() {
 

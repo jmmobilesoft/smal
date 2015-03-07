@@ -17,6 +17,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -125,6 +126,7 @@ public class ClockViewActivity extends Activity {
 		soundName = (TextView) findViewById(R.id.clock_view_activity_sound_name);
 		SeekBar volumeBar = (SeekBar) findViewById(R.id.clock_view_activity_volume_picker);
 		setNumberPickers(hours, minutes);
+		GlobalHelper.setCheckboxStyle(vibrate);
 		cities = new ArrayList<String>();
 		long id = getIntent().getExtras().getLong("id");
 		DBHelper db = new DBHelper(getApplicationContext());

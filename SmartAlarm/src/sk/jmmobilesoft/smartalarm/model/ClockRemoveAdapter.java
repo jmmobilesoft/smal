@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.R;
+import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import android.app.Activity;
 import android.graphics.Color;
@@ -110,6 +111,7 @@ public class ClockRemoveAdapter extends ArrayAdapter<Clock> {
 		daysList.add(SU);
 		setMyColor(daysList, clock);
 		name.setText(clock.getName());
+		GlobalHelper.setCheckboxStyle(delete);
 		delete.setChecked(checkboxes[position]);
 		convertView.setOnClickListener(new OnClickListener() {
 
