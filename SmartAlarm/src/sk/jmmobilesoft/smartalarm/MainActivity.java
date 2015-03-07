@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
@@ -11,8 +14,6 @@ import sk.jmmobilesoft.smartalarm.model.PagerAdapter;
 import sk.jmmobilesoft.smartalarm.network.NetworkService;
 import sk.jmmobilesoft.smartalarm.network.WeatherNetworkService;
 import sk.jmmobilesoft.smartalarm.service.ClockRepeatService;
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -82,7 +83,8 @@ public class MainActivity extends FragmentActivity implements
 					&& getIntent().getStringExtra("tab").equals("weather")) {
 				mTabHost.setCurrentTabByTag("WeatherFragment");
 			}
-			if (!GlobalHelper.isMyServiceRunning(ClockRepeatService.class, this)) {
+			if (!GlobalHelper
+					.isMyServiceRunning(ClockRepeatService.class, this)) {
 				Logger.serviceInfo("ClockRepeatService started");
 				Intent startRepeatingService = new Intent(this,
 						ClockRepeatService.class);
@@ -93,6 +95,7 @@ public class MainActivity extends FragmentActivity implements
 			Helper.createToast(this, "Sorry something went wrong");
 			finish();
 		}
+		initAdds();
 	}
 
 	protected void onSaveInstanceState(Bundle outState) {
@@ -265,5 +268,11 @@ public class MainActivity extends FragmentActivity implements
 	public void onPageSelected(int position) {
 		this.mTabHost.setCurrentTab(position);
 
+	}
+
+	private void initAdds() {
+		AdView mAdView = (AdView) findViewById(R.id.main_adView);
+		AdRequest adRequest = new AdRequest.Builder().build();
+		mAdView.loadAd(adRequest);
 	}
 }

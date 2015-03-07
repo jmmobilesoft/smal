@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@android:color/background_dark"
@@ -8,12 +9,12 @@
     <TabHost
         android:id="@android:id/tabhost"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent" >
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <TabWidget
                 android:id="@android:id/tabs"
@@ -27,24 +28,21 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="0" />
-            
+
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                />
-            
+                android:layout_weight="1" />
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/main_adView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                ads:adSize="BANNER"
+                ads:adUnitId="ca-app-pub-7767594923528541/5485396918" >
+            </com.google.android.gms.ads.AdView>
         </LinearLayout>
     </TabHost>
-    <!--  
-    <com.google.ads.AdView
-    xmlns:googleads="http://schemas.android.com/apk/lib/com.google.ads"
-    android:id="@+id/ad"
-    android:layout_gravity="bottom"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    googleads:adSize="IAB_LEADERBOARD"
-    googleads:adUnitId="admob_id" />-->
-
 </LinearLayout>
