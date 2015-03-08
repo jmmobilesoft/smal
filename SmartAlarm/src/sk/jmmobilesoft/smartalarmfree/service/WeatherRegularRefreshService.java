@@ -24,29 +24,33 @@ public class WeatherRegularRefreshService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Logger.serviceInfo("WeatherRegularRefreshService: onStartCommand");
-		int refreshTime = intent.getIntExtra("refresh_time", 0);
+		int refreshTime = Integer.valueOf(GlobalHelper.getStringPreference(
+				getApplicationContext(), "automatic_refresh", "0"));
 		Calendar weatherSet = Helper.getCurrentTime();
 		weatherSet.add(Calendar.HOUR_OF_DAY, refreshTime);
+		System.out.println(weatherSet.getTime());
 
+		System.out.println("TEST REFRESH TIME: " + refreshTime);
 		PendingIntent weatherService = PendingIntent.getService(
 				getApplicationContext(), (int) 34, new Intent(
 						getApplicationContext(),
 						WeatherRegularRefreshService.class),
-				PendingIntent.FLAG_CANCEL_CURRENT);
-
-		AlarmManager alarmMgr = (AlarmManager) getApplicationContext()
-				.getSystemService(Context.ALARM_SERVICE);
-		if (refreshTime != 0) {
-			alarmMgr.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-					weatherSet.getTimeInMillis(), weatherService);
-		}
+				PendingIntent.FLAG_UPDATE_CURRENT);
 
 		Intent weather = new Intent(getApplicationContext(),
 				WeatherRefreshService.class);
 		getApplicationContext().startService(weather);
 
 		stopSelf();
-		return super.onStartCommand(intent, flags, startId);
+
+		AlarmManager alarmMgr = (AlarmManager) getApplicationContext()
+				.getSystemService(Context.ALARM_SERVICE);
+		if (refreshTime != 0) {
+			alarmMgr.setExact(AlarmManager.RTC_WAKEUP,
+					weatherSet.getTimeInMillis(), weatherService);
+		}
+
+		return START_STICKY;
 	}
 
 	@Override
