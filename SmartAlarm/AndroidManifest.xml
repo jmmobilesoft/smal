@@ -31,7 +31,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="sk.jmmobilesoft.smartalarmfree.MainActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden" >
             <intent-filter>
@@ -41,28 +41,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ClockViewActivity"
+            android:name="sk.jmmobilesoft.smartalarmfree.ClockViewActivity"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name=".TimerViewActivity"
+            android:name="sk.jmmobilesoft.smartalarmfree.TimerViewActivity"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:name=".ClockRingActivity" >
+        <activity android:name="sk.jmmobilesoft.smartalarmfree.ClockRingActivity" >
         </activity>
-        <activity android:name=".TimerRingActivity" >
+        <activity android:name="sk.jmmobilesoft.smartalarmfree.TimerRingActivity" >
         </activity>
-        <activity android:name=".ClockRemoveActivity" >
+        <activity android:name="sk.jmmobilesoft.smartalarmfree.ClockRemoveActivity" >
         </activity>
-        <activity android:name=".TimerRemoveActivity" >
+        <activity android:name="sk.jmmobilesoft.smartalarmfree.TimerRemoveActivity" >
         </activity>
-        <activity android:name=".SettingsActivity" >
+        <activity android:name="sk.jmmobilesoft.smartalarmfree.SettingsActivity" >
         </activity>
-        <activity android:name=".WeatherSelectActivity" >
+        <activity android:name="sk.jmmobilesoft.smartalarmfree.WeatherSelectActivity" >
         </activity>
-        <activity android:name=".WeatherRemoveActivity" >
+        <activity android:name="sk.jmmobilesoft.smartalarmfree.WeatherRemoveActivity" >
         </activity>
-        <activity android:name=".WeatherViewActivity" >
+        <activity android:name="sk.jmmobilesoft.smartalarmfree.WeatherViewActivity" >
         </activity>
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
@@ -70,31 +70,31 @@
             android:theme="@android:style/Theme.Translucent" />
 
         <service
-            android:name="sk.jmmobilesoft.smartalarm.service.ClockRepeatService"
+            android:name="sk.jmmobilesoft.smartalarmfree.service.ClockRepeatService"
             android:enabled="true" >
         </service>
         <service
-            android:name="sk.jmmobilesoft.smartalarm.service.WeatherRefreshService"
+            android:name="sk.jmmobilesoft.smartalarmfree.service.WeatherRefreshService"
             android:enabled="true" >
         </service>
         <service
-            android:name="sk.jmmobilesoft.smartalarm.service.WeatherRegularRefreshService"
+            android:name="sk.jmmobilesoft.smartalarmfree.service.WeatherRegularRefreshService"
             android:enabled="true" >
         </service>
 
-        <receiver android:name="sk.jmmobilesoft.smartalarm.service.AutoStartReciever" >
+        <receiver android:name="sk.jmmobilesoft.smartalarmfree.service.AutoStartReciever" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name="sk.jmmobilesoft.smartalarm.service.ClockBroadcastReciever"
+            android:name="sk.jmmobilesoft.smartalarmfree.service.ClockBroadcastReciever"
             android:enabled="true"
             android:exported="false" >
         </receiver>
         <receiver
-            android:name="sk.jmmobilesoft.smartalarm.service.TimerBroadcastReciever"
+            android:name="sk.jmmobilesoft.smartalarmfree.service.TimerBroadcastReciever"
             android:enabled="true"
             android:exported="false" >
         </receiver>
