@@ -3,7 +3,7 @@ package sk.jmmobilesoft.smartalarmfree.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import sk.jmmobilesoft.smartalarm.R;
+import sk.jmmobilesoft.smartalarmfree.R;
 import sk.jmmobilesoft.smartalarmfree.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarmfree.helpers.Helper;
 import sk.jmmobilesoft.smartalarmfree.helpers.TimerHelper;

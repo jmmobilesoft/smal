@@ -7,7 +7,7 @@ import java.util.Vector;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-import sk.jmmobilesoft.smartalarm.R;
+import sk.jmmobilesoft.smartalarmfree.R;
 import sk.jmmobilesoft.smartalarmfree.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarmfree.helpers.Helper;
 import sk.jmmobilesoft.smartalarmfree.log.Logger;

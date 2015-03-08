@@ -2,7 +2,7 @@ package sk.jmmobilesoft.smartalarmfree.model;
 
 import java.util.List;
 
-import sk.jmmobilesoft.smartalarm.R;
+import sk.jmmobilesoft.smartalarmfree.R;
 import sk.jmmobilesoft.smartalarmfree.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarmfree.helpers.WeatherHelper;
 import android.app.Activity;

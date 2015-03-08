@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import sk.jmmobilesoft.smartalarm.R;
+import sk.jmmobilesoft.smartalarmfree.R;
 import sk.jmmobilesoft.smartalarmfree.ClockViewActivity;
 import sk.jmmobilesoft.smartalarmfree.database.DBHelper;
 import sk.jmmobilesoft.smartalarmfree.helpers.Helper;

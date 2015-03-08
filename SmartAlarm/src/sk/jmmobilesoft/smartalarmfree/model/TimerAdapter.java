@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import sk.jmmobilesoft.smartalarm.R;
+import sk.jmmobilesoft.smartalarmfree.R;
 import sk.jmmobilesoft.smartalarmfree.TimerViewActivity;
 import sk.jmmobilesoft.smartalarmfree.database.DBHelper;
 import sk.jmmobilesoft.smartalarmfree.helpers.Helper;

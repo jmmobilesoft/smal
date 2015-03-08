@@ -1,6 +1,6 @@
 package sk.jmmobilesoft.smartalarmfree;
 
-import sk.jmmobilesoft.smartalarm.R;
+import sk.jmmobilesoft.smartalarmfree.R;
 import sk.jmmobilesoft.smartalarmfree.database.DBHelper;
 import sk.jmmobilesoft.smartalarmfree.database.TimerDAO;
 import sk.jmmobilesoft.smartalarmfree.helpers.GlobalHelper;

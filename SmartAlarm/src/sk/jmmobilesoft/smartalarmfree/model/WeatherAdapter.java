@@ -2,7 +2,7 @@ package sk.jmmobilesoft.smartalarmfree.model;
 
 import java.util.List;
 
-import sk.jmmobilesoft.smartalarm.R;
+import sk.jmmobilesoft.smartalarmfree.R;
 import sk.jmmobilesoft.smartalarmfree.WeatherViewActivity;
 import sk.jmmobilesoft.smartalarmfree.database.DBHelper;
 import sk.jmmobilesoft.smartalarmfree.helpers.Helper;

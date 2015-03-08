@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.logging.SimpleFormatter;
 
-import sk.jmmobilesoft.smartalarm.R;
+import sk.jmmobilesoft.smartalarmfree.R;
 import sk.jmmobilesoft.smartalarmfree.database.DBHelper;
 import sk.jmmobilesoft.smartalarmfree.helpers.ClockHelper;
 import sk.jmmobilesoft.smartalarmfree.helpers.GlobalHelper;

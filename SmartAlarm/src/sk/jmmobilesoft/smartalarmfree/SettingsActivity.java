@@ -1,6 +1,6 @@
 package sk.jmmobilesoft.smartalarmfree;
 
-import sk.jmmobilesoft.smartalarm.R;
+import sk.jmmobilesoft.smartalarmfree.R;
 import sk.jmmobilesoft.smartalarmfree.log.Logger;
 import sk.jmmobilesoft.smartalarmfree.service.WeatherRegularRefreshService;
 import android.content.Intent;
