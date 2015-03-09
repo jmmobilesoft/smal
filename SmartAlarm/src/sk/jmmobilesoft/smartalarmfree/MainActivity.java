@@ -47,6 +47,7 @@ public class MainActivity extends FragmentActivity implements
 	private Menu menu;
 	private PagerAdapter mPagerAdapter;
 	private ViewPager mViewPager;
+	private AdView mAdView;
 
 	private class TabInfo {
 		private String tag;
@@ -324,8 +325,22 @@ public class MainActivity extends FragmentActivity implements
 		}
 	}
 
+	@Override
+	protected void onPause() {
+		mAdView.destroy();
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		mAdView = (AdView) findViewById(R.id.main_adView);
+		AdRequest adRequest = new AdRequest.Builder().build();
+		mAdView.loadAd(adRequest);
+		super.onResume();
+	}
+
 	private void initAdds() {
-		AdView mAdView = (AdView) findViewById(R.id.main_adView);
+		mAdView = (AdView) findViewById(R.id.main_adView);
 		AdRequest adRequest = new AdRequest.Builder().build();
 		mAdView.loadAd(adRequest);
 	}
