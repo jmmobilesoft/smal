@@ -15,17 +15,26 @@ import sk.jmmobilesoft.smartalarmfree.model.PagerAdapter;
 import sk.jmmobilesoft.smartalarmfree.network.NetworkService;
 import sk.jmmobilesoft.smartalarmfree.network.WeatherNetworkService;
 import sk.jmmobilesoft.smartalarmfree.service.ClockRepeatService;
+import android.app.ActionBar.LayoutParams;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.TabContentFactory;
 import android.widget.TextView;
@@ -269,6 +278,50 @@ public class MainActivity extends FragmentActivity implements
 	public void onPageSelected(int position) {
 		this.mTabHost.setCurrentTab(position);
 
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (GlobalHelper.showDialog()) {
+			AlertDialog.Builder dialog = new AlertDialog.Builder(this,
+					AlertDialog.THEME_HOLO_DARK);
+			dialog.setIcon(android.R.drawable.ic_dialog_alert);
+			dialog.setTitle("Quitting SmartAlarm").setMessage(
+					"Support developer and get rid of ads.");
+			TextView text = new TextView(this);
+			text.setText("link:  SmartAlarm Pro");
+			text.setTextColor(Color.parseColor("#0099cc"));
+
+			FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					FrameLayout.LayoutParams.WRAP_CONTENT);
+			params.setMargins(0, 10, 0, 50);
+			params.gravity = Gravity.CENTER;
+			text.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(Uri
+							.parse("market://details?id=sk.jmmobilesoft.smartalarm"));
+					startActivity(intent);
+
+				}
+			});
+			dialog.setView(text);
+			dialog.setPositiveButton("Cancel", null).setNegativeButton("Quit",
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							finish();
+						}
+
+					});
+			dialog.show();
+			text.setLayoutParams(params);
+		} else {
+			finish();
+		}
 	}
 
 	private void initAdds() {

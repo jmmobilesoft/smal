@@ -1,6 +1,7 @@
 package sk.jmmobilesoft.smartalarmfree.helpers;
 
 import java.lang.reflect.Field;
+import java.util.Calendar;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -140,5 +141,13 @@ public class GlobalHelper {
 		int id = Resources.getSystem().getIdentifier("btn_check_holo_dark",
 				"drawable", "android");
 		box.setButtonDrawable(id);
+	}
+	
+	public static boolean showDialog(){
+		Calendar current = Helper.getCurrentTime();
+		if(current.get(Calendar.DAY_OF_MONTH) % 10 == 5){
+			return true;
+		}
+		return false;
 	}
 }
