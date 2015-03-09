@@ -390,10 +390,10 @@ public class ClockViewActivity extends Activity {
 	private void getSoundText(TextView soundName) {
 		if (sound == null
 				|| sound.compareTo(Uri
-						.parse("android.resource://sk.jmmobilesoft.smartalarm/"
+						.parse("android.resource://sk.jmmobilesoft.smartalarmfree/"
 								+ R.raw.alarm)) == 0) {
 			soundName.setText("Default");
-			sound = Uri.parse("android.resource://sk.jmmobilesoft.smartalarm/"
+			sound = Uri.parse("android.resource://sk.jmmobilesoft.smartalarmfree/"
 					+ R.raw.alarm);
 		} else {
 			soundName.setText(getSongName(sound));
