@@ -36,6 +36,16 @@
         
     </PreferenceCategory>
     
+    <PreferenceCategory
+        android:key="app_setting"
+        android:title="About">
+        
+        <Preference android:title="Buy a pro version"
+                android:key="button_buy"
+                android:summary="Support developer and buy version without adverts"/>        
+        
+    </PreferenceCategory>
+    
     <!--        <ListPreference
             android:dialogTitle="Language"
             android:entries="@array/language"

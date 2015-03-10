@@ -6,7 +6,9 @@ import sk.jmmobilesoft.smartalarmfree.service.WeatherRegularRefreshService;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -24,6 +26,17 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 		SharedPreferences sp = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
 		sp.registerOnSharedPreferenceChangeListener(this);
+		Preference button = (Preference)findPreference("button_buy");
+		button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+		                @Override
+		                public boolean onPreferenceClick(Preference arg0) { 
+		                	Intent intent = new Intent(Intent.ACTION_VIEW);
+							intent.setData(Uri
+									.parse("market://details?id=sk.jmmobilesoft.smartalarm"));
+							startActivity(intent);
+		                    return true;
+		                }
+		            });
 	}
 
 	@Override
