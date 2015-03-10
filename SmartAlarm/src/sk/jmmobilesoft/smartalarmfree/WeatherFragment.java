@@ -5,6 +5,7 @@ import java.util.List;
 
 import sk.jmmobilesoft.smartalarmfree.R;
 import sk.jmmobilesoft.smartalarmfree.database.DBHelper;
+import sk.jmmobilesoft.smartalarmfree.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarmfree.helpers.Helper;
 import sk.jmmobilesoft.smartalarmfree.log.Logger;
 import sk.jmmobilesoft.smartalarmfree.model.Weather;
@@ -58,7 +59,13 @@ public class WeatherFragment extends Fragment {
 
 				@Override
 				public void onClick(View v) {
-					new Refresh().execute();
+					try {
+						new Refresh().execute();
+					} catch (Exception e) {
+						Logger.logStackTrace(e.getStackTrace());
+						Helper.createToast(getActivity(),
+								"Error ocured, please try again later");
+					}
 				}
 			});
 		} catch (Exception e) {
@@ -107,7 +114,8 @@ public class WeatherFragment extends Fragment {
 								weather.getCityName()).getId());
 						db.updateWeatherForecast(weather);
 					}
-					List<Weather> weather2 = service.downloadWeather(getActivity(), cities);
+					List<Weather> weather2 = service.downloadWeather(
+							getActivity(), cities);
 					if (weathers != null) {
 						db.deleteWeatherByCity(cityS);
 						for (Weather w2 : weather2) {
