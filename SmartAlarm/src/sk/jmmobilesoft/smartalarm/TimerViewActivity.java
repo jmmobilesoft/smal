@@ -274,10 +274,10 @@ public class TimerViewActivity extends Activity {
 		if (sound == null
 				|| sound.compareTo(Uri
 						.parse("android.resource://sk.jmmobilesoft.smartalarm/"
-								+ R.raw.alarm)) == 0) {
+								+ R.raw.timer)) == 0) {
 			soundName.setText("Default");
 			sound = Uri.parse("android.resource://sk.jmmobilesoft.smartalarm/"
-					+ R.raw.alarm);
+					+ R.raw.timer);
 		} else {
 			soundName.setText(GlobalHelper.getSongName(sound, this));
 		}
