@@ -87,6 +87,7 @@ public class WeatherNetworkService {
 		for (String s : cityList) {
 			try {
 				weather = null;
+				s = s.replace(" ", "_");
 				client.getWeatherForecastData(s);
 				weather = parser.parseWeatherForecastData(client.getWeatherForecastString());
 				if (weather != null) {
