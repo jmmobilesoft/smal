@@ -83,7 +83,7 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Logger.serviceInfo("Application started");
-		try {
+		//try {
 			setContentView(R.layout.tabs_layout);
 			intialiseViewPager();
 			initialiseTabHost(savedInstanceState);
@@ -101,11 +101,11 @@ public class MainActivity extends FragmentActivity implements
 						ClockRepeatService.class);
 				startService(startRepeatingService);
 			}
-		} catch (Exception e) {
-			Logger.logStackTrace(e.getStackTrace());
-			Helper.createToast(this, "Sorry something went wrong");
-			finish();
-		}
+//		} catch (Exception e) {
+//			Logger.logStackTrace(e.getStackTrace());
+//			Helper.createToast(this, "Sorry something went wrong");
+//			finish();
+//		}
 		initAdds();
 	}
 
@@ -341,6 +341,7 @@ public class MainActivity extends FragmentActivity implements
 
 	private void initAdds() {
 		mAdView = (AdView) findViewById(R.id.main_adView);
+		System.out.println(mAdView.equals(null));
 		AdRequest adRequest = new AdRequest.Builder().build();
 		mAdView.loadAd(adRequest);
 	}
