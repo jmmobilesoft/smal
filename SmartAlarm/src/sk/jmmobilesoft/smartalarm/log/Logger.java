@@ -18,19 +18,19 @@ public class Logger {
 	public static void appInfo(String s) {
 		String log = getTime() + " | INFO APP: " + s;
 		System.out.println(log);
-		writeToFile(log);
+		//writeToFile(log);
 	}
 
 	public static void setInfo(String s) {
 		String log = getTime() + " | INFO SET: " + s;
 		System.out.println(log);
-		writeToFile(log);
+		//writeToFile(log);
 	}
 	
 	public static void serviceInfo(String s) {
 		String log = getTime() + " | SERVICE : " + s;
 		System.out.println(log);
-		writeToFile(log);
+		//writeToFile(log);
 	}
 
 	public static void logStackTrace(StackTraceElement[] e){
