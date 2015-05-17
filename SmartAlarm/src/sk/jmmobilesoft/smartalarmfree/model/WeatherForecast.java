@@ -4,6 +4,7 @@ public class WeatherForecast {
 	
 	private long id;
 	
+	private String requestName;
 	private String cityName;
 	private int cloudsAll;
 	private String country;
@@ -43,6 +44,14 @@ public class WeatherForecast {
 		this.cityName = cityName;
 	}
 
+	public String getRequestName() {
+		return requestName;
+	}
+
+	public void setRequestName(String requestName) {
+		this.requestName = requestName;
+	}
+	
 	public int getCloudsAll() {
 		return cloudsAll;
 	}

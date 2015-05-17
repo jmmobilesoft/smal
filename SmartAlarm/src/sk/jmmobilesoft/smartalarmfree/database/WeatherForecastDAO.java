@@ -16,6 +16,7 @@ public class WeatherForecastDAO {
 			+ WeatherForecastModel.TABLE_NAME + " (" + WeatherForecastModel._ID
 			+ " INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ WeatherForecastModel.WEATHER_CITYNAME + " TEXT,"
+			+ WeatherForecastModel.WEATHER_REQUESTNAME + " TEXT,"
 			+ WeatherForecastModel.WEATHER_CLOUDSALL + " INTEGER,"
 			+ WeatherForecastModel.WEATHER_COUNTRY + " TEXT,"
 			+ WeatherForecastModel.WEATHER_DESCRIPTION + " TEXT,"
@@ -60,10 +61,11 @@ public class WeatherForecastDAO {
 		db.close();
 		return id;
 	}
-	
+
 	public int deleteWeatherForecast(SQLiteDatabase db, long id) {
 		int rows = db.delete(WeatherForecastModel.TABLE_NAME,
-				WeatherForecastModel._ID + " =?", new String[] { String.valueOf(id) });
+				WeatherForecastModel._ID + " =?",
+				new String[] { String.valueOf(id) });
 		return rows;
 	}
 
@@ -115,6 +117,8 @@ public class WeatherForecastDAO {
 		weather.setId(c.getLong(c.getColumnIndex(WeatherForecastModel._ID)));
 		weather.setCityName(c.getString(c
 				.getColumnIndex(WeatherForecastModel.WEATHER_CITYNAME)));
+		weather.setRequestName(c.getString(c
+				.getColumnIndex(WeatherForecastModel.WEATHER_REQUESTNAME)));
 		weather.setCloudsAll(c.getInt(c
 				.getColumnIndex(WeatherForecastModel.WEATHER_CLOUDSALL)));
 		weather.setCountry(c.getString(c
@@ -155,6 +159,8 @@ public class WeatherForecastDAO {
 	private ContentValues populateWeatherContent(WeatherForecast weather) {
 		ContentValues values = new ContentValues();
 		values.put(WeatherForecastModel.WEATHER_CITYNAME, weather.getCityName());
+		values.put(WeatherForecastModel.WEATHER_REQUESTNAME,
+				weather.getRequestName());
 		values.put(WeatherForecastModel.WEATHER_CLOUDSALL,
 				weather.getCloudsAll());
 		values.put(WeatherForecastModel.WEATHER_COUNTRY, weather.getCountry());

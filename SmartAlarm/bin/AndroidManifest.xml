@@ -1,12 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="sk.jmmobilesoft.smartalarmfree"
     android:installLocation="auto"
-    android:versionCode="4"
+    android:versionCode="5"
     android:versionName="1.0.2" >
 
     <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="18" />
+        android:minSdkVersion="19"
+        android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />

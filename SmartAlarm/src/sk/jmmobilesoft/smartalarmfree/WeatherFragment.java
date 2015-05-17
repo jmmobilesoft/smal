@@ -3,9 +3,7 @@ package sk.jmmobilesoft.smartalarmfree;
 import java.util.ArrayList;
 import java.util.List;
 
-import sk.jmmobilesoft.smartalarmfree.R;
 import sk.jmmobilesoft.smartalarmfree.database.DBHelper;
-import sk.jmmobilesoft.smartalarmfree.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarmfree.helpers.Helper;
 import sk.jmmobilesoft.smartalarmfree.log.Logger;
 import sk.jmmobilesoft.smartalarmfree.model.Weather;
@@ -13,6 +11,7 @@ import sk.jmmobilesoft.smartalarmfree.model.WeatherAdapter;
 import sk.jmmobilesoft.smartalarmfree.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarmfree.network.NetworkService;
 import sk.jmmobilesoft.smartalarmfree.network.WeatherNetworkService;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -108,10 +107,13 @@ public class WeatherFragment extends Fragment {
 					WeatherForecast weather = w.get(0);
 					if (db.getWeatherForecastByCity(weather.getCityName()) == null) { // TODO
 						// CHECK
+						weather.setRequestName(cityS);
 						db.createWeatherForecast(weather);
 					} else {
 						weather.setId(db.getWeatherForecastByCity(
 								weather.getCityName()).getId());
+						weather.setRequestName(db.getWeatherForecastByCity(
+								weather.getCityName()).getRequestName());
 						db.updateWeatherForecast(weather);
 					}
 					List<Weather> weather2 = service.downloadWeather(
@@ -119,6 +121,7 @@ public class WeatherFragment extends Fragment {
 					if (weathers != null) {
 						db.deleteWeatherByCity(cityS);
 						for (Weather w2 : weather2) {
+							w2.setRequestName(cityS);
 							db.createWeather(w2);
 						}
 					}

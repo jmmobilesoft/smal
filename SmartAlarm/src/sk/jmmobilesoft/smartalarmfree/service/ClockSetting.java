@@ -17,7 +17,6 @@ import android.content.Intent;
 
 public class ClockSetting {
 
-	@SuppressLint("NewApi")
 	public static boolean setClock(Context context, long id) {
 		DBHelper db = new DBHelper(context);
 		boolean nextday = false;

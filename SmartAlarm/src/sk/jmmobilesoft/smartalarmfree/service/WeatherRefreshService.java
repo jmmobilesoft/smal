@@ -139,7 +139,7 @@ public class WeatherRefreshService extends Service {
 				WeatherNetworkService service = new WeatherNetworkService();
 				List<String> cityList = new ArrayList<>();// c.getCities();
 				for (WeatherForecast w : db.getWeatherForecast()) {
-					cityList.add(w.getCityName());
+					cityList.add(w.getRequestName());
 				}
 				List<WeatherForecast> weathers = service
 						.downloadWeatherForecast(cityList);

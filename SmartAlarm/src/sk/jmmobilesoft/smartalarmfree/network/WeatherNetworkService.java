@@ -8,8 +8,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+
 import sk.jmmobilesoft.smartalarmfree.database.DBHelper;
-import sk.jmmobilesoft.smartalarmfree.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarmfree.helpers.Helper;
 import sk.jmmobilesoft.smartalarmfree.log.Logger;
 import sk.jmmobilesoft.smartalarmfree.model.Weather;
@@ -23,12 +23,12 @@ public class WeatherNetworkService {
 		network = new NetworkService();
 	}
 
-	public void refreshAllWeather(final Context mContext){
+	public void refreshAllWeather(final Context mContext) {
 		DBHelper db = new DBHelper(mContext);
 		WeatherNetworkService service = new WeatherNetworkService();
 		List<String> cityList = new ArrayList<>();
 		for (WeatherForecast w : db.getWeatherForecast()) {
-			cityList.add(w.getCityName());
+			cityList.add(w.getRequestName());
 		}
 		List<WeatherForecast> weathers = service
 				.downloadWeatherForecast(cityList);
@@ -52,11 +52,9 @@ public class WeatherNetworkService {
 			}
 		}
 	}
-	
-	
-	
-	public List<WeatherForecast> downloadAutomaticWeather(List<String> cityList,
-			Context context) {
+
+	public List<WeatherForecast> downloadAutomaticWeather(
+			List<String> cityList, Context context) {
 		network.turnWifiOn(context);
 		new Connect(context).execute();
 		List<WeatherForecast> weather = downloadWeatherForecast(cityList);
@@ -74,7 +72,7 @@ public class WeatherNetworkService {
 			}
 			return true;
 		} catch (Exception e) {
-			
+
 		}
 		return false;
 	}
@@ -88,8 +86,10 @@ public class WeatherNetworkService {
 			try {
 				weather = null;
 				client.getWeatherForecastData(s);
-				weather = parser.parseWeatherForecastData(client.getWeatherForecastString());
+				weather = parser.parseWeatherForecastData(client
+						.getWeatherForecastString());
 				if (weather != null) {
+					weather.setRequestName(s);
 					list.add(weather);
 				}
 			} catch (NullPointerException e) {
@@ -100,7 +100,7 @@ public class WeatherNetworkService {
 
 		return list;
 	}
-	
+
 	public List<Weather> downloadWeather(Context context, List<String> cityList) {
 		WeatherHttpClient client = new WeatherHttpClient();
 		WeatherJsonParser parser = new WeatherJsonParser();
@@ -108,8 +108,12 @@ public class WeatherNetworkService {
 		for (String s : cityList) {
 			try {
 				client.getWeatherData(s);
-				List<Weather> w = parser.parseWeatherData(client.getWeatherString());
+				List<Weather> w = parser.parseWeatherData(client
+						.getWeatherString());
 				if (!w.isEmpty()) {
+					for (Weather we : w) {
+						we.setRequestName(s);
+					}
 					list.addAll(w);
 				}
 			} catch (NullPointerException e) {
@@ -117,7 +121,8 @@ public class WeatherNetworkService {
 				return null;
 			}
 		}
-		SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences s = PreferenceManager
+				.getDefaultSharedPreferences(context);
 		Editor e = s.edit();
 		e.putLong("update", Helper.getCurrentTime().getTimeInMillis());
 		e.commit();

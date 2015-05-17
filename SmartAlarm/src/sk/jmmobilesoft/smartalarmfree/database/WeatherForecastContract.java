@@ -8,6 +8,7 @@ public abstract class WeatherForecastContract {
 	
 	public static abstract class WeatherForecastModel implements BaseColumns {
 		public static final String TABLE_NAME = "weatherforecast";
+		public static final String WEATHER_REQUESTNAME = "request"; 
 		public static final String WEATHER_CITYNAME = "city"; 
 		public static final String WEATHER_CLOUDSALL = "clouds";
 		public static final String WEATHER_COUNTRY = "country";

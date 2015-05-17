@@ -8,6 +8,7 @@ public WeatherContract() {}
 	
 	public static abstract class WeatherModel implements BaseColumns {
 		public static final String TABLE_NAME = "weather";
+		public static final String WEATHER_REQUESTNAME = "request"; 
 		public static final String WEATHER_CITYNAME = "city"; 
 		public static final String WEATHER_DESCRIPTION = "description";
 		public static final String WEATHER_ICON = "icon";
