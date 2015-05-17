@@ -69,7 +69,7 @@ public class WeatherSelectAdapter extends BaseAdapter {
 
 		city.setText(weather.getCityName());
 		temp.setText(WeatherHelper.getTemperature(context,
-				weather.getTemperature())); // TODO jednotka teploty z nastaveni
+				weather.getTemperature())); 
 		description.setText(weather.getDescription());
 		maxMinTemp.setText(WeatherHelper.getTemperature(context,
 				weather.getTempMin())

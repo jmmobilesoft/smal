@@ -9,7 +9,6 @@ import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
-import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.Weather;
@@ -28,7 +27,7 @@ public class WeatherNetworkService {
 		WeatherNetworkService service = new WeatherNetworkService();
 		List<String> cityList = new ArrayList<>();
 		for (WeatherForecast w : db.getWeatherForecast()) {
-			cityList.add(w.getCityName());
+			cityList.add(w.getRequestName());
 		}
 		List<WeatherForecast> weathers = service
 				.downloadWeatherForecast(cityList);
@@ -87,10 +86,10 @@ public class WeatherNetworkService {
 		for (String s : cityList) {
 			try {
 				weather = null;
-				s = s.replace(" ", "_");
 				client.getWeatherForecastData(s);
 				weather = parser.parseWeatherForecastData(client.getWeatherForecastString());
 				if (weather != null) {
+					weather.setRequestName(s);
 					list.add(weather);
 				}
 			} catch (NullPointerException e) {
@@ -111,6 +110,9 @@ public class WeatherNetworkService {
 				client.getWeatherData(s);
 				List<Weather> w = parser.parseWeatherData(client.getWeatherString());
 				if (!w.isEmpty()) {
+					for(Weather we: w){
+						we.setRequestName(s);
+					}
 					list.addAll(w);
 				}
 			} catch (NullPointerException e) {

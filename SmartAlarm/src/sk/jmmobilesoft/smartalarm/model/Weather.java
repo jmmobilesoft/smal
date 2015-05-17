@@ -6,6 +6,7 @@ public class Weather {
 
 	private long id;
 
+	private String requestName;
 	private String city;
 	private String date;
 	private float tempMin;
@@ -73,6 +74,14 @@ public class Weather {
 		this.city = city;
 	}
 
+	public String getRequestName() {
+		return requestName;
+	}
+
+	public void setRequestName(String requestName) {
+		this.requestName = requestName;
+	}
+	
 	@Override
 	public String toString() {
 		return "Weather [id=" + id + ", city=" + city + ", date=" + date

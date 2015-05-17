@@ -16,6 +16,7 @@ public class WeatherDAO {
 			+ WeatherModel.TABLE_NAME + " (" + WeatherModel._ID
 			+ " INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ WeatherModel.WEATHER_CITYNAME + " TEXT,"
+			+ WeatherModel.WEATHER_REQUESTNAME + " TEXT,"
 			+ WeatherModel.WEATHER_DESCRIPTION + " TEXT,"
 			+ WeatherModel.WEATHER_ICON + " TEXT,"
 			+ WeatherModel.WEATHER_TEMPMAX + " TEXT,"
@@ -117,6 +118,8 @@ public class WeatherDAO {
 		weather.setId(c.getLong(c.getColumnIndex(WeatherModel._ID)));
 		weather.setCity(c.getString(c
 				.getColumnIndex(WeatherModel.WEATHER_CITYNAME)));
+		weather.setRequestName(c.getString(c
+				.getColumnIndex(WeatherModel.WEATHER_REQUESTNAME)));
 		weather.setDescription(c.getString(c
 				.getColumnIndex(WeatherModel.WEATHER_DESCRIPTION)));
 		weather.setIcon(c.getString(c.getColumnIndex(WeatherModel.WEATHER_ICON)));
@@ -132,6 +135,7 @@ public class WeatherDAO {
 	private ContentValues populateWeatherContent(Weather weather) {
 		ContentValues values = new ContentValues();
 		values.put(WeatherModel.WEATHER_CITYNAME, weather.getCity());
+		values.put(WeatherModel.WEATHER_REQUESTNAME, weather.getRequestName());
 		values.put(WeatherModel.WEATHER_DESCRIPTION, weather.getDescription());
 		values.put(WeatherModel.WEATHER_ICON, weather.getIcon());
 		values.put(WeatherModel.WEATHER_TEMPMAX, weather.getTempMax());

@@ -106,10 +106,13 @@ public class WeatherFragment extends Fragment {
 					WeatherForecast weather = w.get(0);
 					if (db.getWeatherForecastByCity(weather.getCityName()) == null) { // TODO
 						// CHECK
+						weather.setRequestName(cityS);
 						db.createWeatherForecast(weather);
 					} else {
 						weather.setId(db.getWeatherForecastByCity(
 								weather.getCityName()).getId());
+						weather.setRequestName(db.getWeatherForecastByCity(
+								weather.getCityName()).getRequestName());
 						db.updateWeatherForecast(weather);
 					}
 					List<Weather> weather2 = service.downloadWeather(
@@ -117,6 +120,7 @@ public class WeatherFragment extends Fragment {
 					if (weathers != null) {
 						db.deleteWeatherByCity(cityS);
 						for (Weather w2 : weather2) {
+							w2.setRequestName(cityS);
 							db.createWeather(w2);
 						}
 					}
