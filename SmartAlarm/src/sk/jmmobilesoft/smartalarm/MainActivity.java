@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
+import sk.jmmobilesoft.smartalarm.WeatherFragment.Refresh;
 import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarm.helpers.Helper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
@@ -16,6 +17,7 @@ import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -24,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TabHost.TabContentFactory;
 import android.widget.TextView;
@@ -82,7 +85,8 @@ public class MainActivity extends FragmentActivity implements
 					&& getIntent().getStringExtra("tab").equals("weather")) {
 				mTabHost.setCurrentTabByTag("WeatherFragment");
 			}
-			if (!GlobalHelper.isMyServiceRunning(ClockRepeatService.class, this)) {
+			if (!GlobalHelper
+					.isMyServiceRunning(ClockRepeatService.class, this)) {
 				Logger.serviceInfo("ClockRepeatService started");
 				Intent startRepeatingService = new Intent(this,
 						ClockRepeatService.class);
@@ -189,9 +193,10 @@ public class MainActivity extends FragmentActivity implements
 			}
 			case "WeatherFragment": {
 				NetworkService ns = new NetworkService();
-				WeatherNetworkService weatherNS = new WeatherNetworkService();
 				if (ns.isConnected(getApplicationContext())) {
-					weatherNS.refreshAllWeather(this);
+					ProgressBar spinner = (ProgressBar) findViewById(R.id.loadedBar);
+					spinner.setVisibility(View.VISIBLE);
+					new RefreshAsync(getApplicationContext()).execute();
 					recreate();
 				} else {
 					String text = "Network connection unavailable.";
@@ -266,4 +271,21 @@ public class MainActivity extends FragmentActivity implements
 		this.mTabHost.setCurrentTab(position);
 
 	}
+}
+
+class RefreshAsync extends AsyncTask<Void, Void, Void> {
+
+	private Context context;
+	
+	public RefreshAsync(Context context){
+		this.context = context;
+	}
+	
+	@Override
+	protected Void doInBackground(Void... params) {
+		WeatherNetworkService weatherNS = new WeatherNetworkService();
+		weatherNS.refreshAllWeather(context);
+		return null;
+	}
+	
 }

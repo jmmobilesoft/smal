@@ -11,6 +11,8 @@ import sk.jmmobilesoft.smartalarm.model.WeatherAdapter;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.network.NetworkService;
 import sk.jmmobilesoft.smartalarm.network.WeatherNetworkService;
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 public class WeatherFragment extends Fragment {
 
@@ -57,8 +60,11 @@ public class WeatherFragment extends Fragment {
 
 				@Override
 				public void onClick(View v) {
+					ProgressBar spinner = (ProgressBar) getActivity()
+							.findViewById(R.id.loadedBar);
+					spinner.setVisibility(View.VISIBLE);
 					try {
-						new Refresh().execute();
+						new Refresh(getActivity()).execute();
 					} catch (Exception e) {
 						Logger.logStackTrace(e.getStackTrace());
 						Helper.createToast(getActivity(),
@@ -85,6 +91,9 @@ public class WeatherFragment extends Fragment {
 		}
 		adapter = new WeatherAdapter(this, weathers, state);
 		list.setAdapter(adapter);
+		ProgressBar spinner = (ProgressBar) getActivity()
+				.findViewById(R.id.loadedBar);
+		spinner.setVisibility(View.GONE);
 	}
 
 	class Refresh extends AsyncTask<Void, Void, Void> {
@@ -92,6 +101,11 @@ public class WeatherFragment extends Fragment {
 		private boolean toastNotFound = false;
 		private boolean toastNoNetwork = false;
 		private String cityS;
+		private Activity activity;
+
+		public Refresh(Activity activity) {
+			this.activity = activity;
+		}
 
 		@Override
 		protected Void doInBackground(Void... params) {
