@@ -83,7 +83,7 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Logger.serviceInfo("Application started");
-		//try {
+		try {
 			setContentView(R.layout.tabs_layout);
 			intialiseViewPager();
 			initialiseTabHost(savedInstanceState);
@@ -101,12 +101,12 @@ public class MainActivity extends FragmentActivity implements
 						ClockRepeatService.class);
 				startService(startRepeatingService);
 			}
-//		} catch (Exception e) {
-//			Logger.logStackTrace(e.getStackTrace());
-//			Helper.createToast(this, "Sorry something went wrong");
-//			finish();
-//		}
-		initAdds();
+			initAdds();
+		} catch (Exception e) {
+			Logger.logStackTrace(e.getStackTrace());
+			Helper.createToast(this, "Sorry something went wrong");
+			finish();
+		}
 	}
 
 	protected void onSaveInstanceState(Bundle outState) {
