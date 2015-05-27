@@ -15,14 +15,13 @@ import sk.jmmobilesoft.smartalarmfree.model.PagerAdapter;
 import sk.jmmobilesoft.smartalarmfree.network.NetworkService;
 import sk.jmmobilesoft.smartalarmfree.network.WeatherNetworkService;
 import sk.jmmobilesoft.smartalarmfree.service.ClockRepeatService;
-import android.app.ActionBar.LayoutParams;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -34,7 +33,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TabHost.TabContentFactory;
 import android.widget.TextView;
@@ -203,9 +202,10 @@ public class MainActivity extends FragmentActivity implements
 			}
 			case "WeatherFragment": {
 				NetworkService ns = new NetworkService();
-				WeatherNetworkService weatherNS = new WeatherNetworkService();
 				if (ns.isConnected(getApplicationContext())) {
-					weatherNS.refreshAllWeather(this);
+					ProgressBar spinner = (ProgressBar) findViewById(R.id.loadedBar);
+					spinner.setVisibility(View.VISIBLE);
+					new RefreshAsync(getApplicationContext()).execute();
 					recreate();
 				} else {
 					String text = "Network connection unavailable.";
@@ -345,4 +345,21 @@ public class MainActivity extends FragmentActivity implements
 		AdRequest adRequest = new AdRequest.Builder().build();
 		mAdView.loadAd(adRequest);
 	}
+}
+
+class RefreshAsync extends AsyncTask<Void, Void, Void> {
+
+	private Context context;
+
+	public RefreshAsync(Context context) {
+		this.context = context;
+	}
+
+	@Override
+	protected Void doInBackground(Void... params) {
+		WeatherNetworkService weatherNS = new WeatherNetworkService();
+		weatherNS.refreshAllWeather(context);
+		return null;
+	}
+
 }

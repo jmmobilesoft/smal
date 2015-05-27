@@ -44,5 +44,14 @@
                 ads:adUnitId="ca-app-pub-7767594923528541/5485396918" >
             </com.google.android.gms.ads.AdView>
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/loadedBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
     </TabHost>
+
 </LinearLayout>
