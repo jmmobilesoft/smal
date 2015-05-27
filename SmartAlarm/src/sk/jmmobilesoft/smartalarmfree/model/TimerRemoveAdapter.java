@@ -79,6 +79,7 @@ public class TimerRemoveAdapter extends BaseAdapter {
 		TimerHelper.setTimerAdapterLabels(timer, timer.isActive(), start, end);
 		GlobalHelper.setCheckboxStyle(delete);
 		delete.setChecked(checkboxes[position]);
+		delete.setClickable(false);
 		convertView.setOnClickListener(new OnClickListener() {
 			
 			@Override

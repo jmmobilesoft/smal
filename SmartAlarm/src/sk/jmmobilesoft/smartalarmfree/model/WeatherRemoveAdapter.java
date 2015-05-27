@@ -74,6 +74,7 @@ public class WeatherRemoveAdapter extends BaseAdapter {
 				+ WeatherHelper.getTemperature(context, weather.getTempMax()));
 		GlobalHelper.setCheckboxStyle(delete);
 		delete.setChecked(checkboxes[position]);
+		delete.setClickable(false);
 		convertView.setOnClickListener(new OnClickListener() {
 
 			@Override
