@@ -77,6 +77,7 @@ public class WeatherSelectAdapter extends BaseAdapter {
 				+ WeatherHelper.getTemperature(context, weather.getTempMax()));
 		GlobalHelper.setCheckboxStyle(selector);
 		selector.setChecked(checkboxes[position]);
+		selector.setClickable(false);
 		convertView.setOnClickListener(new OnClickListener() {
 
 			@Override

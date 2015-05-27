@@ -1,10 +1,12 @@
 package sk.jmmobilesoft.smartalarm.model;
 
+import java.util.Arrays;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.R;
 import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarm.helpers.WeatherHelper;
+import sk.jmmobilesoft.smartalarm.log.Logger;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -74,6 +76,7 @@ public class WeatherRemoveAdapter extends BaseAdapter {
 				+ WeatherHelper.getTemperature(context, weather.getTempMax()));
 		GlobalHelper.setCheckboxStyle(delete);
 		delete.setChecked(checkboxes[position]);
+		delete.setClickable(false);
 		convertView.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -82,12 +85,11 @@ public class WeatherRemoveAdapter extends BaseAdapter {
 				checkboxes[position] = delete.isChecked();
 			}
 		});
-
 		return convertView;
 	}
-	
+
 	public boolean[] getCheckboxes() {
 		return checkboxes;
 	}
-	
+
 }

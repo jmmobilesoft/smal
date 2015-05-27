@@ -113,6 +113,7 @@ public class ClockRemoveAdapter extends ArrayAdapter<Clock> {
 		name.setText(clock.getName());
 		GlobalHelper.setCheckboxStyle(delete);
 		delete.setChecked(checkboxes[position]);
+		delete.setClickable(false);
 		convertView.setOnClickListener(new OnClickListener() {
 
 			@Override

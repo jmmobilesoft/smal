@@ -1,6 +1,7 @@
 package sk.jmmobilesoft.smartalarm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import sk.jmmobilesoft.smartalarm.database.DBHelper;
@@ -8,7 +9,6 @@ import sk.jmmobilesoft.smartalarm.helpers.GlobalHelper;
 import sk.jmmobilesoft.smartalarm.log.Logger;
 import sk.jmmobilesoft.smartalarm.model.WeatherForecast;
 import sk.jmmobilesoft.smartalarm.model.WeatherRemoveAdapter;
-import sk.jmmobilesoft.smartalarm.model.WeatherSelectAdapter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
